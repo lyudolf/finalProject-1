@@ -1,0 +1,24 @@
+.footer {
+  background-color: #dcd6f7;
+  height: 150px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  position: fixed;
+  bottom: 0;
+  color: #424874;
+}
+
+.companyDetail {
+  display: flex;
+}
+
+.companyDetails {
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+  flex: 1;
+  height: 100%;
+}
