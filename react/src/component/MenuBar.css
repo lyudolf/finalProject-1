@@ -1,0 +1,64 @@
+.MenuBar {
+  text-align: center;
+  display: flex;
+  flex-wrap: wrap;
+  flex: 1;
+  justify-content: space-between;
+}
+.MenuBar .menuNav {
+  height: 170px;
+  /*width: 150px;*/
+  margin-left: 1px;
+  margin-right: 1px;
+  
+}
+.modal span{
+  font-weight: bold;
+  
+}
+.modal{
+  display: flex;
+  position: absolute;
+  top: 85px;
+  
+}
+
+.modal .study{
+ padding-left: 0px;
+ width: 20%;
+  
+}
+.modal .edu{
+  padding-left: 0px;
+ 
+}
+.modal .board{
+  padding-left: 0px;
+  
+}
+.modal .event{
+  padding-left: 0px;
+ 
+}
+.modal .center{
+  padding-left: 0px;
+}
+
+.modal li{
+  list-style: none;
+}
+.modal a{
+  text-decoration: none;
+}
+
+
+
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
