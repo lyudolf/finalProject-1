@@ -2,6 +2,7 @@ package com.chodae.security.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -17,15 +18,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeHttpRequests().antMatchers("/**").permitAll()
 		.and()
-		.cors();
+		.cors().configurationSource(corsConfigurationSource());
+		http.csrf().disable();
 	}
 	
 	
 	// CORS 허용 적용
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
+    	
         CorsConfiguration configuration = new CorsConfiguration();
-
         configuration.addAllowedOrigin("http://localhost:3000");
         configuration.addAllowedHeader("*");
         configuration.addAllowedMethod("*");
