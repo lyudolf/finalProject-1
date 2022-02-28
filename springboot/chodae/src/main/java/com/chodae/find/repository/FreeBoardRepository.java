@@ -13,7 +13,7 @@ public interface FreeBoardRepository extends JpaRepository<Ppp, Long>{
 	
 	List<Ppp> findByBnoGreaterThan(Long bno, Pageable page);
 	
-//	@Query("SELECT b.bno,b.title, count(r) FROM PostInfo b LEFT OUTER JOIN b.replies r WHERE b.bno > 0 GROUP BY b")
+//	@Query("SELECT b.bno,b.title, count(r) FROM PostInfo b LEFT OUTER JOIN b.replies r WHERE b.bno > 0 GROUP BY b")   //=> 추가로 도메인에 인덱스 처리.
 //	List<Object[]> getPage(Pageable page);
 	
 	

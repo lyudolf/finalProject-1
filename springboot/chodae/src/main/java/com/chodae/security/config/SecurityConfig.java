@@ -10,7 +10,9 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import lombok.extern.java.Log;
 
+@Log
 @Configuration @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	
@@ -21,6 +23,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		.cors().configurationSource(corsConfigurationSource());
 		http.csrf().disable();
 	}
+	
+	//접근제한목록 (Access Control List)
+	
 	
 	
 	// CORS 허용 적용

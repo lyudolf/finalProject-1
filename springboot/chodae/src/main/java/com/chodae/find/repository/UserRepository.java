@@ -20,6 +20,9 @@ public interface UserRepository extends JpaRepository<User, Long>{
 	//메소드 네이밍 rule : ex) find(엔티티이름)By(컬럼명)  
 	//반환타입 : Collection<T> 형태로  주로 사용 ex) Page<T> , Slice<T> , List<T>
 	List<User> findUserByName(String name); 
+	
+	
+	//////////////////////////
 	List<User> findUserByNameAndEmail(String name, String email);////////////////////////// 아이디 찾기 
 	List<User> findUserByLoginIdAndEmail(String loginId, String email);////////////////////////// 비밀번호 찾기  - 유저 확인
 	
@@ -29,7 +32,7 @@ public interface UserRepository extends JpaRepository<User, Long>{
 	@Query("UPDATE FROM User u set u.pwd = ?2 WHERE u.loginId =?1")
 	int updatePassword(String id, String pwd);
 	
-	
+	/////////////////////////////////////////
 	 
 
 	List<User> findUserByNameContainingOrderByNameDesc(String name);

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.chodae.find.domain.User;
 import com.chodae.find.repository.UserRepository;
+import com.chodae.find5.repository.UserRepo;
 
 import lombok.extern.java.Log;
 
@@ -17,10 +18,10 @@ import lombok.extern.java.Log;
 @Service
 public class UserFindServiceImpl implements UserFindService {
 	
-	private final UserRepository userRepo;
+	private final UserRepo userRepo;
 	
 	@Autowired
-	public UserFindServiceImpl(UserRepository userRepo) {
+	public UserFindServiceImpl(UserRepo userRepo) {
 		this.userRepo = userRepo;
 	}
 

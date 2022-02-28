@@ -13,7 +13,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-@ToString
+@ToString//(exclude = {"post","reply","user"})
 @Getter
 @Setter
 @Entity
@@ -28,6 +28,7 @@ public class Recommendation {
 	@ManyToOne
 	@JoinColumn(name = "id")
 	private User user;//회원번호 외래키 다대일관계     
+	
 	
 	@ManyToOne
 	@JoinColumn(name = "reply_no")

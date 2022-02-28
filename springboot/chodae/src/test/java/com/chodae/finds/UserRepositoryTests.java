@@ -108,7 +108,7 @@ public class UserRepositoryTests {
 	
 	@Test
 	public void testInsert20() {
-		for(int i = 1; i <=20;i++) {
+		for(int i = 1; i <=200;i++) {
 			User user = new User();
 			user.setPwd(pwd+i);
 			user.setName(name+i);

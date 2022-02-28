@@ -12,11 +12,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-@ToString
+@ToString(exclude = "post")
 @Getter
 @Entity
 @Table(name = "category_info")
@@ -34,6 +37,7 @@ public class Category {
 	private String categoryOrder;//카테고리 순서??
 	
 	//게시글 번호 외래키
+	@JsonBackReference
 	@ManyToOne
 	@JoinColumn(name = "post_no")
 	private Post post;//게시글번호 외래키 

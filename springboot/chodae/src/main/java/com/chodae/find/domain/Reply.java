@@ -11,6 +11,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -19,7 +22,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @Entity
-@Table(name = "reply_info")
+@Table(name = "reply_info") 
 public class Reply {
 	
 	@Id
@@ -27,6 +30,7 @@ public class Reply {
 	@Column(name = "reply_no")
 	private Long replyNo;//댓글 번호
 	
+	@JsonBackReference
 	@ManyToOne
 	@JoinColumn(name = "post_no")
 	private Post post;//게시글번호 외래키 

@@ -47,30 +47,64 @@ public class BoardPostTest {
 	@Autowired
 	ReplyRepo replyRepo;
 	
+	@Transactional
+	@Test
+	public void selectPostByBoard() {
+		Board board = new Board();
+		board.setBoardNo(1);
+		List<Post> list = postRepo.findPostByBoard(board);
+		list.forEach(post -> log.info(""+post));
+	}
+	@Transactional
+	@Test
+	public void selectPostByBoardNo() {
+		
+		List<Post> list = postRepo.findPostByBoard(1);
+		list.forEach(post -> log.info(""+post));
+	}
+	
+	/////////////////////////////////////////////////////////
 	
 	
 	@Transactional
 	@Test
-	public void insertBoardAll() {
+	public void selectPostByBoard3() {
 		
-		log.info("열거형테스트를 시작합니다.");
+		List<Post> list = postRepo.findPost3(1);
+		list.forEach(post -> log.info(""+post.getPostNo()+post.getReplies()));
+	}
+	@Transactional
+	@Test
+	public void selectPostCount4() {
 		
-		log.info(BoardGroup.공지사항.name());
-		log.info(String.valueOf( (BoardGroup.공지사항.name()=="공지사항")));
+		List<Object[]> list = postRepo.getPostCountByWriter(200L);
+		list.forEach(post -> System.out.println(Arrays.toString(post)));
+	}
+	
+	
+	
+	@Transactional
+	@Test
+	public void insertBoardAll() {   //1. 게시판 그룹 세팅
 		
-		log.info( BoardGroup.valueOf("공지사항").name());
-		System.out.println( BoardGroup.valueOf("공지사항").getValue());
-		
-		log.info(String.valueOf(BoardGroup.스터디모집.ordinal()) ); //기본순서
-		
-//		BoardGroup[] board = BoardGroup.values();
-//		log.info(Arrays.toString(board));
-		
-		System.out.println(BoardGroup.스터디모집.getValue());
-		
-		BoardGroup b2o = BoardGroup.valueOf(BoardGroup.class, "스터디모집");
-		BoardGroup b3o = BoardGroup.스터디모집;
-		System.out.println("b2==b3: "+ (b2o==b3o));
+//		log.info("열거형테스트를 시작합니다.");
+//		
+//		log.info(BoardGroup.공지사항.name());
+//		log.info(String.valueOf( (BoardGroup.공지사항.name()=="공지사항")));
+//		
+//		log.info( BoardGroup.valueOf("공지사항").name());
+//		System.out.println( BoardGroup.valueOf("공지사항").getValue());
+//		
+////		log.info(String.valueOf(BoardGroup.스터디모집.ordinal()) ); //기본순서
+//		
+////		BoardGroup[] board = BoardGroup.values();
+////		log.info(Arrays.toString(board));
+//		
+//		System.out.println(BoardGroup.스터디모집.getValue());
+//		
+//		BoardGroup b2o = BoardGroup.valueOf(BoardGroup.class, "스터디모집");
+//		BoardGroup b3o = BoardGroup.스터디모집;
+//		System.out.println("b2==b3: "+ (b2o==b3o));
 		
 		//열거형 클래스를 한번에 리스트로 데이터베이스에 저장함. 기본키는 열거형상수의 값으로 지정. 
 		
@@ -127,7 +161,7 @@ public class BoardPostTest {
 	//
 	
 
-	
+	//2. 게시글 데이터 세팅
 	@Transactional
 	@Test
 	public void insertPost() {
@@ -135,7 +169,7 @@ public class BoardPostTest {
 		//Post 데이터는 반드시 Board 객체에 대한 참조가 필요하다.(외래키로 게시판 번호 필요) 
 		//Board 객체를 잠시 생성해서  외래키로 사용되는 board_no 속성만 설정해주는게 더 효율적.  
 		Board board = new Board();
-		board.setBoardNo(BoardGroup.공지사항.getValue()); //ex> 공지사항 게시판에서 글을 쑈고 저장시
+		board.setBoardNo(BoardGroup.faq.getValue()); //ex> 공지사항 게시판에서 글을 쑈고 저장시
 		
 		IntStream.range(1, 20).forEach(i -> {
 			Post post = new Post();
@@ -147,7 +181,7 @@ public class BoardPostTest {
 			post.setPostContent(postContent);
 			
 			post.setPostTitle(title+i);
-			post.setId(200L);
+			post.setId(202L);
 			post.setPostViews(0);
 			post.setLevel(5);
 			post.setPostLevel(5);
@@ -172,6 +206,7 @@ public class BoardPostTest {
 		List<Post> list = postRepo.findAll();
 		list.forEach(post -> {
 			//댓글수 필드는 없어도 될려나...? 
+			System.out.println(post);
 			log.info("글번호:"+post.getPostNo()+"내용번호"+post.getPostContent().getContentNo()+"댓글갯수:"+post.getReplies().size()+":카테고리개수="+post.getCategory().size()+","+post.getPostTitle()+","+post.getReplyCount()+post.getReplies());
 		});
 	}
