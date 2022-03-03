@@ -66,11 +66,8 @@ public class Post {
 	
 	private Integer postLike;// 추천수
 	
-	@DateTimeFormat(iso = ISO.DATE_TIME)
 	private LocalDateTime postRegdate;//작성일자
 	
-	
-	@DateTimeFormat(iso = ISO.DATE_TIME)
 	private LocalDateTime postModdate;//수정일자
 	
 

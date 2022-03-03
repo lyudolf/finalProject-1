@@ -2,6 +2,8 @@ package com.chodae.find.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+
 import com.chodae.find.domain.Post;
 import com.chodae.find.domain.Recommendation;
 import com.chodae.find.domain.Reply;
@@ -23,23 +25,30 @@ public interface BoardService {
 	
 	List<Post> searchPost(String boardName, String searchType, String keyword); //검색 종류 , 검색어 
 	
-	Integer insertPost(Post post);
 	
-	Long updatePost(Post post);
+	Post insertPost(String boardName, String title, String content, String nickname, String category);
 	
-	Long deletePost(Post post);
+	void deleteCategoryAll(Long postNo);
+	Long updatePost(Long postNo, String title, String content, String category);
+	
+	Long deletePost(String boardName, Long postNo, String nickname);
+	
+	
 	
 	//2. 댓글 조회 추가 수정 삭제
 //	List<Reply> getReply(); //댓글조회는 게시글조회할때 조회할 수 있어서 아직은 필요가 없을 것 같음. 
 	
-	Long insertReply(Long postNo, Reply reply);
-	Long updateReply(Long postNo, Reply reply);
-	Long deleteReply(Long replyNo);
+	Long insertReply(String boardName, Long postNo, String content, String nickname);
+	Long updateReply(String boardName, Long postNo, Long replyNo, String content, String nickname);
+	Long deleteReply(String boardName, Long postNo, Long replyNo, String nickname);
+	
 	
 	//3.추천
 	
-	Long insertRecommend(User user, Recommendation recomm, int boardNo);
-	Long deleteRecommend(Recommendation Recommendation);
+	Long insertRecommend(String boardName, String nickname, String type, Long targetNo);
+	
+	Long deleteRecommend(String boardName, String nickname, String type, Long targetNo);
+	
 
 	
 	
@@ -66,6 +75,10 @@ public interface BoardService {
 		
 		return dto;
 	}
+	
+	
+	
+	Page<Post> getPostList3(String boardName, int page);
 
 
 

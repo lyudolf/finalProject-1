@@ -21,4 +21,7 @@ public interface UserRepo extends JpaRepository<User, Long> {
 	@Modifying(clearAutomatically = true)
 	@Query("UPDATE FROM User u set u.pwd = ?2 WHERE u.loginId =?1")
 	int updatePassword(String id, String pwd);
+	
+	User findUserByNickname(String nickname);
+	
 }
