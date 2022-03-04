@@ -1,12 +1,14 @@
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import axios from "axios";
+import axios from '../../plugins/axios';
 import * as Yup from "yup";
 import "./CreatePost.css";
+import { useNavigate } from "react-router-dom";
 
 //Formik에서 필드 네임은 데이터베이스에 들어갈 이름임.
 
 function CreatePost() {
+  let navigate = useNavigate();
   const initialValues = {
     title: "",
     postText: "",
@@ -19,11 +21,13 @@ function CreatePost() {
 
   // 여기에 벡엔드 연결 해줘야 함
   const onSubmit = (data) => {
-    axios.post("", data).then((response) => {
-      console.log("글 작성에 성공하셨습니다.");
+    axios.post("/api/carrer/post", data).then((response) => {
+      navigate.push("/careerboard");
     });
   };
 
+  //작성자도 필요함
+  
   return (
     <div className="createPost">
       <Formik
@@ -31,11 +35,11 @@ function CreatePost() {
         onSubmit={onSubmit}
         validationSchema={validationSchema}
       >
-        <Form className="formContainer">
-          <label>글 제목: </label>
+        <Form className="createPostformContainer">
+          <label>글 제목 Title: </label>
           <ErrorMessage name="title" component="span" />
           <Field autocomplete="off" id="inputCreatePost" name="title" />
-          <label>본문: </label>
+          <label>본문 Body: </label>
           <ErrorMessage name="postText" component="span" />
           <Field
             autocomplete="off"
@@ -44,10 +48,10 @@ function CreatePost() {
             placeholder="글 내용을 입력해주세요"
           />
           <div className="createPostBtn">
-            <button type="submit">작성완료</button>
+            <button type="submit">작성완료 Upload</button>
 
             {/* 작성취소 버튼은 기능 구현 해야함. */}
-            <button type="submit">작성취소</button>
+            {/* <button type="submit">작성취소 Cancel</button> */}
           </div>
         </Form>
       </Formik>

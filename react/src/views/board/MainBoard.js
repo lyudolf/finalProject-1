@@ -4,9 +4,9 @@ import { Link, Outlet } from "react-router-dom";
 function MainBoard() {
   return (
     <div>
-      MainBoard
       <div>
-        <Link to="/mainboard/careerboard">취업준비게시판 CareerBoard</Link>
+        <Link to="/mainboard/careerboard">취업준비게시판</Link>
+        <Link to="/mainboard/careerboard">IT뉴스 게시판</Link>
         <Outlet />
       </div>
     </div>
