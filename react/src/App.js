@@ -12,8 +12,17 @@ import ResultId from "./views/forget/ResultId"; //아이디찾기 결과
 import ForgetPs from "./views/forget/ForgetPs"; // 비밀번호찾기
 import ResetPs from "./views/forget/ResetPs"; // 비밀번호 리셋
 import ResetCompleted from "./views/forget/ResetCompleted"; // 비밀번호 리셋완료
-//--------------------------------------------------------------
-import CareerBoard from "./views/board/CareerBoard"; // 테스트 커리어 게시판
+
+//회원가입 라우터 연결--------------------------------------------
+import Check from "./views/signup/Check"; //개인정보 동의서
+import Registercopy from "./views/signup/Registercopy"; //회원가입폼
+
+//게시판---------------------------------------------------------
+import MainBoard from "./views/board/MainBoard"; //메인게시판
+import CareerBoard from "./views/board/CareerBoard"; //취업상담게시판
+import CreatePost from "./views/board/CreatePost"; //게시판 글쓰기
+import Post from "./views/board/Post"; //글 보기
+
 import CustomerNotice from "./views/forget/CustomerNotice"; // 고객센터 공지사항게시판
 import CustomerFaq from "./views/forget/Faq"; // 고객센터 공지사항게시판
 
@@ -34,8 +43,14 @@ function App() {
         <Route path="/login/find/ps" element={<ForgetPs />} />
         <Route path="/login/find/ps/reset/:uid" element={<ResetPs />} />
         <Route path="/login/find/ps/done" element={<ResetCompleted />} />
+        <Route path="signup" element={<Check />} />
+        <Route path="register" element={<Registercopy />} />
 
-        <Route path="/mainboard/careerboard" element={<CareerBoard />} />
+        <Route path="mainboard" element={<MainBoard />}>
+          <Route path="careerboard" element={<CareerBoard />} />
+          <Route path="createpost" element={<CreatePost />} />
+          <Route path="post/:postno" element={<Post />} />
+        </Route>
         <Route path="/notice" element={<CustomerNotice />} />
         <Route path="/faq" element={<CustomerFaq />} />
       </Routes>

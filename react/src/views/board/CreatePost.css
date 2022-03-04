@@ -5,7 +5,7 @@
   align-items: center;
 }
 
-.formContainer {
+.createPostformContainer {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -15,7 +15,7 @@
   border-radius: 5px;
 }
 
-.formContainer #inputCreatePost {
+.createPostformContainer #inputCreatePost {
   height: 40px;
   margin-top: 10px;
   margin-bottom: 10px;
