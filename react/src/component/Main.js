@@ -78,9 +78,9 @@ function Main() {
               <br />
               아래버튼을 누르시면 됩니다.
             </p>
-            <button className="mainBtn">
-              <Link to="/mainboard">입장하기</Link>
-            </button>
+            <Link to="/mainboard">
+              <button className="mainBtn">입장하기</button>
+            </Link>
           </div>
         </div>
       </div>

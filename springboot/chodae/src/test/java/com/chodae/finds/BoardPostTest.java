@@ -166,7 +166,7 @@ public class BoardPostTest {
 		//Post 데이터는 반드시 Board 객체에 대한 참조가 필요하다.(외래키로 게시판 번호 필요) 
 		//Board 객체를 잠시 생성해서  외래키로 사용되는 board_no 속성만 설정해주는게 더 효율적.  
 		Board board = new Board();
-		board.setBoardNo(BoardGroup.faq.getValue()); //ex> 공지사항 게시판에서 글을 쑈고 저장시
+		board.setBoardNo(BoardGroup.career.getValue()); //ex> 공지사항 게시판에서 글을 쑈고 저장시
 		
 		IntStream.range(1, 20).forEach(i -> {
 			Post post = new Post();

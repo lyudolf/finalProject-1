@@ -3,7 +3,7 @@ import JsonData from "./MOCK_DATA.json";
 import ReactPaginate from "react-paginate";
 import "./CareerBoard.css";
 import { useNavigate } from "react-router-dom";
-import axios from '../../plugins/axios';
+import axios from "../../plugins/axios";
 import SearchBar from "./SearchBar";
 
 function CareerBoard() {
@@ -27,7 +27,7 @@ function CareerBoard() {
 
   useEffect(() => {
     axios
-      .get("/api/carrer")
+      .get("/career/list")
       .then((response) => {
         console.log(response.data);
         //내용 추가
@@ -45,6 +45,7 @@ function CareerBoard() {
         <tr>
           <th>번호</th>
           <th>제목</th>
+          <th>작성자</th>
           <th>추천수</th>
           <th>조회수</th>
           <th>작성일</th>
@@ -60,6 +61,8 @@ function CareerBoard() {
           >
             <td>{post.postNo}</td>
             <td className="table-title">{post.postTitle}</td>
+            {/* 닉네임 어떻게 가져오지? */}
+            <td>{post.nickname}</td>
             <td>{post.postLike}</td>
             <td>{post.postViews}</td>
             <td>{post.postRegdate}</td>

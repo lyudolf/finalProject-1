@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import axios from '../../plugins/axios';
+import axios from "../../plugins/axios";
 import JsonData from "./MOCK_DATA.json";
 import "./Post.css";
 
@@ -18,7 +18,7 @@ function Post() {
   console.log(postObject);
   useEffect(() => {
     // post를 가져오는 api
-    axios.get(`/carrer/${postno}`).then((response) => {
+    axios.get(`/career/${postno}`).then((response) => {
       setPostObject(response.data);
       setComments(postObject.replies);
     });

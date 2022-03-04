@@ -6,7 +6,7 @@ import searchIcon from "../assets/search.png";
 
 function Header() {
   return (
-    <div className="container">
+    <div className="headerContainer">
       <div className="header">
         <div className="logoContainer">
           <Link to="/">
