@@ -34,6 +34,7 @@ function App() {
         <Route path="/login/find/ps" element={<ForgetPs />} />
         <Route path="/login/find/ps/reset/:uid" element={<ResetPs />} />
         <Route path="/login/find/ps/done" element={<ResetCompleted />} />
+        <Route path="register" element={<Registercopy />} />
 
         <Route path="/mainboard/careerboard" element={<CareerBoard />} />
         <Route path="/notice" element={<CustomerNotice />} />
