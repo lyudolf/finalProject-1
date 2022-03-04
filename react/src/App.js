@@ -6,6 +6,9 @@ import MenuBar from "../src/component/MenuBar";
 
 import { Route, Routes } from "react-router-dom"; //리액트 라우터
 
+//로그인 라우터 연결---------------------------------------------
+import Login from "./views/login/Login"; //로그인
+
 //아이디 및 비밀번호 찾기 라우터 연결------------------------------
 import ForgetId from "./views/forget/ForgetId"; //아이디 찾기 처음화면
 import ResultId from "./views/forget/ResultId"; //아이디찾기 결과
@@ -36,7 +39,8 @@ function App() {
 
       <Routes>
         <Route path="/" element={<Main />} />
-
+        {/* 로그인 메인화면 */} 
+        <Route path="login" element={<Login />} />
         {/* 아이디찾기 메인화면 */}
         <Route path="/login/find/id" element={<ForgetId />} />
         <Route path="/login/find/id/result/:uid" element={<ResultId />} />
@@ -45,7 +49,7 @@ function App() {
         <Route path="/login/find/ps/done" element={<ResetCompleted />} />
         <Route path="signup" element={<Check />} />
         <Route path="register" element={<Registercopy />} />
-
+        {/* 게시판 메인화면 */}
         <Route path="mainboard" element={<MainBoard />}>
           <Route path="careerboard" element={<CareerBoard />} />
           <Route path="createpost" element={<CreatePost />} />

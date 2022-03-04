@@ -38,14 +38,14 @@ public class BoardController {
 
 
 	//게시판 전체조회
-	@Transactional
-	@GetMapping("/{boardName}")
-	Page<Post> getPostList2(@PathVariable String boardName,
-			@RequestParam int page){
-		Page<Post> result = boardService.getPostList3(boardName, page);
-		
-		return result;	
-	}
+//	@Transactional
+//	@GetMapping("/{boardName}")
+//	Page<Post> getPostList2(@PathVariable String boardName,
+//			@RequestParam int page){
+//		Page<Post> result = boardService.getPostList3(boardName, page);
+//		
+//		return result;	
+//	}
 //	//게시판 전체조회
 //	@Transactional
 //	@GetMapping("/{boardName}/list/{page}")
@@ -65,18 +65,18 @@ public class BoardController {
 //		return result;	
 //	}
 	
-//	//게시판 전체조회
-//	@Transactional
-//	@GetMapping("/{boardName}/list")
-//	List<Post> getPostList(@PathVariable String boardName){
-//		List<Post> list = boardService.getPostList(boardName);
-//		
-//		list.forEach(post -> {
-//			log.info(""+post);
-//		});
-//		
-//		return list;	
-//	}
+	//게시판 전체조회
+	@Transactional
+	@GetMapping("/{boardName}/list")
+	List<Post> getPostList(@PathVariable String boardName){
+		List<Post> list = boardService.getPostList(boardName);
+		
+		list.forEach(post -> {
+			log.info(""+post);
+		});
+		
+		return list;	
+	}
 	 
 	//게시글 검색 (특정한 게시판에서 -- 제목, 내용 , 작성자 , 제목+내용,) 
 	//분류 :  카테고리(지역,사용언어, 수준, 프로그램,분야:풀스택, 프론트엔드, 백엔드 ...), 평점, 

@@ -21,7 +21,7 @@ function CreatePost() {
 
   // 여기에 벡엔드 연결 해줘야 함
   const onSubmit = (data) => {
-    axios.post("/api/carrer/post", data).then((response) => {
+    axios.post("/career/post", data).then((response) => {
       navigate.push("/careerboard");
     });
   };
