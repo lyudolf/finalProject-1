@@ -129,7 +129,7 @@ select {
   padding: 21px 0 17px;
   border: 0;
   cursor: pointer;
-  color: #fff;
+  color: className= "createPostErr";
   background-color: #dcd6f7;
   border-radius: 5px;
   font-size: 20px;

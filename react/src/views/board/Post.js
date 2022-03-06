@@ -1,32 +1,36 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "../../plugins/axios";
-import JsonData from "./MOCK_DATA.json";
 import "./Post.css";
+import CareerBoardTable from "../../component/CareerBoardTable";
+//테이블 컴포넌트로 만들어서 따로 뺴놨음
+import moment from "moment";
+//날짜 수정하기 위해 모멘트 설치 yarn add moment 하면됨
 
 function Post() {
   let { postno } = useParams();
-  const [postObject, setPostObject] = useState(
-    JsonData.find((post) => post.postNo === parseInt(postno))
-  );
-
-  //find함수 는 array에서 자료 찾을 떄 사용 가능
+  const [postObject, setPostObject] = useState();
 
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
 
-  console.log(postObject);
   useEffect(() => {
-    // post를 가져오는 api
-    axios.get(`/career/${postno}`).then((response) => {
-      setPostObject(response.data);
-      setComments(postObject.replies);
-    });
-  });
+    const fetchDataObject = async () => {
+      try {
+        const { data } = await axios.get(`/career/${postno}`);
+        setPostObject(data);
+        setComments(data.replies);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchDataObject();
+  }, []);
 
   const addComment = () => {
     const newReply = {
-      id: localStorage.getItem("id"),
+      //추후 로그인 정보 변경되면 수정
+      user: localStorage.getItem("user"),
       replyContent: newComment,
       //작성자랑 댓글 내용만 벡엔드로 보내주면 됨.
     };
@@ -34,65 +38,99 @@ function Post() {
       ...postObject,
       replies: [...postObject.replies, newReply],
     };
-    axios.put(`/carrer/${postno}`, updatedPostObject).then((response) => {
-      setNewComment("");
-      console.log(newReply);
-      console.log("Comment added!");
-    });
+    axios
+      .put(`/career/${postno}`, updatedPostObject, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((response) => {
+        console.log(newReply);
+        console.log("댓글이 추가되었습니다!");
+        setNewComment("");
+      });
     setPostObject(updatedPostObject);
   };
 
+  // 좋아요 버튼 기능
+  // useEffect(() => {
+  //   axios.get("http://localhost:3001/posts").then((response) => {
+  //     setListOfPosts(response.data);
+  //   });
+  // }, []);
+
+  // const likeAPost = (postId) => {
+  //   axios
+  //     .post(
+  //       "http://localhost:3001/likes",
+  //       { PostId: postId },
+  //       { headers: { accessToken: localStorage.getItem("accessToken") } }
+  //     )
+  //     .then((response) => {
+  //       setListOfPosts(
+  //         listOfPosts.map((post) => {
+  //           if (post.id === postId) {
+  //             if (response.data.liked) {
+  //               return { ...post, Likes: [...post.Likes, 0] };
+  //             } else {
+  //               const likesArray = post.Likes;
+  //               likesArray.pop();
+  //               return { ...post, Likes: likesArray };
+  //             }
+  //           } else {
+  //             return post;
+  //           }
+  //         })
+  //       );
+  //     });
+  // };
+
   return (
     <div className="postContainer">
-      <div className="postSection">
-        <table>
-          <tr>
-            <td className="postTitle" colSpan={4}>
-              {postObject.postTitle}
-            </td>
-          </tr>
-          <tr>
-            <td>작성자명: {postObject.id}</td>
-            <td>추천수: {postObject.postLike}</td>
-            <td>조회수: {postObject.postViews}</td>
-            <td>작성일: {postObject.postRegdate}</td>
-          </tr>
-          <tr>
-            <td colSpan={5}>{postObject.postContent.content}</td>
-          </tr>
-        </table>
-        <div className="commentSection">
-          <input
-            type="text"
-            placeholder="Comment"
-            autoComplete="off"
-            value={newComment}
-            onChange={(event) => {
-              setNewComment(event.target.value);
-            }}
-          ></input>
+      {postObject && (
+        <div className="postSection">
+          <CareerBoardTable moment={moment} tableData={postObject} />
+          <div className="commentSection">
+            <input
+              type="text"
+              placeholder="Comment"
+              autoComplete="off"
+              value={newComment}
+              onChange={(event) => {
+                setNewComment(event.target.value);
+              }}
+            ></input>
+            <button
+              onClick={() => {
+                if (localStorage.getItem("user")) {
+                  addComment();
+                } else {
+                  alert("로그인하세요 ㅎㅎ");
+                }
+              }}
+            >
+              Add Comment
+            </button>
+          </div>
+          <div className="listOfComments">
+            {comments &&
+              comments.map((comment, index) => {
+                return (
+                  <div className="comment" key={index}>
+                    {comment.replyContent}
+                  </div>
+                );
+              })}
+          </div>
           <button
-            onClick={() => {
-              if (
-                localStorage.getItem("email") &&
-                localStorage.getItem("name") &&
-                localStorage.getItem("id")
-              ) {
-                addComment();
-              } else {
-                alert("You need be logged in");
-              }
-            }}
+          // onClick={() => {
+          //   likeApost(value.id);
+          // }}
           >
-            Add Comment
+            Like
           </button>
         </div>
-        <div className="listOfComments">
-          {postObject.replies.map((comment) => {
-            return <div className="comment">{comment.replyContent}</div>;
-          })}
-        </div>
-      </div>
+      )}
     </div>
   );
 }

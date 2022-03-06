@@ -1,6 +1,6 @@
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import axios from '../../plugins/axios';
+import axios from "../../plugins/axios";
 import * as Yup from "yup";
 import "./CreatePost.css";
 import { useNavigate } from "react-router-dom";
@@ -11,44 +11,63 @@ function CreatePost() {
   let navigate = useNavigate();
   const initialValues = {
     title: "",
-    postText: "",
+    content: "",
+    nickname: localStorage.getItem("user"),
   };
 
   const validationSchema = Yup.object().shape({
     title: Yup.string().required("글 제목을 입력해주세요!"),
-    postText: Yup.string().required("본문 내용을 입력해주세요!"),
+    content: Yup.string().required("본문 내용을 입력해주세요!"),
   });
 
-  // 여기에 벡엔드 연결 해줘야 함
-  const onSubmit = (data) => {
-    axios.post("/career/post", data).then((response) => {
-      navigate.push("/careerboard");
-    });
+  //400번 에러 타이틀을 찾을 수 없다고 함.
+  const submitPost = (data) => {
+    console.log(data);
+    axios
+      .post("/career", data)
+      .then((response) => {
+        navigate("/careerboard");
+      })
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
-  //작성자도 필요함
-  
   return (
     <div className="createPost">
       <Formik
         initialValues={initialValues}
-        onSubmit={onSubmit}
+        onSubmit={submitPost}
         validationSchema={validationSchema}
       >
         <Form className="createPostformContainer">
-          <label>글 제목 Title: </label>
-          <ErrorMessage name="title" component="span" />
-          <Field autocomplete="off" id="inputCreatePost" name="title" />
-          <label>본문 Body: </label>
-          <ErrorMessage name="postText" component="span" />
+          <label>글 제목: </label>
+          <ErrorMessage
+            name="title"
+            component="span"
+            className="createPostErr"
+          />
+          <Field autocomplete="off" className="titleField" name="title" />
+          <label>본문: </label>
+          <ErrorMessage
+            name="content"
+            component="span"
+            className="createPostErr"
+          />
           <Field
             autocomplete="off"
-            id="inputCreatePost"
-            name="postText"
+            name="content"
+            component="textarea"
             placeholder="글 내용을 입력해주세요"
+            className="bodyField"
           />
-          <div className="createPostBtn">
-            <button type="submit">작성완료 Upload</button>
+          <div className="postSubmitBtnWrapper">
+            <button className="postSubmitBtn" type="submit">
+              작성완료
+            </button>
 
             {/* 작성취소 버튼은 기능 구현 해야함. */}
             {/* <button type="submit">작성취소 Cancel</button> */}
