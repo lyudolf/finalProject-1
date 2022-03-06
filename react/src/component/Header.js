@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./Header.css";
 import { Link } from "react-router-dom";
 import chodaeLogo from "../assets/Chodae-logo.png";
 import searchIcon from "../assets/search.png";
 
 function Header() {
+  const logout = () => {
+    localStorage.removeItem("user");
+  };
+
   return (
     <div className="headerContainer">
       <div className="header">
@@ -23,16 +27,15 @@ function Header() {
             placeholder="검색어를 입력해주세요"
           ></input>
         </div>
-        {localStorage.getItem("email") &&
-        localStorage.getItem("name") &&
-        localStorage.getItem("id") ? (
+        {/* 추후 수정 필요 */}
+        {localStorage.getItem("user") ? (
           <nav className="headerItems">
             <Link className="headerLink" to="/signup">
               마이페이지
             </Link>
-            <Link className="headerLink" to="/signup">
+            <button className="headerLink" onClick={logout}>
               로그아웃
-            </Link>
+            </button>
           </nav>
         ) : (
           <nav className="headerItems">

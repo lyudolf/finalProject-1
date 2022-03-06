@@ -11,8 +11,7 @@
   padding-top: 100px;
 }
 
-.loginContainer input,
-button {
+.loginInput {
   width: 400px;
   height: 50px;
   border-radius: 8px;
@@ -21,6 +20,11 @@ button {
 }
 
 .loginBtn {
+  width: 400px;
+  height: 50px;
+  border-radius: 8px;
+  border: none;
+  margin: 10px;
   background-color: #dcd6f7;
   color: #424874;
 }
