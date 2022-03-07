@@ -1,64 +1,90 @@
-
-//공지사항 게시판 : /customer/notice/:페이지/:글번호
-//자주하는 질문   : /customer/faq/:게시판페이지/:글번호
 import React, { useState, useEffect, useCallback } from 'react';
 import ReactPaginate from "react-paginate";
 import { Link, useNavigate, useLocation, useParams, useSearchParams } from 'react-router-dom';
 import axios from '../../plugins/axios';
 import "../board/CareerBoard.css";
+import SearchBar from "./SearchBar";
 
 
-function CustomerNotice() {
+function Faq() {
 
     const navigate = useNavigate();
     const location = useLocation();
 
     const [searchParams, setSearchParams] = useSearchParams();
     let page = searchParams.get('page');
-    // page = (page === null) ? 1 : page;
+    let qType = searchParams.get('searchType');
+    let qWord = searchParams.get('keyword');
 
     const [postInfo, setPostInfo] = useState({});
-
     const [posts, setPosts] = useState([]);
     const [pageCount, setPageCount] = useState(0);
-    // const [pageNumber, setPageNumber] = useState(0);
+    // const [pageNo, setPageNo] = useState(1);
 
-
+    const [searchType, setSearchType] = useState('');
+    const [keyword, setKeyword] = useState('');
 
     useEffect(() => {
         page = (page === null) ? 1 : page;
-        getFaq(page);
-        // console.log("useEffect", page);
-        // return function cleanup() {
-        //     setPostInfo({});
-        //     setPosts([]);
-        // };
-    }, []);
+        qType = (qType === null) ? '' : qType;
+        qWord = (qWord === null) ? '' : qWord;
+
+        getFaq(page, qType, qWord);
+
+    }, [page, qType, qWord]); //뒤로 가기시 페이지번호나 검색종류,검색어가 바뀌면 쿼리스트링으로 재검색)
+    //게시판 하단 페이지네이션과 연동이 안되고 있는 상황임. 아직 방법을 모르겠다. 
 
     const changePage = ({ selected }) => {
-        // setPageNumber(selected);
-        getFaq(selected + 1);
-        // console.log(selected);
-        // console.log(selected + 1);
-        // console.log(page);
-        console.log(location);
+
+        getFaq(selected + 1, qType, qWord);
+
     };
 
+    //리액트화면에서 검색결과 창에서 x버튼 누르면 타입과 검색처 초기화?
+    async function getFaq(page, searchType, keyword) {
+        let url = "/faq";
 
+        // if (searchType !== '' && keyword !== '') {
+        //     console.log("검색조회시작", searchType, keyword);
+        //     console.log(location);
+        //     url += "/list/search";  // '/faq/list/search '
+        // }
 
-    async function getFaq(page) {
-        const url = location.pathname;
-        await axios.get(url, { params: { page: page } })
+        await axios.get(url, { params: { page: page, searchType: searchType, keyword: keyword } })
             .then((response) => {
 
+                const postList = response.data.content;
+
+                for (const post of postList) {
+                    //작성시간 변환
+                    const date = new Date(post.postRegdate);
+                    post.postRegdate = dateFormat(date);
+
+                }
                 //업데이트
                 setPostInfo(response.data);
-                setPosts(response.data.content);
+                setPosts(postList);
                 setPageCount(response.data.totalPages);
-                navigate(`/faq?page=${page}`);
+
+                navigate(`${url}?page=${page}&searchType=${searchType}&keyword=${keyword}`);
 
             })
             .catch((error) => { console.log(error) });
+    };
+    function dateFormat(date) {
+        let month = date.getMonth() + 1;
+        let day = date.getDate();
+        let hour = date.getHours();
+        let minute = date.getMinutes();
+        let second = date.getSeconds();
+
+        month = month >= 10 ? month : "0" + month;
+        day = day >= 10 ? day : "0" + day;
+        hour = hour >= 10 ? hour : "0" + hour;
+        minute = minute >= 10 ? minute : "0" + minute;
+        second = second >= 10 ? second : "0" + second;
+
+        return `${date.getFullYear()}-${month}-${day} ${hour}:${minute}:${second}`;
     };
 
     const getPost = async function () {
@@ -159,40 +185,16 @@ function CustomerNotice() {
         })
             .catch((error) => { console.log(error) });
     };
-    const searchTitle = async function () {
 
-        await axios.get("/faq/list/search", { params: { searchType: "title", keyword: "2" } })
-            .then((response) => {
-                console.log(response.data)
-            })
-            .catch((error) => { console.log(error) });
-    };
-    const searchContent = async function () {
+    const getData = (posts, pageCount, searchType, keyword) => {
 
-        await axios.get("/faq/list/search", { params: { searchType: "content", keyword: "14" } })
-            .then((response) => {
-                console.log(response.data)
-            })
-            .catch((error) => { console.log(error) });
-    };
-    const searchTitleOrContent = async function () {
-
-        await axios.get("/faq/list/search", { params: { searchType: "titleOrContent", keyword: "14" } })
-            .then((response) => {
-                console.log(response.data)
-            })
-            .catch((error) => { console.log(error) });
-    };
-    const searchWriter = async function () {
-
-        await axios.get("/faq/list/search", { params: { searchType: "writer", keyword: "닉네임202" } })
-            .then((response) => {
-                console.log(response.data)
-            })
-            .catch((error) => { console.log(error) });
-    };
-
-
+        //검색버튼 누르면 검색결과 1페이지 리스트랑 페이지정보 넘어옴.
+        console.log(posts, pageCount, searchType, keyword);
+        setPosts(posts);
+        setPageCount(pageCount);
+        setSearchType(searchType);
+        setKeyword(keyword);
+    }
 
     return (
         <div className="boardContainer">
@@ -202,13 +204,13 @@ function CustomerNotice() {
                     <Link to="/faq"> 자주하는질문;;;;; </Link>
                 </li>
             </div>
-            {/* <button onClick={onIncreasePage}>Page + 1</button> */}
             <div>공지사항게시판</div>
             <table>
                 <thead>
                     <tr>
                         <th>번호</th>
                         <th>제목</th>
+                        <th>작성자</th>
                         <th>추천수</th>
                         <th>조회수</th>
                         <th>작성일</th>
@@ -219,7 +221,12 @@ function CustomerNotice() {
                     {posts.map((post) => (
                         <tr>
                             <td>{post.postNo}</td>
-                            <td className="table-title">{post.postTitle}</td>
+                            <td className="table-title">
+                                <Link to={`/faq/${post.postNo}`}>
+                                    {post.postTitle}
+                                </Link>
+                            </td>
+                            <td>{post.nickname}</td>
                             <td>{post.postLike}</td>
                             <td>{post.postViews}</td>
                             <td>{post.postRegdate}</td>
@@ -240,27 +247,28 @@ function CustomerNotice() {
                 disabledClassName={"paginationDisabled"}
                 activeClassName={"paginationActive"}
             />
+            <div className="careerBoardSearchWrapper">
 
-            <button>
-                <Link to="/mainboard/createpost">글쓰기</Link>
-            </button>
-
-            <div>
-
-
-                <button onClick={searchTitle}>
-                    게시글제목검색
-                </button>
-                <button onClick={searchContent}>
-                    게시글내용검색
-                </button>
-                <button onClick={searchTitleOrContent}>
-                    게시글제목+내용검색
-                </button>
-                <button onClick={searchWriter}>
-                    게시글 작성자 검색
+                <SearchBar getData={getData} />
+                <button
+                    onClick={() => {
+                        if (
+                            localStorage.getItem("email") &&
+                            localStorage.getItem("name") &&
+                            localStorage.getItem("id")
+                        ) {
+                            window.location.href = "/mainboard/createpost";
+                        } else {
+                            alert("You need be logged in");
+                        }
+                    }}
+                    className="createPostBtn"
+                >
+                    글쓰기
                 </button>
             </div>
+
+
 
             {/* ??????????????????????????????????????????????????????? */}
             <div>
@@ -295,5 +303,5 @@ function CustomerNotice() {
         </div>
     );
 }
-export default CustomerNotice;
+export default Faq;
 

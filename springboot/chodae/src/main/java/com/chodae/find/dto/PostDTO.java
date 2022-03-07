@@ -7,26 +7,26 @@ import com.chodae.find.domain.Board;
 import com.chodae.find.domain.Category;
 import com.chodae.find.domain.PostContent;
 import com.chodae.find.domain.Reply;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Builder
 public class PostDTO {
-	//포스트 내용이 엔티티 객체를 넘기면 안넘어가서 따로 dto로 설정해줘야되나보다
+	//엔티티 객체를 넘기면 포스트 내용이 안넘어가서 따로 dto를 반환하는 방법으로 처리.
 	
 	private Long postNo;//게시글 번호
 	private Board board;//게시판 번호(외래키)
 	private PostContent postContent; 
+	
 	private Long id;//작성자 
+	private String nickname; //작성자닉네임
+	
 	private String postTitle;//제목
 	private Integer replyCount;//이 게시글에 달린 댓글수
 	private Integer postViews;// 조회수

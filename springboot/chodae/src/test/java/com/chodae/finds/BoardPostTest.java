@@ -178,7 +178,7 @@ public class BoardPostTest {
 			post.setPostContent(postContent);
 			
 			post.setPostTitle(title+i);
-			post.setId(202L);
+			post.setId(201L);
 			post.setPostViews(0);
 			post.setLevel(5);
 			post.setPostLevel(5);
@@ -258,7 +258,7 @@ public class BoardPostTest {
 		
 		//3. 양방향 관계설정이니까 게시판을 불러와서 게시판 댓글리스트 자체에 댓글을 add 한 후에 게시판을 저장하는 방식도 된다. 
 		
-		Optional<Post> post =  postRepo.findById(1L);
+		Optional<Post> post =  postRepo.findById(100L);
 		post.ifPresent(postInfo -> {
 			
 			List<Reply> list = postInfo.getReplies();
@@ -267,8 +267,8 @@ public class BoardPostTest {
 			
 			Reply reply = new Reply();
 			reply.setPost(postInfo);
-			reply.setBoardNo(1);
-			reply.setReplyContent("3번방법");
+			reply.setBoardNo(BoardGroup.faq.getValue());
+			reply.setReplyContent("댓글내용이에요");
 			reply.setReplyRegdate(LocalDateTime.now());
 			reply.setReplyModdate( LocalDateTime.now()  );
 			reply.setId(51L);

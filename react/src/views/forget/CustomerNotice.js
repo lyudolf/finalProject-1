@@ -96,7 +96,7 @@ function CustomerNotice() {
     formData.append("title", "게시글제목");
     formData.append("content", "게시글 내용~~~");
     formData.append("nickname", "닉네임3");
-    formData.append("category", JSON.stringify(categoryArr));
+    formData.append("category", JSON.stringify(categoryArr));  // 기본값 JSON.stringify([])
 
     await axios
       .post("/faq", formData, {

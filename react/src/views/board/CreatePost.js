@@ -27,7 +27,7 @@ function CreatePost() {
   };
 
   //작성자도 필요함
-  
+
   return (
     <div className="createPost">
       <Formik

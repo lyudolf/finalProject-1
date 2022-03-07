@@ -29,31 +29,28 @@ public interface PostRepo  extends JpaRepository<Post, Long>{
 	
 	//페이징 처리와 정렬 : 모든 쿼리메소드의 마지막 파라미터로 Pageable 인터페이스와 sort인터페이스 사용가능 
 	//반환타입 : Slice 타입, Page 타입 , List 타입 이용 
-	@Query("SELECT p FROM Post p WHERE p.board.boardNo = ?1")
-	List<Post> findPostByBoard2(int boardNo, Pageable paging);
+//	@Query("SELECT p FROM Post p WHERE p.board.boardNo = ?1")
+//	List<Post> findPostByBoard2(int boardNo, Pageable paging);
 		
 	@Query("SELECT p FROM Post p WHERE p.board.boardNo = ?1")
-	Page<Post> findPostByBoard3(int boardNo, Pageable paging);
-	
-	//페이지 타입  수정해보고 테스트해볼것
-//	@Query("SELECT p FROM Post p WHERE p.board.boardNo = ?1")
-//	Page<Post> findUserByNicknameContaining(String name,Pageable paging);
+	Page<Post> findPostByBoardAndPage(int boardNo, Pageable paging);
+
 		
 	/////////////////////////////////////////////////////////////////////////
 	
 	//게시글 검색
 	
 	@Query("SELECT p FROM Post p WHERE p.board.boardNo = ?1 and p.postTitle Like %?2% ")
-	List<Post> getPostLikeTitle(int boardNo, String keyword);
+	Page<Post> getPostLikeTitle(int boardNo, String keyword, Pageable paging);
 	
 	@Query("SELECT p FROM Post p WHERE p.board.boardNo = ?1 and p.postContent.content Like %?2% ")
-	List<Post> getPostLikeContent(int boardNo, String keyword);
+	Page<Post> getPostLikeContent(int boardNo, String keyword, Pageable paging);
 	
 	@Query("SELECT p FROM Post p WHERE p.board.boardNo = ?1 and (p.postTitle Like %?2% OR p.postContent.content Like %?2% ) ")
-	List<Post> getPostLikeTitleOrContent(int boardNo, String keyword);
+	Page<Post> getPostLikeTitleOrContent(int boardNo, String keyword, Pageable paging);
 	
 	@Query("SELECT p FROM Post p WHERE p.board.boardNo = ?1 and p.id = ?2 ")
-	List<Post> getPostFromWriter(int boardNo, Long id);
+	Page<Post> getPostFromWriter(int boardNo, Long id, Pageable paging);
 	
 	
 	
