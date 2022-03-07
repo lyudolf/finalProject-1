@@ -1,3 +1,4 @@
+
 import "./MenuBar.css";
 import React, { useState } from "react";
 
@@ -10,10 +11,12 @@ function MenuBar() {
     "고객센터",
   ]);
 
+
   let [modal, modal1] = useState(false);
 
   return (
     <div className="MenuBar">
+
       {menu.map(function (a) {
         return (
           <div className="menuNav">
@@ -28,6 +31,7 @@ function MenuBar() {
         );
       })}
       {modal === true ? <Modal /> : null}
+
     </div>
   );
 }
@@ -97,7 +101,7 @@ function Modal() {
         <li>
           <a href="#">자주하는 질문</a>
         </li>
-      </ul>
+     </ul>
     </div>
   );
 }

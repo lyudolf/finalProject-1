@@ -16,6 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
@@ -55,6 +56,10 @@ public class Post {
 	private PostContent postContent; //게시글 내용 : 1대1 관계 (게시글 내용 테이블의 기본키와 연결)    1 대 1 단방향만 연결설정함. 
 	
 	private Long id;//작성자 
+	
+	@Transient // 객체에 임시 값 보관할때 사용. 매핑하지 않는 필드로 데이터베이스 저장, 조회하지 않음 
+	private String nickname;
+	
 	private String postTitle;//제목
 	
 	

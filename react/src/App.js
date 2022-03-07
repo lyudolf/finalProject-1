@@ -28,7 +28,8 @@ import Post from "./views/board/Post"; //글 보기
 import TechNews from "./views/board/itnews/index"; //it뉴스게시판
 
 import CustomerNotice from "./views/forget/CustomerNotice"; // 고객센터 공지사항게시판
-import CustomerFaq from "./views/forget/Faq"; // 고객센터 공지사항게시판
+import CustomerFaq from "./views/forget/Faq"; // 고객센터 자주하는질문게시판
+import FaqPost from "./views/forget/FaqPost"; //글 보기
 
 //----------------------------------------------------------------------------
 
@@ -41,7 +42,9 @@ function App() {
       <Routes>
         <Route path="/" element={<Main />} />
         {/* 로그인 메인화면 */}
+
         <Route path="/login" element={<Login />} />
+
         {/* 아이디찾기 메인화면 */}
         <Route path="/login/find/id" element={<ForgetId />} />
         <Route path="/login/find/id/result/:uid" element={<ResultId />} />
@@ -60,6 +63,7 @@ function App() {
         </Route>
         <Route path="/notice" element={<CustomerNotice />} />
         <Route path="/faq" element={<CustomerFaq />} />
+        <Route path="/faq/:postno" element={<FaqPost />} />
       </Routes>
 
       <Footer />
