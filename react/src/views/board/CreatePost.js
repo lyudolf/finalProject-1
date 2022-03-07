@@ -12,7 +12,9 @@ function CreatePost() {
   const initialValues = {
     title: "",
     content: "",
-    nickname: localStorage.getItem("user"),
+    // nickname: localStorage.getItem("user"),
+    nickname: "",
+    category: [],
   };
 
   const validationSchema = Yup.object().shape({
@@ -20,16 +22,25 @@ function CreatePost() {
     content: Yup.string().required("본문 내용을 입력해주세요!"),
   });
 
-  //400번 에러 타이틀을 찾을 수 없다고 함.
-  const submitPost = (data) => {
-    console.log(data);
-    axios
-      .post("/career", data)
-      .then((response) => {
-        navigate("/careerboard");
+  const submitPost = async function (values) {
+    const { title, content, category } = values;
+
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("content", content);
+    //나중에 데이터값 받아와서 수정
+    formData.append("nickname", "닉네임");
+    formData.append("category", JSON.stringify(category));
+
+    await axios
+      .post("/career", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       })
       .then((response) => {
         console.log(response.data);
+        navigate("/careerboard");
       })
       .catch((error) => {
         console.log(error);
