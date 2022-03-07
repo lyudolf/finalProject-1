@@ -27,21 +27,37 @@ function Post() {
     fetchDataObject();
   }, []);
 
-  //문제는 페이지를 새로고침해야 추가된 댓글이 보임.....
   const addComment = () => {
     const formData = new FormData();
-    formData.append("content", newComment);
-    formData.append("nickname", "닉네임");
+      //추후 로그인 정보 변경되면 수정
+      // user: localStorage.getItem("user"),
+      formData.append("nickname", "닉네임");
+      formData.append("replyContent", newComment);
+      //작성자랑 댓글 내용만 벡엔드로 보내주면 됨.
+    };
+    const updatedPostObject = {
+      ...postObject,
+      replies: [...postObject.replies, newReply],
+    };
+
+    const formData = new FormData();
+    formData.append("title", "게시글제목");
+    formData.append("content", "게시글 내용~~~");
+    formData.append("nickname", "닉네임3");
+    // formData.append("category", JSON.stringify(categoryArr));
 
     axios
-      .post(`/career/${postno}/reply`, formData, {
+      .put(`/career/${postno}`, updatedPostObject, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       })
       .then((response) => {
+        console.log(newReply);
+        console.log("댓글이 추가되었습니다!");
         setNewComment("");
       });
+    setPostObject(updatedPostObject);
   };
 
   // 좋아요 버튼 기능
@@ -85,7 +101,7 @@ function Post() {
           <div className="commentSection">
             <input
               type="text"
-              placeholder="댓글을 남겨주세요"
+              placeholder="Comment"
               autoComplete="off"
               value={newComment}
               onChange={(event) => {
@@ -94,7 +110,11 @@ function Post() {
             ></input>
             <button
               onClick={() => {
-                addComment();
+                if (localStorage.getItem("user")) {
+                  addComment();
+                } else {
+                  alert("로그인하세요 ㅎㅎ");
+                }
               }}
             >
               Add Comment

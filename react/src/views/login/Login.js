@@ -12,21 +12,27 @@ function Login() {
 
   const login = () => {
     const data = { user: user, password: password };
-    axios.post("/member/login", data).then((response) => {
-      if (response.data.error) {
-        alert(response.data.error);
-      } else {
-        localStorage.setItem("user", response.data.user);
-        console.log(response);
-        navigate("/");
-      }
-    });
+    console.log(data);
+    localStorage.setItem("user", data.user);
+
+    // 벡엔드 연결되면 수정
+    // axios.post("/member/login", data).then((response) => {
+    //   if (response.data.error) {
+    //     alert(response.data.error);
+    //   } else {
+    //     localStorage.setItem("user", response.data.user);
+    //     console.log(response);
+    //     navigate("/");
+    //   }
+    // });
   };
 
   return (
     <div className="loginContainer">
       <label>아이디: </label>
       <input
+        autoFocus
+        className="loginInput"
         type="text"
         name="id"
         onChange={(event) => setUser(event.target.value)}
@@ -34,6 +40,7 @@ function Login() {
 
       <label>비밀번호: </label>
       <input
+        className="loginInput"
         type="password"
         name="password"
         onChange={(event) => {
@@ -44,9 +51,7 @@ function Login() {
         로그인
       </button>
       <Link to="/login/find/id">
-        <button className="loginBtn" onClick={login}>
-          ID/PW 찾기
-        </button>
+        <button className="loginBtn">ID/PW 찾기</button>
       </Link>
     </div>
   );
