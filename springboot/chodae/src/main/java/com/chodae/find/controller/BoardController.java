@@ -181,9 +181,9 @@ public class BoardController {
 	//추천 작성
 	//회원번호,게시판 번호, (댓글번호  or 게시글번호) 
 	@Transactional
-	@PostMapping("/{boardName}/recomm/{type}/{targetNo}") //type: 게시글 추천인지 댓글 추천인지, targetNo: 게시글번호, 댓글번호
+	@PostMapping("/{boardName}/recomm/{type}/{targetNo}/{nickname}") //type: 게시글 추천인지 댓글 추천인지, targetNo: 게시글번호, 댓글번호
 	public ResponseEntity<Long> insertRecomm(@PathVariable String boardName,@PathVariable String type, @PathVariable Long targetNo,
-			@RequestParam String nickname) {
+			@PathVariable String nickname) {
 			
 		Long number = boardService.insertRecommend(boardName, nickname, type, targetNo);
 		
@@ -192,17 +192,15 @@ public class BoardController {
 	
 	//추천 취소(삭제)
 	@Transactional
-	@DeleteMapping("/{boardName}/recomm/{type}/{targetNo}") //type: 게시글 추천인지 댓글 추천인지, targetNo: 게시글번호, 댓글번호
+	@DeleteMapping("/{boardName}/recomm/{type}/{targetNo}/{nickname}") //type: 게시글 추천인지 댓글 추천인지, targetNo: 게시글번호, 댓글번호
 	public ResponseEntity<Long> deleteRecomm(@PathVariable String boardName,@PathVariable String type, @PathVariable Long targetNo,
-			@RequestParam String nickname) {
+			@PathVariable String nickname) {
 			
 		Long number = boardService.deleteRecommend(boardName, nickname, type, targetNo);
 		
 		return new ResponseEntity<Long>(number,HttpStatus.OK); 
 	}
 	
-	//게시글 카테고리 반영 ? 
-	//게시글 검색 ? 
 	 
 	
 }

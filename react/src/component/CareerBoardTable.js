@@ -1,13 +1,24 @@
 import React from "react";
+import "./CarrerBoardTable.css";
 
 function CareerBoardTable({ tableData, moment }) {
-  const { id, postLike, postViews, postRegdate, postContent, postTitle } =
+  const { id, nickname, postLike, postViews, postRegdate, postContent, postTitle, category } =
     tableData;
 
   return (
     <>
       <table>
         <thead>
+          <tr>
+            <th colSpan={5}>
+              <div className="postCategory">
+                {category !== null && category.map((category, index) => (
+                  <span key={category.categoryName + index} className={"cate" + index}>#{category.categoryName} </span>
+                ))}
+              </div>
+            </th>
+
+          </tr>
           <tr>
             <th className="postTitle" colSpan={5}>
               {postTitle}
@@ -16,9 +27,9 @@ function CareerBoardTable({ tableData, moment }) {
         </thead>
         <tbody>
           <tr>
-            <td>작성자: {id}</td>
-            <td>추천수: {postLike}</td>
+            <td>작성자: {nickname}</td>
             <td>조회수: {postViews}</td>
+            <td>추천수: {postLike}</td>
             <td>작성일: {moment(postRegdate).format("l")}</td>
           </tr>
           <tr>

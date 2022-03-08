@@ -15,7 +15,10 @@
   margin: 5px 0;
   padding: 5px 0 5px 10px;
 }
-
+.postCatogory{
+  display: flex;
+  justify-content: end;
+}
 .postTitle {
   font-weight: bold;
   font-size: 20px;
