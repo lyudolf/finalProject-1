@@ -41,6 +41,7 @@ function CareerBoard() {
     axios
       .get("/career/list")
       .then((response) => {
+        console.log(response.data);
         setPosts(response.data);
       })
       .catch((error) => {
@@ -85,7 +86,7 @@ function CareerBoard() {
 
                 <td>{moment(post.postRegdate).format("l")}</td>
               </tr>
-            </tbody>
+            </tbody> 
           ))}
       </table>
       <div className="paginationContainer">
@@ -110,7 +111,7 @@ function CareerBoard() {
               ) {
                 window.location.href = "/mainboard/createpost";
               } else {
-                alert("You need be logged in");
+                alert("로그인해야 됩니다 ㅎㅎ");
               }
             }}
             className="createPostBtn"
