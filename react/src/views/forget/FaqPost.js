@@ -18,6 +18,7 @@ function FaqPost() {
     getPost(postNo);
     console.log(postNo);
     console.log(postObject);
+    console.log(location);
 
   }, []);
 

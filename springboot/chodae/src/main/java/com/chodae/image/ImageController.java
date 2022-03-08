@@ -43,7 +43,7 @@ public class ImageController {
 
 
 
-    @PostMapping("/{boardName}")
+//    @PostMapping("/{boardName}")
     public ResponseEntity<?> uploadContent(@PathVariable String boardName,
     		@RequestParam(required = false) MultipartFile file,
     		@RequestParam("title") String title,
@@ -103,7 +103,8 @@ public class ImageController {
         
         try{
            
-                file.transferTo(new File("C:\\Users\\sarob\\OneDrive\\바탕 화면\\새 폴더\\finalProject-main\\springboot\\chodae\\files\\"+file.getOriginalFilename()));
+                file.transferTo(new File("C:\\chodae\\files\\"+file.getOriginalFilename()));
+//                file.transferTo(new File("C:\\Users\\sarob\\OneDrive\\바탕 화면\\새 폴더\\finalProject-main\\springboot\\chodae\\files\\"+file.getOriginalFilename()));
             
         }catch (IllegalStateException | IOException e){
             e.printStackTrace();

@@ -36,6 +36,7 @@ public class Image {
 	@Column(name = "image", unique = false, nullable = false, length = 100000)
 	private byte[] image;
 	
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "post_no")
 	private Post post;

@@ -39,7 +39,7 @@ function CareerBoard() {
 
   useEffect(() => {
     axios
-      .get("/job/list")
+      .get("/faq/list")
       .then((response) => {
         setPosts(response.data);
       })

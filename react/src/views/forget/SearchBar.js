@@ -22,7 +22,7 @@ function SearchBar({ getData }) {
 
   const searchList = async function (searchBy, searchTerm) {
 
-    let url = location.pathname;
+    let url = location.pathname;// /faq
 
 
     await axios.get(url, { params: { page: 1, searchType: searchBy, keyword: searchTerm } })

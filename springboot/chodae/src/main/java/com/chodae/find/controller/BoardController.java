@@ -1,7 +1,5 @@
 package com.chodae.find.controller;
 
-import java.util.List;
-
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +13,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
-import com.chodae.find.category.BoardGroup;
 import com.chodae.find.domain.Post;
 import com.chodae.find.dto.PostDTO;
 import com.chodae.find.service.BoardService;
@@ -30,37 +28,14 @@ public class BoardController {
 
 	private final BoardService boardService;
 	
+	
 	@Autowired
 	public BoardController( BoardService boardService) {
 		this.boardService = boardService;
+		
 	}
-	
-	//게시판 전체조회
-	@Transactional
-	@GetMapping("/{boardName}/list")
-	List<Post> getPostList(@PathVariable String boardName){
-		List<Post> list = boardService.getPostList(boardName);
-		
-		
-		
-		return list;	
-	}
-	
-	//게시판 전체조회 개선 (페이지네이션) 		//page,size,searchType,keyword
-//	@Transactional
-//	@GetMapping("/{boardName}")
-//	Page<Post> getPostList2(@PathVariable String boardName,
-//			PageVO pageVo){     
-//		
-//		log.info(""+pageVo);
-//		log.info(""+pageVo.makePageable(0, "postRegdate"));
-//		
-//		Page<Post> result = boardService.getPostListByPage(boardName, pageVo.makePageable(0, "postRegdate"));
-//	
-//		return result;	
-//	}
 
-	 //단순 조회 + 검색 
+	//전체 조회 + 검색 
 	//게시글 검색 개선  페이지네이션 적용 (특정한 게시판에서 -- 제목, 내용 , 작성자 , 제목+내용,) 
 	//분류 :  카테고리(지역,사용언어, 수준, 프로그램,분야:풀스택, 프론트엔드, 백엔드 ...), 평점, 
 //	@GetMapping("/{boardName}/find")
@@ -97,17 +72,26 @@ public class BoardController {
 	//게시글 추가
 	@Transactional
 	@PostMapping("/{boardName}")
-	ResponseEntity<Integer> insertPost(@PathVariable String boardName,
+	ResponseEntity<Long> insertPost(@PathVariable String boardName,
 			@RequestParam String title,
 			@RequestParam String content,
 			@RequestParam String nickname,
-			@RequestParam String category
+			@RequestParam String category,
+			@RequestParam(required = false) MultipartFile file
 			){
-		log.info(""+category);
+	
 		
+		log.info(""+category);
 		Post post = boardService.insertPost(boardName, title, content, nickname,category);
 		log.info(""+post);
-		return new ResponseEntity<Integer>(BoardGroup.valueOf(boardName).getValue(), HttpStatus.OK);	
+		
+		
+		if(file != null) {
+			//새로운 이미지 저장
+			boardService.saveImg(file, post);
+		}
+		
+		return new ResponseEntity<Long>(post.getPostNo(), HttpStatus.OK);	
 	}
 	
 	//게시글 업데이트
@@ -117,17 +101,31 @@ public class BoardController {
 				@RequestParam String title,
 				@RequestParam String content,
 				@RequestParam String nickname,// 닉네임은 아직 사용필요 x 
-				@RequestParam String category
+				@RequestParam String category,
+				@RequestParam(required = false) MultipartFile file
 				){
 			
 			//작성자 닉네임와 현재 로그인된 id의 닉네임이 일치할 때 업데이트? 아직
 			
+			
 			//기존 카테고리 모두 삭제
 			boardService.deleteCategoryAll(postNo);
 			
-			Long updatedPostNo = boardService.updatePost(postNo, title, content, category);
+			Post post = boardService.updatePost(postNo, title, content, category);
 			
-			return new ResponseEntity<Long>(updatedPostNo, HttpStatus.OK);	
+			
+			// 기존 이미지 삭제 후 -> 새로운 이미지 저장
+			if(file != null) {
+				
+				//기존 이미지 삭제
+				boardService.deleteImg(post.getPostNo());
+				
+			
+				//새로운 이미지 저장
+				boardService.saveImg(file, post);
+			}
+			
+			return new ResponseEntity<Long>(post.getPostNo(), HttpStatus.OK);	
 		}
 		
 	//게시글 삭제

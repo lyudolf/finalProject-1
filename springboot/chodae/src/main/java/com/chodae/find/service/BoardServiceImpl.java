@@ -1,5 +1,7 @@
 package com.chodae.find.service;
 
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Iterator;
 import java.util.List;
@@ -12,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.chodae.find.category.BoardGroup;
 import com.chodae.find.domain.Board;
@@ -26,6 +29,9 @@ import com.chodae.find5.repository.PostRepo;
 import com.chodae.find5.repository.RecommendationRepo;
 import com.chodae.find5.repository.ReplyRepo;
 import com.chodae.find5.repository.UserRepo;
+import com.chodae.image.Image;
+import com.chodae.image.ImageRepository;
+import com.chodae.image.ImageUtility;
 
 import lombok.extern.java.Log;
 
@@ -38,25 +44,75 @@ public class BoardServiceImpl implements BoardService {
 	private final RecommendationRepo recommRepo;
 	private final CategoryRepo categoryRepo;
 	private final UserRepo userRepo;
+	private final ImageRepository imageRepo;
 	
 	
 	@Autowired
 	public BoardServiceImpl(PostRepo postRepo, ReplyRepo replyRepo, RecommendationRepo recommRepo,
-			CategoryRepo categoryRepo, UserRepo userRepo) {
+			CategoryRepo categoryRepo, UserRepo userRepo,ImageRepository imageRepo) {
 		super();
 		this.postRepo = postRepo;
 		this.replyRepo = replyRepo;
 		this.recommRepo = recommRepo;
 		this.categoryRepo = categoryRepo;
 		this.userRepo = userRepo;
+		this.imageRepo = imageRepo;
 	}
 	
 	@Override
-	public List<Post> getPostList(String boardName) {
-		List<Post> list = postRepo.findPostByBoard(BoardGroup.valueOf(boardName).getValue());
-		return list;
+	public long saveImg(MultipartFile file, Post post) {
+		//새로운 이미지 저장
+		System.out.println(file);
+		try {
+			imageRepo.save(Image.builder()
+			        .name(file.getOriginalFilename())
+			        .type(file.getContentType())
+			        .post(post)
+			        .image(ImageUtility.compressImage(file.getBytes())).build());
+		} catch (IOException e1) {
+		
+			e1.printStackTrace();
+		}
+        
+		File newFileName = new File("C:\\chodae\\"+post.getId()+"-"+post.getPostNo()+"-"+file.getOriginalFilename());
+		
+		if(!newFileName.exists()) { //파일 경로 없으면 생성.
+			if(newFileName.getParentFile().mkdirs()) {
+				try {
+					newFileName.createNewFile();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+        
+        
+        try{
+        	file.transferTo(newFileName);
+            
+        }catch (IllegalStateException | IOException e){
+            e.printStackTrace();
+        }
+        
+        
+        
+		return post.getPostNo();
 	}
-
+	
+	
+	@Override
+	public long deleteImg(Long postNo) {
+		
+		List<Image> list = imageRepo.findByPostNo(postNo);
+		
+		for(Image img : list) {
+			imageRepo.deleteById(img.getId());;
+		}
+		
+		return postNo;
+	}
+	
+	
 
 	// 게시판 전체 조회
 	@Override
@@ -224,9 +280,10 @@ public class BoardServiceImpl implements BoardService {
 	
 	
 	@Override
-	public Long updatePost(Long postNo, String title, String content,String category) {
+	public Post updatePost(Long postNo, String title, String content,String category) {
 		Optional<Post> result = postRepo.findById(postNo);
 		Long updatedPostNo = 0L;
+		
 		if(result.isPresent()) {
 			Post post = result.get();
 			System.out.println(post);
@@ -266,8 +323,11 @@ public class BoardServiceImpl implements BoardService {
 			
 			postRepo.save(post);
 			updatedPostNo = post.getPostNo();
+			return post;		//업데이트된 글 번호를 반환
 		}
-		return updatedPostNo;		//업데이트된 글 번호를 반환
+		
+		return null;
+		
 	}
 
 	@Override
