@@ -3,6 +3,7 @@ package com.chodae.find.service;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import com.chodae.find.domain.Post;
 import com.chodae.find.domain.Recommendation;
@@ -18,14 +19,16 @@ public interface BoardService {
 //	4.이미지 리스트로 추가  => 특정 위치에 저장...?  / 조회 / 수정/ 삭제
 	
 	//1. 게시글 조회 추가 수정 삭제
-	List<Post> getPostList(String boardName); //url주소의 board이름으로 전체 게시글 검색
+	
+	//게시판 전체조회 
+	Page<Post> getPostListByPage(String boardName, Pageable pageable);
+	
+	// 게시판 검색 조회 
+	Page<Post> searchPost(String boardName, String searchType, String keyword, Pageable pageable);
+	
 	Post getPost(Long boardNo);
-	
-//	List<Post> getPost(String boardName,String pageNumber,int pageSize); //페이지 번호에 해당하는 게시글 검색
-	
-	List<Post> searchPost(String boardName, String searchType, String keyword); //검색 종류 , 검색어 
-	
-	
+
+
 	Post insertPost(String boardName, String title, String content, String nickname, String category);
 	
 	void deleteCategoryAll(Long postNo);
@@ -60,6 +63,7 @@ public interface BoardService {
 				.postTitle(entity.getPostTitle())
 				.postContent(entity.getPostContent())
 				.id(entity.getId())
+				.nickname(entity.getNickname())
 				.replyCount(entity.getReplyCount())
 				.replies(entity.getReplies())
 				.postViews(entity.getPostViews())
@@ -75,12 +79,11 @@ public interface BoardService {
 		
 		return dto;
 	}
-	
-	
-	
-	Page<Post> getPostList3(String boardName, int page);
 
+	List<Post> getPostList(String boardName);
+	
 
+	
 
 	
 	

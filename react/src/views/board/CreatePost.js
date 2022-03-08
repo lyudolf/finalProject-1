@@ -47,6 +47,7 @@ function CreatePost() {
       });
   };
 
+  
   return (
     <div className="createPost">
       <Formik

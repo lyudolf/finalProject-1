@@ -10,9 +10,7 @@ import javax.transaction.Transactional;
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.chodae.find.category.BoardGroup;
@@ -52,53 +50,86 @@ public class BoardServiceImpl implements BoardService {
 		this.categoryRepo = categoryRepo;
 		this.userRepo = userRepo;
 	}
-
-
-
+	
 	@Override
 	public List<Post> getPostList(String boardName) {
 		List<Post> list = postRepo.findPostByBoard(BoardGroup.valueOf(boardName).getValue());
 		return list;
 	}
-	///////
+
+
+	// 게시판 전체 조회
 	@Override
-	public Page<Post> getPostList3(String boardName, int page) {
-		Pageable pageable = PageRequest.of(page-1, 10, Sort.by("postRegdate").descending());
-		Page<Post> list = postRepo.findPostByBoard3(BoardGroup.valueOf(boardName).getValue(),pageable);
+	public Page<Post> getPostListByPage(String boardName, Pageable pageable) {
+
+		Page<Post> list = postRepo.findPostByBoardAndPage(BoardGroup.valueOf(boardName).getValue(), pageable);
+		
+		list.forEach(post -> {
+			User user = userRepo.findById(post.getId()).get();
+			post.setNickname(user.getNickname());
+		});
+		
 		return list;
 	}
-	
-	@Override
-	public Post getPost(Long boardNo) {
-		return postRepo.findById(boardNo).get();
+
+	@Override // 특정 게시글 조회. 조회시 글 작성자 및 댓글작성자도 닉네임 전달
+	public Post getPost(Long postNo) {
+		
+		Post post = postRepo.findById(postNo).get();
+
+		post.setPostViews(post.getPostViews()+1);
+		
+		User user = userRepo.findById(post.getId()).get();
+		post.setNickname(user.getNickname());
+		
+		List<Reply> replies = post.getReplies();
+		replies.forEach(reply -> {
+			User replyUser = userRepo.findById(reply.getId()).get();
+			reply.setNickname(replyUser.getNickname());
+		});
+		post.setReplies(replies);
+		
+		return post;
 	}
 	
 
 	@Override  //게시글 검색
-	public List<Post> searchPost(String boardName, String searchType, String keyword) {
+	public Page<Post> searchPost(String boardName, String searchType, String keyword, Pageable pageable) {
 		// type : 제목 title, 내용 content, 작성자 writer ,제목+내용 titleOrContent
 		// 분류 :  카테고리(지역,언어...), 평점, 
 		// 정렬: 추천순 , 댓글순, 조회순,  
 		int boardNo = BoardGroup.valueOf(boardName).getValue();//게시판 번호 조회
 		
-		List<Post> list = null;
+		Page<Post> list = null;
+		
+		
+		
 		// 타입에 맞춰서 메소드 호출
 		if(searchType.equals("titleOrContent")) {
-			list = postRepo.getPostLikeTitleOrContent(boardNo, keyword);
+			list = postRepo.getPostLikeTitleOrContent(boardNo, keyword, pageable);
 			
 		} else if (searchType.equals("title")) {
-			list = postRepo.getPostLikeTitle(boardNo, keyword);
+			list = postRepo.getPostLikeTitle(boardNo, keyword,pageable);
 			
 		} else if (searchType.equals("content")) {
-			list = postRepo.getPostLikeContent(boardNo, keyword);
+			list = postRepo.getPostLikeContent(boardNo, keyword,pageable);
 			
 		} else if (searchType.equals("writer")) {
 			User user = userRepo.findUserByNickname(keyword);//회원번호 조회
-			list = postRepo.getPostFromWriter(boardNo, user.getId());
+			list = postRepo.getPostFromWriter(boardNo, user.getId(),pageable);
+		} else {
+			// 검색조건 없이 조회시
+			list = postRepo.findPostByBoardAndPage(BoardGroup.valueOf(boardName).getValue(), pageable);
 		}
+		
+		list.forEach(post -> {
+			User user = userRepo.findById(post.getId()).get();
+			post.setNickname(user.getNickname());
+		});
 		
 		return list;
 	}
+	
 
 	@Override
 	public Post insertPost(String boardName,String title, String content, String nickname,String category) {
@@ -411,5 +442,8 @@ public class BoardServiceImpl implements BoardService {
 		
 		return num;//추천삭제한 게시글번호 또는 댓글 번호 반환 
 	}
+
+
+	
 
 }

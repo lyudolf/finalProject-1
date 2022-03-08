@@ -20,7 +20,7 @@ import com.chodae.find.category.BoardGroup;
 import com.chodae.find.domain.Post;
 import com.chodae.find.dto.PostDTO;
 import com.chodae.find.service.BoardService;
-import com.chodae.find5.repository.CategoryRepo;
+import com.chodae.find.vo.PageVO;
 
 import lombok.extern.java.Log;
 
@@ -35,68 +35,62 @@ public class BoardController {
 		this.boardService = boardService;
 	}
 	
-
-
-	//게시판 전체조회
-//	@Transactional
-//	@GetMapping("/{boardName}")
-//	Page<Post> getPostList2(@PathVariable String boardName,
-//			@RequestParam int page){
-//		Page<Post> result = boardService.getPostList3(boardName, page);
-//		
-//		return result;	
-//	}
-//	//게시판 전체조회
-//	@Transactional
-//	@GetMapping("/{boardName}/list/{page}")
-//	Page<Post> getPostList2(@PathVariable String boardName,@PathVariable int page,
-//			@RequestParam int page){
-//		Page<Post> result = boardService.getPostList3(boardName, page);
-//		
-////		System.out.println(result);
-////		System.out.println(result.getTotalPages());
-////		System.out.println(result.getTotalElements());
-////		System.out.println(result.getNumber());
-////		System.out.println(result.hasPrevious());
-////		System.out.println(result.hasNext());
-////		System.out.println(result.nextPageable());
-////		System.out.println(result.previousPageable());
-////		System.out.println(result.getContent());
-//		return result;	
-//	}
-	
 	//게시판 전체조회
 	@Transactional
 	@GetMapping("/{boardName}/list")
 	List<Post> getPostList(@PathVariable String boardName){
 		List<Post> list = boardService.getPostList(boardName);
 		
-		list.forEach(post -> {
-			log.info(""+post);
-		});
+		
 		
 		return list;	
 	}
-	 
-	//게시글 검색 (특정한 게시판에서 -- 제목, 내용 , 작성자 , 제목+내용,) 
+	
+	//게시판 전체조회 개선 (페이지네이션) 		//page,size,searchType,keyword
+//	@Transactional
+//	@GetMapping("/{boardName}")
+//	Page<Post> getPostList2(@PathVariable String boardName,
+//			PageVO pageVo){     
+//		
+//		log.info(""+pageVo);
+//		log.info(""+pageVo.makePageable(0, "postRegdate"));
+//		
+//		Page<Post> result = boardService.getPostListByPage(boardName, pageVo.makePageable(0, "postRegdate"));
+//	
+//		return result;	
+//	}
+
+	 //단순 조회 + 검색 
+	//게시글 검색 개선  페이지네이션 적용 (특정한 게시판에서 -- 제목, 내용 , 작성자 , 제목+내용,) 
 	//분류 :  카테고리(지역,사용언어, 수준, 프로그램,분야:풀스택, 프론트엔드, 백엔드 ...), 평점, 
+//	@GetMapping("/{boardName}/find")
 	@Transactional
-	@GetMapping("/{boardName}/list/search")
-	List<Post> getSearchPost(@PathVariable String boardName,
+	@GetMapping("/{boardName}")
+	Page<Post> getSearchPost(@PathVariable String boardName, PageVO pageVo,
 			@RequestParam String searchType,
 			@RequestParam String keyword){
 		
-		List<Post> list = boardService.searchPost(boardName, searchType, keyword);
+		log.info(""+pageVo+":::"+searchType+"::::"+keyword);
+		log.info(""+pageVo.makePageable(0, "postRegdate"));
 		
-		return list;	
+		//url 쿼리스트링까지 모든 주소를 변수로 저장한 다음 그 뒤에다가 추천순, 댓글순, 조회순이라는 조건을 추가하는 방식?
+		// 카테고리 분류 검색? 
+		//평점 분류 검색? 
+		
+		
+		Page<Post> result = boardService.searchPost(boardName, searchType, keyword,pageVo.makePageable(0, "postRegdate"));
+		
+		return result;	
 	}
+	
 	//특정 게시글 조회
 	@Transactional
 	@GetMapping("/{boardName}/{postNo}")
 	PostDTO getPost(@PathVariable String boardName,@PathVariable Long postNo){
 		Post post = boardService.getPost(postNo);
+		
 		PostDTO dto = boardService.entityToDto(post);
-		System.out.println(dto);
+	
 		return dto;	
 	}
 	
@@ -107,8 +101,9 @@ public class BoardController {
 			@RequestParam String title,
 			@RequestParam String content,
 			@RequestParam String nickname,
-			@RequestParam(required = false) String category
+			@RequestParam String category
 			){
+		log.info(""+category);
 		
 		Post post = boardService.insertPost(boardName, title, content, nickname,category);
 		log.info(""+post);
@@ -122,7 +117,7 @@ public class BoardController {
 				@RequestParam String title,
 				@RequestParam String content,
 				@RequestParam String nickname,// 닉네임은 아직 사용필요 x 
-				@RequestParam(required = false) String category
+				@RequestParam String category
 				){
 			
 			//작성자 닉네임와 현재 로그인된 id의 닉네임이 일치할 때 업데이트? 아직

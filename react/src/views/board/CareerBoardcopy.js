@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 // import JsonData from "./MOCK_DATA.json";
 import ReactPaginate from "react-paginate";
-import "./CareerBoard.css";
+import "./CareerBoardcopy.css";
 import { useNavigate } from "react-router-dom";
 import axios from "../../plugins/axios";
 import SearchBar from "./SearchBar";
@@ -39,9 +39,8 @@ function CareerBoard() {
 
   useEffect(() => {
     axios
-      .get("/career/list")
+      .get("/job/list")
       .then((response) => {
-        console.log(response.data);
         setPosts(response.data);
       })
       .catch((error) => {
@@ -86,7 +85,7 @@ function CareerBoard() {
 
                 <td>{moment(post.postRegdate).format("l")}</td>
               </tr>
-            </tbody> 
+            </tbody>
           ))}
       </table>
       <div className="paginationContainer">
@@ -111,7 +110,7 @@ function CareerBoard() {
               ) {
                 window.location.href = "/mainboard/createpost";
               } else {
-                alert("로그인해야 됩니다 ㅎㅎ");
+                alert("You need be logged in");
               }
             }}
             className="createPostBtn"
