@@ -59,10 +59,11 @@ const Front = () => {
                     formData.append('file', image);
                     formData.append('category', JSON.stringify(select));
 
+
                     // for (var i = 0; i < select.length; i++) {
                     //     console.log(select[i]);
                     // }
-                    axios.post("http://localhost:8000/faq", formData, {
+                    axios.post("http://localhost:8000/study", formData, {
                         "headers": {
                             'Content-Type': 'multipart/form-data',
                         }
