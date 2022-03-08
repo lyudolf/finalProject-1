@@ -1,5 +1,7 @@
 package com.chodae.find.controller;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,16 +35,16 @@ public class BoardController {
 		this.boardService = boardService;
 	}
 	
-//	//게시판 전체조회
-//	@Transactional
-//	@GetMapping("/{boardName}/list")
-//	List<Post> getPostList(@PathVariable String boardName){
-//		List<Post> list = boardService.getPostList(boardName);
-//		
-//		
-//		
-//		return list;	
-//	}
+	//게시판 전체조회
+	@Transactional
+	@GetMapping("/{boardName}/list")
+	List<Post> getPostList(@PathVariable String boardName){
+		List<Post> list = boardService.getPostList(boardName);
+		
+		
+		
+		return list;	
+	}
 	
 	//게시판 전체조회 개선 (페이지네이션) 		//page,size,searchType,keyword
 //	@Transactional

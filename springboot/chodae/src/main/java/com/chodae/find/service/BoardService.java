@@ -79,6 +79,8 @@ public interface BoardService {
 		
 		return dto;
 	}
+
+	List<Post> getPostList(String boardName);
 	
 
 	

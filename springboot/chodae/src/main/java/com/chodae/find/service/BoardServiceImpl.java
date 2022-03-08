@@ -10,9 +10,7 @@ import javax.transaction.Transactional;
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.chodae.find.category.BoardGroup;
@@ -23,7 +21,6 @@ import com.chodae.find.domain.PostContent;
 import com.chodae.find.domain.Recommendation;
 import com.chodae.find.domain.Reply;
 import com.chodae.find.domain.User;
-import com.chodae.find.vo.PageVO;
 import com.chodae.find5.repository.CategoryRepo;
 import com.chodae.find5.repository.PostRepo;
 import com.chodae.find5.repository.RecommendationRepo;
@@ -53,6 +50,12 @@ public class BoardServiceImpl implements BoardService {
 		this.categoryRepo = categoryRepo;
 		this.userRepo = userRepo;
 	}
+	
+	@Override
+	public List<Post> getPostList(String boardName) {
+		List<Post> list = postRepo.findPostByBoard(BoardGroup.valueOf(boardName).getValue());
+		return list;
+	}
 
 
 	// 게시판 전체 조회
@@ -73,6 +76,8 @@ public class BoardServiceImpl implements BoardService {
 	public Post getPost(Long postNo) {
 		
 		Post post = postRepo.findById(postNo).get();
+
+		post.setPostViews(post.getPostViews()+1);
 		
 		User user = userRepo.findById(post.getId()).get();
 		post.setNickname(user.getNickname());
@@ -82,7 +87,6 @@ public class BoardServiceImpl implements BoardService {
 			User replyUser = userRepo.findById(reply.getId()).get();
 			reply.setNickname(replyUser.getNickname());
 		});
-		
 		post.setReplies(replies);
 		
 		return post;
@@ -438,5 +442,8 @@ public class BoardServiceImpl implements BoardService {
 		
 		return num;//추천삭제한 게시글번호 또는 댓글 번호 반환 
 	}
+
+
+	
 
 }

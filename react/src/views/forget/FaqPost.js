@@ -100,41 +100,39 @@ function FaqPost() {
 
 
         <div>
-          자주하는 질문
-          <hr></hr>
-        </div>
-        <div>
-          {postObject !== null && postObject.category.map((category, index) => (
-            <span className={"cate" + index}>{category.categoryKind}:{category.categoryName} </span>
-          ))}
-          {postObject !== null && <div className="postTitle">{postObject.postTitle}</div>}
-        </div>
-        <div>
-          <hr></hr>
-        </div>
-        <div>
-          {postObject !== null && <div>{postObject.nickname}</div>}
-          {postObject !== null && <div>{postObject.postRegdate}</div>}
-          {postObject !== null && <div>글 번호 : {postObject.postNo}</div>}
-          {postObject !== null && <div>조회수 : {postObject.postViews}</div>}
-          {postObject !== null && <div>추천수 : {postObject.postLike}</div>}
+          <div className="postHeader">
+            {postObject !== null && postObject.category.map((category, index) => (
+              <span className={"cate" + index}>#{category.categoryName} </span>
+            ))}
+            <span>
+              {postObject !== null && <div>{postObject.nickname}</div>}
+              {postObject !== null && <div>{postObject.postRegdate}</div>}
+            </span>
+          </div>
 
+          <div className="postInfo">
+            {postObject !== null && <span className="postTitle">{postObject.postTitle}</span>}
+            <span>
+              {postObject !== null && <div>조회수 : {postObject.postViews}</div>}
+              {postObject !== null && <div>추천수 : {postObject.postLike}</div>}
 
+            </span>
+          </div>
         </div>
 
-
-        <div>
-          <hr></hr>
+        <div className="postContent">
           <div>{postObject !== null && postObject.postContent.content}</div>
-          <hr></hr>
         </div>
-        <div>
+
+        <div className="postReply">
           {postObject !== null && postObject.replies.map((reply) => (
-            <div>
-              <div>{reply.replyRegdate}</div>
+            <div className="eachReply">
+
               <div>{reply.nickname}</div>
-              <div>{reply.replyContent}</div>
-              <hr></hr>
+              <div className="regDate">{reply.replyRegdate}</div>
+
+              <div className="replyContent">{reply.replyContent}</div>
+
             </div>
           ))}
         </div>
