@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate, useLocation, useParams, useSearchParams } from 'react-router-dom';
+import {
+  Link,
+  useNavigate,
+  useLocation,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
 import axios from "../../plugins/axios";
 import "./Post.css";
 import CareerBoardTable from "../../component/CareerBoardTable";
@@ -20,13 +26,13 @@ function FaqPost() {
     console.log(postNo);
     console.log(postObject);
     console.log(location);
-
   }, []);
 
   const getPost = function (postNo) {
-    axios.get(`${location.pathname}`)
+    axios
+      .get(`${location.pathname}`)
       .then((response) => {
-        console.log(response.data)
+        console.log(response.data);
 
         const post = response.data;
         post.postRegdate = dateFormat(new Date(post.postRegdate));
@@ -38,7 +44,9 @@ function FaqPost() {
         setPostObject(post);
         setComments(post.replies);
       })
-      .catch((error) => { console.log(error) });
+      .catch((error) => {
+        console.log(error);
+      });
   };
   function dateFormat(date) {
     let month = date.getMonth() + 1;
@@ -54,53 +62,136 @@ function FaqPost() {
     second = second >= 10 ? second : "0" + second;
 
     return `${date.getFullYear()}-${month}-${day} ${hour}:${minute}:${second}`;
-  };
+  }
   //댓글 추가 => 추가후 게시글 다시조회 댓글확인. 날짜 오름차순으로 출력,
   // 댓글 추가후 추가 된 댓글 새로고침없이 확인가능? 
   // 댓글도 닉네임으로 불러와야함.
   const addComment = async function () {
-
     const formData = new FormData();
 
     formData.append("content", newComment);
     formData.append("nickname", "닉네임3");
 
 
-    await axios.post(`${location.pathname}/reply`, formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    }).then((response) => {
-      console.log(response.data)
-      setNewComment("");
-    })
-      .catch((error) => { console.log(error) });
-  };
-
-  //댓글 삭제 함수
-  const deleteReply = (id) => {
-    const { replyNo } = parseInt(id);
-    const formData = new FormData();
-    formData.append("nickname", "닉네임");
-
-    axios
-      .delete(`${location.pathname}/reply/{replyNo}`, formData, {
+    await axios
+      .post(`${location.pathname}/reply`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       })
-      .then(() => {
-        setComments(
-          comments.filter((val) => {
-            return val.id !== id;
-          })
-        );
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
       });
   };
+  //댓글 삭제
+  const deleteReply = async function (replyNo) {
+    // const formData = new FormData();
+    // formData.append("nickname", "닉네임3");
+    // console.log(replyNo);
+    // for (var key of formData.keys()) {
+    //   console.log(key);
+    // }
+
+    // for (var value of formData.values()) {
+    //   console.log(value);
+    // }
+    await axios({
+      method: "DELETE",
+      url: `${location.pathname}/reply/${replyNo}/닉네임3`,
+    }).then(() => {
+      setComments(
+        comments.filter((val) => {
+          return val.replyNo !== replyNo;
+        })
+      );
+    });
+  };
+
+  //   await axios
+  //     .delete(`${location.pathname}/reply/${replyNo}`, {
+  //       data: { nickname: "닉네임3" },
+  //     })
+  //     .then(() => {
+  //       setComments(
+  //         comments.filter((val) => {
+  //           return val.replyNo !== replyNo;
+  //         })
+  //       );
+  //     });
+  // };
+
+  //댓글 수정 -> 수정 안되고 추가가 됨;;;
+  // const updateReply = async function (replyNo) {
+  //   const formData = new FormData();
+  //   formData.append("nickname", "닉네임3");
+  //   formData.append("content", "댓글내용임");
+
+  //   await axios
+  //     .put(`${location.pathname}/reply/${replyNo}`, formData, {
+  //       headers: {
+  //         "Content-Type": "multipart/form-data",
+  //       },
+  //     })
+  //     .then((response) => {
+  //       console.log(response.data);
+  //     });
+  // };
+
+  // const addComment = () => {
+  //   const newReply = {
+  //     id: localStorage.getItem("id"),
+  //     replyContent: newComment,
+  //     //작성자랑 댓글 내용만 벡엔드로 보내주면 됨.
+  //   };
+  //   const updatedPostObject = {
+  //     ...postObject,
+  //     replies: [...postObject.replies, newReply],
+  //   };
+  //   axios.put(`/carrer/${postno}`, updatedPostObject).then((response) => {
+  //     setNewComment("");
+  //     console.log(newReply);
+  //     console.log("Comment added!");
+  //   });
+  //   setPostObject(updatedPostObject);
+  // };
+
+  return (
+    <div className="postBody">
+      <div className="postBox">
+        <div>
+          <div className="postHeader">
+            {postObject !== null &&
+              postObject.category.map((category, index) => (
+                <span className={"cate" + index}>
+                  #{category.categoryName}{" "}
+                </span>
+              ))}
+            <span>
+              {postObject !== null && <div>{postObject.nickname}</div>}
+              {postObject !== null && <div>{postObject.postRegdate}</div>}
+            </span>
+          </div>
+
+          <div className="postInfo">
+            {postObject !== null && (
+              <span className="postTitle">{postObject.postTitle}</span>
+            )}
+            <span>
+              {postObject !== null && (
+                <div>조회수 : {postObject.postViews}</div>
+              )}
+              {postObject !== null && <div>추천수 : {postObject.postLike}</div>}
+            </span>
+          </div>
+        </div>
 
 
   //추천 버튼 함수   //게시글 추천 //댓글 추천
   const likePost = (type, targetNo) => {
+
 
     console.log(location);
     const idx = location.pathname.indexOf("/", 1);
@@ -184,51 +275,6 @@ function FaqPost() {
         </div>
       )}
     </div>
-    // <div className="postBody">
-    //   <div className="postBox">
-
-
-    //     <div>
-    //       <div className="postHeader">
-    //         {postObject !== null && postObject.category.map((category, index) => (
-    //           <span className={"cate" + index}>#{category.categoryName} </span>
-    //         ))}
-    //         <span>
-    //           {postObject !== null && <div>{postObject.nickname}</div>}
-    //           {postObject !== null && <div>{postObject.postRegdate}</div>}
-    //         </span>
-    //       </div>
-
-    //       <div className="postInfo">
-    //         {postObject !== null && <span className="postTitle">{postObject.postTitle}</span>}
-    //         <span>
-    //           {postObject !== null && <div>조회수 : {postObject.postViews}</div>}
-    //           {postObject !== null && <div>추천수 : {postObject.postLike}</div>}
-
-    //         </span>
-    //       </div>
-    //     </div>
-
-    //     <div className="postContent">
-    //       <div>{postObject !== null && postObject.postContent.content}</div>
-    //     </div>
-
-    //     <div className="postReply">
-    //       {postObject !== null && postObject.replies.map((reply) => (
-    //         <div className="eachReply">
-
-    //           <div>{reply.nickname}</div>
-    //           <div className="regDate">{reply.replyRegdate}</div>
-
-    //           <div className="replyContent">{reply.replyContent}</div>
-
-    //         </div>
-    //       ))}
-    //     </div>
-
-
-    //   </div>
-    // </div >
   );
 }
 

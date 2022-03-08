@@ -130,9 +130,9 @@ public class BoardController {
 		
 	//게시글 삭제
 		@Transactional
-		@DeleteMapping("/{boardName}/{postNo}")
+		@DeleteMapping("/{boardName}/{postNo}/{nickname}")
 		ResponseEntity<Long> deletePost(@PathVariable String boardName, @PathVariable Long postNo,
-				@RequestParam String nickname){
+				@PathVariable String nickname){
 			
 			//프론트에서는 삭제가능한 버튼이 작성자 본인에게만 표시되어야 함.?
 			//작성자 닉네임와 현재 로그인된 id의 닉네임이 일치할 때 업데이트는 아직
@@ -168,9 +168,9 @@ public class BoardController {
 	
 	//댓글 삭제
 	@Transactional
-	@DeleteMapping("/{boardName}/{postNo}/reply/{replyNo}")
-	public ResponseEntity<Long> deleteReply(@PathVariable String boardName,@PathVariable Long postNo, @PathVariable Long replyNo,
-			@RequestParam String nickname) {
+	@DeleteMapping("/{boardName}/{postNo}/reply/{replyNo}/{nickname}")
+	public ResponseEntity<Long> deleteReply(@PathVariable String boardName,@PathVariable Long postNo, @PathVariable Long replyNo, 
+			@PathVariable String nickname) {
 			
 		Long deletedReplyNo = boardService.deleteReply(boardName, postNo, replyNo, nickname);
 		
