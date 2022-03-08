@@ -63,7 +63,7 @@ function App() {
           <Route path="createpost" element={<CreatePost />} />
           <Route path="post/:postno" element={<Post />} />
           <Route path="careerboardcopy" element={<CareerBoardcopy />} />
-          <Route path="front" element={<Front />} />
+          <Route path="study" element={<Front />} />
 
         </Route>
         <Route path="/notice" element={<CustomerNotice />} />
