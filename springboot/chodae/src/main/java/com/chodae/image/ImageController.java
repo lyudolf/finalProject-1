@@ -43,7 +43,7 @@ public class ImageController {
 
 
 
-    @PostMapping("/{boardName}")
+    @PostMapping("/mainboard/{boardName}")
     public ResponseEntity<?> uploadContent(@PathVariable String boardName,
     		@RequestParam(required = false) MultipartFile file,
     		@RequestParam("title") String title,
