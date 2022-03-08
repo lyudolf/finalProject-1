@@ -50,19 +50,20 @@ const Front = () => {
                 onSubmit={(values) => {
                     const formData = new FormData();
                     const { image, content, title, selects1, selects } = values;
-                    const select = [{ location: selects }, { level: selects1 }]
-                    console.log(content)
-                    console.log(select)
+                    const select = [{ location: selects }, { level: selects1 }];
+                    console.log(content);
+                    console.log(select);
                     formData.append('content', content);
-                    formData.append("nickname", "닉네임");
+                    formData.append("nickname", "닉네임1");
                     formData.append('title', title)
                     formData.append('file', image);
+                    formData.append('category', JSON.stringify(select));
 
-                    for (var i = 0; i < select.length; i++) {
-                        formData.append('category[]', JSON.stringify(select))
-                        console.log(select[i])
-                    }
-                    axios.post("http://localhost:8000/mainboard/study", formData, {
+
+                    // for (var i = 0; i < select.length; i++) {
+                    //     console.log(select[i]);
+                    // }
+                    axios.post("http://localhost:8000/study", formData, {
                         "headers": {
                             'Content-Type': 'multipart/form-data',
                         }

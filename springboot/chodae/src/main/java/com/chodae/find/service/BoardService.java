@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.chodae.find.domain.Post;
 import com.chodae.find.domain.Recommendation;
@@ -32,7 +33,7 @@ public interface BoardService {
 	Post insertPost(String boardName, String title, String content, String nickname, String category);
 	
 	void deleteCategoryAll(Long postNo);
-	Long updatePost(Long postNo, String title, String content, String category);
+	Post updatePost(Long postNo, String title, String content, String category);
 	
 	Long deletePost(String boardName, Long postNo, String nickname);
 	
@@ -53,6 +54,9 @@ public interface BoardService {
 	Long deleteRecommend(String boardName, String nickname, String type, Long targetNo);
 	
 
+	long saveImg(MultipartFile file, Post post);
+	
+	long deleteImg(Long postNo);
 	
 	
 	default PostDTO entityToDto(Post entity) {
@@ -80,7 +84,8 @@ public interface BoardService {
 		return dto;
 	}
 
-	List<Post> getPostList(String boardName);
+	
+
 	
 
 	
