@@ -158,37 +158,6 @@ function FaqPost() {
   //   setPostObject(updatedPostObject);
   // };
 
-  return (
-    <div className="postBody">
-      <div className="postBox">
-        <div>
-          <div className="postHeader">
-            {postObject !== null &&
-              postObject.category.map((category, index) => (
-                <span className={"cate" + index}>
-                  #{category.categoryName}{" "}
-                </span>
-              ))}
-            <span>
-              {postObject !== null && <div>{postObject.nickname}</div>}
-              {postObject !== null && <div>{postObject.postRegdate}</div>}
-            </span>
-          </div>
-
-          <div className="postInfo">
-            {postObject !== null && (
-              <span className="postTitle">{postObject.postTitle}</span>
-            )}
-            <span>
-              {postObject !== null && (
-                <div>조회수 : {postObject.postViews}</div>
-              )}
-              {postObject !== null && <div>추천수 : {postObject.postLike}</div>}
-            </span>
-          </div>
-        </div>
-
-
   //추천 버튼 함수   //게시글 추천 //댓글 추천
   const likePost = (type, targetNo) => {
 
@@ -218,24 +187,33 @@ function FaqPost() {
             <div className="notRecommend"> 아이콘 회색 추천아직</div>}
 
           <div className="listOfComments">
-            {comments &&
-              comments.map((comment, index) => {
+            {postObject != null &&
+              postObject.replies.map((reply, index) => {
                 return (
                   <div className="comment" key={index}>
-                    <div className="commentNickname">{comment.id}</div>
-                    <div>{comment.replyContent}</div>
+                    <div className="commentNickname">{reply.nickname}</div>
+                    <div>{reply.replyContent}</div>
                     <span className="commentTime">
-                      {moment(comment.replyRegdate).format("LLL")}
+                      {moment(reply.replyRegdate).format("LLL")}
                     </span>
                     <span>
-                      {localStorage.getItem("user") === comment.id && (
-                        <button
-                          onClick={() => {
-                            deleteReply(comment.id);
-                          }}
-                        >
-                          삭제
-                        </button>
+                      {localStorage.getItem("user") === reply.nickname && (
+                        <div>
+                          <button
+                            onClick={() => {
+                              deleteReply(reply.replyNo);
+                            }}
+                          >
+                            삭제
+                          </button>
+                          {/* <button
+                         onClick={() => {
+                           updateReply(reply.replyNo);
+                         }}
+                       >
+                         수정
+                       </button> */}
+                        </div>
                       )}
                     </span>
                   </div>
