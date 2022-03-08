@@ -62,7 +62,7 @@ const Front = () => {
                         formData.append('category[]', JSON.stringify(select))
                         console.log(select[i])
                     }
-                    axios.post("http://localhost:8000/job", formData, {
+                    axios.post("http://localhost:8000/mainboard/study", formData, {
                         "headers": {
                             'Content-Type': 'multipart/form-data',
                         }
