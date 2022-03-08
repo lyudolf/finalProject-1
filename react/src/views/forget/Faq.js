@@ -225,6 +225,7 @@ function Faq() {
                                 <Link to={`/faq/${post.postNo}`}>
                                     {post.postTitle}
                                 </Link>
+                                {post.replyCount > 0 && <span>[{post.replyCount}]</span>}
                             </td>
                             <td>{post.nickname}</td>
                             <td>{post.postLike}</td>
