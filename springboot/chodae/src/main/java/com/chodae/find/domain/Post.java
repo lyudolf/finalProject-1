@@ -104,5 +104,7 @@ public class Post {
 	@JsonManagedReference
 	@OneToMany(mappedBy = "post",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<Category> category = new ArrayList<Category>();
-
+	
+	@OneToMany(mappedBy ="post", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private List<Image> image = new ArrayList<Image>();
 }
