@@ -2,53 +2,147 @@ import React, { useEffect, useState } from "react";
 // import JsonData from "./MOCK_DATA.json";
 import ReactPaginate from "react-paginate";
 import "./CareerBoard.css";
-import { useNavigate } from "react-router-dom";
+import {
+  Link,
+  useNavigate,
+  useLocation,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
 import axios from "../../plugins/axios";
 import SearchBar from "./SearchBar";
-import moment from "moment";
+// import moment from "moment";
+
 function CareerBoard() {
-  let navigate = useNavigate();
+  const navigate = useNavigate();
+  const location = useLocation();
 
+  const [searchParams, setSearchParams] = useSearchParams();
+  let page = searchParams.get("page");
+  let qType = searchParams.get("searchType");
+  let qWord = searchParams.get("keyword");
+
+  const [postInfo, setPostInfo] = useState({});
   const [posts, setPosts] = useState([]);
-  const [reversedPosts, setReversedPosts] = useState([]);
+  const [pageCount, setPageCount] = useState(0);
 
-  //현재 페이지 정보
-  const [pageNumber, setPageNumber] = useState(0);
-
-  const postsPerPage = 10;
-
-  //현재 몇개 포스트를 봤는지 그 시작점을 알려줌. (나중에 슬라이스 할때 사용)
-  const pagesVisited = pageNumber * postsPerPage;
-
-  const pageCount = Math.ceil(posts.length / postsPerPage);
-
-  const changePage = ({ selected }) => {
-    setPageNumber(selected);
-  };
-
-  const handleSearch = (searchType, keyword) => {
-    axios
-      .get("/career/list/search", {
-        params: { searchType, keyword },
-      })
-      .then((response) => setPosts(response.data || []))
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+  const [searchType, setSearchType] = useState("");
+  const [keyword, setKeyword] = useState("");
 
   useEffect(() => {
-    axios
-      .get("/career/list")
+    page = page === null ? 1 : page;
+    qType = qType === null ? "" : qType;
+    qWord = qWord === null ? "" : qWord;
+
+    getFaq(page, qType, qWord);
+  }, [page, qType, qWord]);
+
+  const changePage = ({ selected }) => {
+    getFaq(selected + 1, qType, qWord);
+  };
+
+  async function getFaq(page, searchType, keyword) {
+    let url = "/career";
+
+    await axios
+      .get(url, {
+        params: { page: page, searchType: searchType, keyword: keyword },
+      })
       .then((response) => {
-        setPosts(response.data);
+        const postList = response.data.content;
+
+        for (const post of postList) {
+          //작성시간 변환
+          const date = new Date(post.postRegdate);
+          post.postRegdate = dateFormat(date);
+        }
+        //업데이트
+        setPostInfo(response.data);
+        setPosts(postList);
+        setPageCount(response.data.totalPages);
+
+        navigate(
+          `${url}?page=${page}&searchType=${searchType}&keyword=${keyword}`
+        );
       })
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  }
 
-  useEffect(() => setReversedPosts(posts.reverse()), [posts]);
+  // const getPost = async function () {
+  //   await axios
+  //     .get("/career/{postno}") // 50번글 조회
+  //     .then((response) => {
+  //       console.log(response.data);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // };
+
+  function dateFormat(date) {
+    let month = date.getMonth() + 1;
+    let day = date.getDate();
+    let hour = date.getHours();
+    let minute = date.getMinutes();
+    let second = date.getSeconds();
+
+    month = month >= 10 ? month : "0" + month;
+    day = day >= 10 ? day : "0" + day;
+    hour = hour >= 10 ? hour : "0" + hour;
+    minute = minute >= 10 ? minute : "0" + minute;
+    second = second >= 10 ? second : "0" + second;
+
+    return `${date.getFullYear()}-${month}-${day} ${hour}:${minute}:${second}`;
+  }
+
+  //현재 페이지 정보
+  // const [pageNumber, setPageNumber] = useState(0);
+
+  // const postsPerPage = 10;
+
+  //현재 몇개 포스트를 봤는지 그 시작점을 알려줌. (나중에 슬라이스 할때 사용)
+  // const pagesVisited = pageNumber * postsPerPage;
+
+  // const pageCount = Math.ceil(posts.length / postsPerPage);
+
+  // const changePage = ({ selected }) => {
+  //   setPageNumber(selected);
+  // };
+
+  // const handleSearch = (searchType, keyword) => {
+  //   axios
+  //     .get("/career/list/search", {
+  //       params: { searchType, keyword },
+  //     })
+  //     .then((response) => setPosts(response.data || []))
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // };
+
+  // useEffect(() => {
+  //   axios
+  //     .get("/career/list")
+  //     .then((response) => {
+  //       setPosts(response.data);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // }, []);
+
+  // useEffect(() => setReversedPosts(posts.reverse()), [posts]);
+
+  const getData = (posts, pageCount, searchType, keyword) => {
+    //검색버튼 누르면 검색결과 1페이지 리스트랑 페이지정보 넘어옴.
+    console.log(posts, pageCount, searchType, keyword);
+    setPosts(posts);
+    setPageCount(pageCount);
+    setSearchType(searchType);
+    setKeyword(keyword);
+  };
 
   return (
     <div className="boardContainer">
@@ -65,28 +159,23 @@ function CareerBoard() {
           </tr>
         </thead>
 
-        {/* 아까 그 시작점에서 pagesVisited, pagesVisited + postsPerPage(10개) 를 슬라이스 하면 그 페이지에 해당하는
-      포스트를 보여줄 수 있음. */}
-        {reversedPosts
-          .slice(pagesVisited, pagesVisited + postsPerPage)
-          .map((post, i) => (
-            <tbody key={i}>
-              <tr
-                onClick={() => {
-                  navigate(`/mainboard/post/${post.postNo}`);
-                }}
-              >
-                <td>{post.postNo}</td>
-                <td className="table-title">{post.postTitle}</td>
-                {/* 닉네임 어떻게 가져오지? */}
-                <td>{post.nickname}</td>
-                <td>{post.postLike}</td>
-                <td>{post.postViews}</td>
-
-                <td>{moment(post.postRegdate).format("l")}</td>
-              </tr>
-            </tbody>
+        <tbody>
+          {posts.map((post) => (
+            <tr>
+              <td>{post.postNo}</td>
+              <td className="table-title">
+                <Link to={`/career/post/${post.postNo}`}>
+                  {post.postTitle}
+                </Link>
+                {post.replyCount > 0 && <span>[{post.replyCount}]</span>}
+              </td>
+              <td>{post.nickname}</td>
+              <td>{post.postLike}</td>
+              <td>{post.postViews}</td>
+              <td>{post.postRegdate}</td>
+            </tr>
           ))}
+        </tbody>
       </table>
       <div className="paginationContainer">
         <ReactPaginate
@@ -101,7 +190,7 @@ function CareerBoard() {
           activeClassName={"paginationActive"}
         />
         <div className="careerBoardSearchWrapper">
-          <SearchBar handleSearch={handleSearch} />
+          <SearchBar getData={getData} />
           <button
             onClick={() => {
               if (
@@ -110,7 +199,7 @@ function CareerBoard() {
               ) {
                 window.location.href = "/mainboard/createpost";
               } else {
-                alert("You need be logged in");
+                alert("로그인해주세요");
               }
             }}
             className="createPostBtn"
