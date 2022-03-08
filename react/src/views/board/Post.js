@@ -10,7 +10,6 @@ import moment from "moment";
 function Post() {
   let { postno } = useParams();
   const [postObject, setPostObject] = useState();
-
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
 
@@ -28,6 +27,7 @@ function Post() {
   }, []);
 
   //문제는 페이지를 새로고침해야 추가된 댓글이 보임.....
+  //댓글 추가 함수
   const addComment = () => {
     const formData = new FormData();
     formData.append("content", newComment);
@@ -44,48 +44,71 @@ function Post() {
       });
   };
 
-  // 좋아요 버튼 기능
-  // useEffect(() => {
-  //   axios.get("http://localhost:3001/posts").then((response) => {
-  //     setListOfPosts(response.data);
-  //   });
-  // }, []);
+  //댓글 삭제 함수
+  const deleteReply = (id) => {
+    const { replyNo } = parseInt(id);
+    const formData = new FormData();
+    formData.append("nickname", "닉네임");
 
-  // const likeAPost = (postId) => {
-  //   axios
-  //     .post(
-  //       "http://localhost:3001/likes",
-  //       { PostId: postId },
-  //       { headers: { accessToken: localStorage.getItem("accessToken") } }
-  //     )
-  //     .then((response) => {
-  //       setListOfPosts(
-  //         listOfPosts.map((post) => {
-  //           if (post.id === postId) {
-  //             if (response.data.liked) {
-  //               return { ...post, Likes: [...post.Likes, 0] };
-  //             } else {
-  //               const likesArray = post.Likes;
-  //               likesArray.pop();
-  //               return { ...post, Likes: likesArray };
-  //             }
-  //           } else {
-  //             return post;
-  //           }
-  //         })
-  //       );
-  //     });
-  // };
+    axios
+      .delete(`/career/{postno}/reply/{replyNo}`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then(() => {
+        setComments(
+          comments.filter((val) => {
+            return val.id !== id;
+          })
+        );
+      });
+  };
+
+  //추천 버튼 함수
+  const likeAPost = (postNo) => {
+    axios.post(`/career/recomm/post/{targetNo}`)
+  }
 
   return (
     <div className="postContainer">
       {postObject && (
         <div className="postSection">
           <CareerBoardTable moment={moment} tableData={postObject} />
+
+          <div className="listOfComments">
+            {comments &&
+              comments.map((comment, index) => {
+                return (
+                  <div className="comment" key={index}>
+                    <div className="commentNickname">{comment.id}</div>
+                    <div>{comment.replyContent}</div>
+                    <span className="commentTime">
+                      {moment(comment.replyRegdate).format("LLL")}
+                    </span>
+                    <span>
+                      {localStorage.getItem("user") == comment.id && (
+                        <button
+                          onClick={() => {
+                            deleteReply(comment.id);
+                          }}
+                        >
+                          삭제
+                        </button>
+                      )}
+                    </span>
+                  </div>
+                );
+              })}
+          </div>
           <div className="commentSection">
+            <div className="commentNickname">
+              {localStorage.getItem("user")}
+            </div>
             <input
+              className="commentInputBox"
               type="text"
-              placeholder="댓글을 남겨주세요"
+              placeholder="댓글을 남겨보세요"
               autoComplete="off"
               value={newComment}
               onChange={(event) => {
@@ -93,27 +116,18 @@ function Post() {
               }}
             ></input>
             <button
+              className="commentAddBtn"
               onClick={() => {
                 addComment();
               }}
             >
-              Add Comment
+              등록
             </button>
           </div>
-          <div className="listOfComments">
-            {comments &&
-              comments.map((comment, index) => {
-                return (
-                  <div className="comment" key={index}>
-                    {comment.replyContent}
-                  </div>
-                );
-              })}
-          </div>
           <button
-          // onClick={() => {
-          //   likeApost(value.id);
-          // }}
+            onClick={() => {
+              // likeApost(postObject.postNo);
+            }}
           >
             Like
           </button>

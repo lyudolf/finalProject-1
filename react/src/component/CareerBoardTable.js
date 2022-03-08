@@ -22,7 +22,9 @@ function CareerBoardTable({ tableData, moment }) {
             <td>작성일: {moment(postRegdate).format("l")}</td>
           </tr>
           <tr>
-            <td colSpan={5}>{postContent.content}</td>
+            <td className="postContent" colSpan={5}>
+              {postContent.content}
+            </td>
           </tr>
         </tbody>
       </table>
