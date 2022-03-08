@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import db from "./board/db.json"
+import db from './db.json'
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 const Front = () => {
