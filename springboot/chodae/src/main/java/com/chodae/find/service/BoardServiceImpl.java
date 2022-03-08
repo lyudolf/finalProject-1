@@ -387,7 +387,17 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public Long deleteReply(String boardName, Long postNo, Long replyNo, String nickname) {
 		
-		replyRepo.deleteById(replyNo);
+		
+		Optional<Reply> result =  replyRepo.findById(replyNo);
+		
+		if(result.isPresent()) {
+			Reply reply = result.get();
+			
+			Post post = reply.getPost();
+			post.setReplyCount(post.getReplyCount()-1);
+			
+			replyRepo.delete(reply);
+		}
 		
 		return replyNo;
 	}

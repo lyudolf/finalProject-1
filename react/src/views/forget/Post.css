@@ -20,6 +20,10 @@
   padding: 8px;
   
 }
+.postCatogory{
+  display: flex;
+  justify-content: end;
+}
 .postContent{
   margin-top: 12px;
   border-top: solid 1px #F5F5F5;
@@ -49,41 +53,4 @@
 .replyContent {
   margin-top: 4px;
   font-size: 20px;
-}
-/* 카테고리 */
-.postBox div span{
-  margin-right: 8px;
-}
-.cate0{
-  color: aliceblue;
-  background-color: purple;
-  text-align: center;
-}
-.cate1{
- 
-  background-color: #424874;
-  color: aliceblue;
-}
-.cate2{
-  
-  color: aliceblue;
-  background-color: #D1C4E9;
-}
-.cate3{
-  
-  color: aliceblue;
-  background-color: #7e57c2;
-  
-}
-.cate4{
-  
-  color: aliceblue;
-  background-color: #7e57c2;
-  
-}
-.cate5{
-  
-  color: aliceblue;
-  background-color: #7e57c2;
-  
 }
