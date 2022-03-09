@@ -93,8 +93,8 @@ function CreatePost() {
               setFieldValue("image", event.currentTarget.files[0]);
             }} className="form-control" />
 
-            {values.image && <Preview image={values.image} />}
-            <input type="button" onClick={() => {
+            <div className="previewImg">   {values.image && <Preview image={values.image} />}</div>
+            <input className="previewButton" type="button" onClick={() => {
               fileRef.current.click();
             }} value="사진" />
 
