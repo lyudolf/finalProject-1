@@ -1,6 +1,7 @@
 package com.chodae.find.domain;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,7 +9,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -19,6 +27,8 @@ import lombok.ToString;
 @Entity
 @Table(name = "user_info")
 @Setter
+@DynamicInsert
+@DynamicUpdate
 public class User {
 	
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,32 +38,46 @@ public class User {
 	private String loginId; //로그인용 아이디
 	
 	@NotNull
-	private String pwd;
+	private String password;
 	@NotNull
 	private String name;
 	@NotNull
 	private String email;
-	@NotNull
+	
+	
+	@Column(columnDefinition = "integer default 1")
 	private Integer level; //회원등급 
 	
 	@NotNull
 	@Column(unique = true)
 	private String nickname; //닉네임
-	@NotNull
-	private String status;  //유저상태
-	@NotNull
-	private String role;  //유저역할,권한
-	@NotNull
-	private LocalDateTime crdate; //  생성일자
-	@NotNull
-	private LocalDateTime moddate; //  수정일자
-	
-	private String lang;// 주로 사용하는 언어
-	private String profileimg; // 프로필 이미지 
-	private String phone; // 전화번호 
-	private String sex; // 성별 
-	private String campus; //교육기관
-	private Integer test; // 테스트 점수
 	
 
+	private String status;  //유저상태
+	
+	
+	@Column(columnDefinition = "varchar(50) default 'normal'")
+	private String role;  //유저역할,권한
+	
+	
+	private LocalDateTime crdate; //  생성일자
+
+	private LocalDateTime moddate; //  수정일자
+	
+	private String language;// 주로 사용하는 언어
+	//private String profileimg; // 프로필 이미지 
+	private int phone; // 전화번호 
+	private String mailAds; // 성별 
+	private String campus; //교육기관
+	//private Integer test; // 테스트 점수
+	
+	@CreationTimestamp
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "create_date")
+	private Date createDate;
+	
+	@UpdateTimestamp
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "modify_date")
+	private Date modifyDate;
 }

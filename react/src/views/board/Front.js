@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import axios from 'axios';
 import db from './db.json'
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import Preview from "./Preview";
+
+
 const Front = () => {
 
     const validate = Yup.object({
@@ -27,7 +30,7 @@ const Front = () => {
         selects1: ""
     };
 
-
+    const fileRef = useRef(null);
     // const [image, setImage] = useState('null');
 
 
@@ -63,7 +66,7 @@ const Front = () => {
                     // for (var i = 0; i < select.length; i++) {
                     //     console.log(select[i]);
                     // }
-                    axios.post("http://localhost:8000/study", formData, {
+                    axios.post("http://localhost:8000/faq", formData, {
                         "headers": {
                             'Content-Type': 'multipart/form-data',
                         }
@@ -78,7 +81,7 @@ const Front = () => {
 
 
             >
-                {({ setFieldValue }) => (
+                {({ setFieldValue, values }) => (
 
 
                     <Form>
@@ -93,10 +96,16 @@ const Front = () => {
                         <Field name="title" />
 
 
-                        <input id="image" name="image" type="file" onChange={(event) => {
+                        <input ref={fileRef} hidden id="image" name="image" type="file" onChange={(event) => {
                             setFieldValue("image", event.currentTarget.files[0]);
                         }} className="form-control" />
                         {/* <Thumb file={values.file} /> */}
+
+                        {values.image && <Preview image={values.image} />}
+                        <input type="button" onClick={() => {
+                            fileRef.current.click();
+                        }} value="사진" />
+
 
                         <ErrorMessage id="selects" name="selects" component="span" />
                         <select name='selects' onChange={e => setFieldValue("selects", e.target.value)} >
