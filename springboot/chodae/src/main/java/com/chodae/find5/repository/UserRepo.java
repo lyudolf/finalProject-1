@@ -19,9 +19,11 @@ public interface UserRepo extends JpaRepository<User, Long> {
 	//update , delete, insert 시 @Transctional, @Modifying 어노테이션 필요하다. 
 	@Transactional
 	@Modifying(clearAutomatically = true)
-	@Query("UPDATE FROM User u set u.pwd = ?2 WHERE u.loginId =?1")
-	int updatePassword(String id, String pwd);
+	@Query("UPDATE FROM User u set u.password = ?2 WHERE u.loginId =?1")
+	int updatePassword(String id, String password);
 	
 	User findUserByNickname(String nickname);
+
+
 	
 }

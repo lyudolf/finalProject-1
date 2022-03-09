@@ -47,7 +47,7 @@ public class UserRepositoryTests {
 		
 	}
 	String login_id = "loginid";
-	String pwd = "비밀번호";
+	String password = "비밀번호";
 	String name = "이름";
 	String email = "aaa@aaa.com";
 	Integer level = 0;
@@ -60,7 +60,7 @@ public class UserRepositoryTests {
 		
 		User user = new User();
 		user.setLoginId(login_id);
-		user.setPwd(pwd);
+		user.setPassword(password);
 		user.setName(name);
 		user.setEmail(email);
 		user.setLevel(level);
@@ -110,7 +110,7 @@ public class UserRepositoryTests {
 	public void testInsert300() {
 		for(int i = 1; i <=300;i++) {
 			User user = new User();
-			user.setPwd(pwd+i);
+			user.setPassword(password+i);
 			user.setName(name+i);
 			user.setEmail(email+i);
 			user.setLevel(level);

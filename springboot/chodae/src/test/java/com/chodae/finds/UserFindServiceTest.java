@@ -31,7 +31,7 @@ public class UserFindServiceTest {
 	private UserLogRepository userLogRepo;
 	
 	String login_id = "loginid";
-	String pwd = "비밀번호";
+	String password = "비밀번호";
 	String name = "이름";
 	String email = "aaa@aaa.com";
 	Integer level = 0;
@@ -44,7 +44,7 @@ public class UserFindServiceTest {
 		IntStream.range(1, 51).forEach(i -> {
 			User user = new User();
 			user.setLoginId(login_id+i);
-			user.setPwd(pwd+i);
+			user.setPassword(password+i);
 			user.setName(name+i);
 			user.setEmail(email+i);
 			user.setLevel(level);
