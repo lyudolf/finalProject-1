@@ -62,3 +62,13 @@
 .createPostErr {
   color: red;
 }
+.previewButton {
+  width: 100px;
+  margin-bottom: 20px;
+}
+.previewImg {
+  position: relative;
+
+  width: 100px;
+  height: 100px;
+}
