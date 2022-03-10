@@ -76,7 +76,7 @@ public class BoardController {
 			@RequestParam String title,
 			@RequestParam String content,
 			@RequestParam String nickname,
-			@RequestParam String category,
+			@RequestParam(required = false, defaultValue = "[]") String category,
 			@RequestParam(required = false) MultipartFile file
 			){
 	
