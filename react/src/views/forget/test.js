@@ -35,11 +35,13 @@ function Faq() {
     qWord = qWord === null ? "" : qWord;
 
     getFaq(page, qType, qWord);
+
     setPaginationNumber(parseInt(page));
   }, [page, qType, qWord]); //뒤로 가기시 페이지번호나 검색종류,검색어가 바뀌면 쿼리스트링으로 재검색)
   //게시판 하단 페이지네이션과 연동이 안되고 있는 상황임. 아직 방법을 모르겠다.
 
   const changePage = ({ selected }) => {
+    console.log(selected);
     getFaq(selected + 1, qType, qWord);
   };
 
