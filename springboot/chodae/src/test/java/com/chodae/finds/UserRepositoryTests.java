@@ -67,8 +67,7 @@ public class UserRepositoryTests {
 		user.setNickname(nickname);
 		user.setStatus(status);
 		user.setRole(role);
-		user.setCrdate(LocalDateTime.now());
-		user.setModdate(LocalDateTime.now());
+		
 		
 		userRepo.save(user);
 	
@@ -117,8 +116,7 @@ public class UserRepositoryTests {
 			user.setNickname(nickname+i);
 			user.setStatus(status);
 			user.setRole(role);
-			user.setCrdate(LocalDateTime.now());
-			user.setModdate(LocalDateTime.now());
+			
 			
 			
 			userRepo.save(user);
