@@ -15,6 +15,36 @@
   border-radius: 5px;
 }
 
+.boardNameField {
+  height: 40px;
+  margin-top: 10px;
+  margin-bottom: 50px;
+  border: 2px solid grey;
+  border-radius: 5px;
+  padding-left: 10px;
+  font-size: 20px;
+}
+.categorySelect{
+  display: flex;
+  flex-direction: row;
+}
+.clearCate{
+  margin-left: 16px;
+}
+select option[value=""][disabled] {
+	display: none;
+}
+
+
+.categoryField {
+  height: 40px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border: 2px solid grey;
+  border-radius: 5px;
+  margin-right: 10px;
+  font-size: 20px;
+}
 .titleField {
   height: 40px;
   margin-top: 10px;
