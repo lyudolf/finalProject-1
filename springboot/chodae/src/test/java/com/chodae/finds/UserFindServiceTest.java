@@ -51,8 +51,7 @@ public class UserFindServiceTest {
 			user.setNickname(nickname+i);
 			user.setStatus(status);
 			user.setRole(role);
-			user.setCrdate(LocalDateTime.now());
-			user.setModdate(LocalDateTime.now());
+			
 			
 			userRepo.save(user);
 		});

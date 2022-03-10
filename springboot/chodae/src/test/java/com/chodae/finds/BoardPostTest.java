@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
 
-import javax.swing.text.AbstractDocument.Content;
 import javax.transaction.Transactional;
 
 import org.junit.jupiter.api.Test;
@@ -25,7 +24,6 @@ import com.chodae.find.domain.Reply;
 import com.chodae.find5.repository.BoardRepo;
 import com.chodae.find5.repository.PostRepo;
 import com.chodae.find5.repository.ReplyRepo;
-import com.chodae.getsend.domain.Ppp;
 
 import lombok.extern.java.Log;
 

@@ -60,16 +60,12 @@ public class User {
 	private String role;  //유저역할,권한
 	
 	
-	private LocalDateTime crdate; //  생성일자
-
-	private LocalDateTime moddate; //  수정일자
-	
 	private String language;// 주로 사용하는 언어
-	//private String profileimg; // 프로필 이미지 
 	private int phone; // 전화번호 
-	private String mailAds; // 성별 
+	private String mailAds; 
 	private String campus; //교육기관
 	//private Integer test; // 테스트 점수
+	//private String profileimg; // 프로필 이미지 
 	
 	@CreationTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
