@@ -1,6 +1,5 @@
 package com.chodae.finds;
 
-import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -50,10 +49,8 @@ public class UserRepositoryTests {
 	String password = "비밀번호";
 	String name = "이름";
 	String email = "aaa@aaa.com";
-	Integer level = 0;
 	String nickname = "닉네임";
 	String status = "T";
-	String role = "nomal";
 	
 	@Test
 	public void testInsert() {
@@ -63,10 +60,10 @@ public class UserRepositoryTests {
 		user.setPassword(password);
 		user.setName(name);
 		user.setEmail(email);
-		user.setLevel(level);
+		
 		user.setNickname(nickname);
 		user.setStatus(status);
-		user.setRole(role);
+		
 		
 		
 		userRepo.save(user);
@@ -111,11 +108,11 @@ public class UserRepositoryTests {
 			User user = new User();
 			user.setPassword(password+i);
 			user.setName(name+i);
-			user.setEmail(email+i);
-			user.setLevel(level);
+			user.setEmail(i+email);
 			user.setNickname(nickname+i);
 			user.setStatus(status);
-			user.setRole(role);
+			user.setLoginId(login_id+i);
+			
 			
 			
 			
