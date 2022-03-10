@@ -114,26 +114,13 @@ public class BoardServiceImpl implements BoardService {
 	
 	
 
-	// 게시판 전체 조회
-	@Override
-	public Page<Post> getPostListByPage(String boardName, Pageable pageable) {
-
-		Page<Post> list = postRepo.findPostByBoardAndPage(BoardGroup.valueOf(boardName).getValue(), pageable);
-		
-		list.forEach(post -> {
-			User user = userRepo.findById(post.getId()).get();
-			post.setNickname(user.getNickname());
-		});
-		
-		return list;
-	}
-
 	@Override // 특정 게시글 조회. 조회시 글 작성자 및 댓글작성자도 닉네임 전달
 	public Post getPost(Long postNo) {
 		
 		Post post = postRepo.findById(postNo).get();
 
 		post.setPostViews(post.getPostViews()+1);
+		postRepo.save(post);
 		
 		User user = userRepo.findById(post.getId()).get();
 		post.setNickname(user.getNickname());

@@ -11,6 +11,9 @@ import "./Post.css";
 import CareerBoardTable from "../../component/CareerBoardTable";
 import moment from "moment"; //날짜 수정하기 위해 모멘트 설치
 
+import { FaThumbsUp } from 'react-icons/fa';
+import { FaThumbsDown } from 'react-icons/fa';
+
 function FaqPost() {
   const params = useParams();
   const postNo = params.postno;
@@ -70,7 +73,7 @@ function FaqPost() {
     const formData = new FormData();
 
     formData.append("content", newComment);
-    formData.append("nickname", "닉네임3");
+    formData.append("nickname", "닉네임51");
 
 
     await axios
@@ -158,19 +161,48 @@ function FaqPost() {
   //   setPostObject(updatedPostObject);
   // };
 
+  const nickname = "닉네임51";
   //추천 버튼 함수   //게시글 추천 //댓글 추천
-  const likePost = (type, targetNo) => {
+  const addLike = async (type, targetNo, nickname) => {
 
 
     console.log(location);
     const idx = location.pathname.indexOf("/", 1);
     console.log(idx);
     const boardName = location.pathname.slice(1, idx);
-    console.log(boardName); //faq
+    const postNo = location.pathname.slice(idx + 1);
+    console.log(boardName); //  =faq
+    console.log(postNo);    //  =100 
+
+    const formData = new FormData();
+    formData.append("nickname", nickname);
+
+    await axios.post(`/${boardName}/recomm/${type}/${targetNo}`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    }).then((response) => {
+      console.log(response.data)
+    })
+      .catch((error) => { console.log(error) });
+
+  }
+
+  const deleteLike = async (type, targetNo, nickname) => {
 
 
+    console.log(location);
+    const idx = location.pathname.indexOf("/", 1);
+    console.log(idx);
+    const boardName = location.pathname.slice(1, idx);
 
-    // axios.post(`/career/recomm/${type}/{targetNo}`)
+    console.log(boardName); //  =faq
+
+    await axios.delete(`/${boardName}/recomm/${type}/${targetNo}/${nickname}`).then((response) => {
+      console.log(response.data)
+    })
+      .catch((error) => { console.log(error) });
+
   }
   //추천 추가 ---- 추천 취소 토글 버튼
 
@@ -182,9 +214,24 @@ function FaqPost() {
 
 
           {postObject !== null ?
-            <div className="recommend">   아이콘 색칠 유저가 해당글을 이미 추천함</div>
+            <div className="recommend">   아이콘 색칠 :유저가 해당글을 이미 추천함</div>
             :
             <div className="notRecommend"> 아이콘 회색 추천아직</div>}
+
+          <button
+            onClick={() => {
+              addLike('post', postObject.postNo, nickname);
+            }}
+          >
+            추천  <FaThumbsUp />
+          </button>
+          <button
+            onClick={() => {
+              deleteLike('post', postObject.postNo, nickname);
+            }}
+          >
+            추천취소
+          </button>
 
           <div className="listOfComments">
             {postObject != null &&
@@ -215,11 +262,30 @@ function FaqPost() {
                        </button> */}
                         </div>
                       )}
+                      {localStorage.getItem("user") !== reply.nickname && (
+                        <div>
+                          <button
+                            onClick={() => {
+                              addLike('reply', reply.replyNo, nickname);
+                            }}
+                          >
+                            댓글추천  <FaThumbsUp />
+                          </button>
+                          <button
+                            onClick={() => {
+                              deleteLike('reply', reply.replyNo, nickname);
+                            }}
+                          >
+                            댓글추천취소
+                          </button>
+                        </div>
+                      )}
                     </span>
                   </div>
                 );
               })}
           </div>
+
           <div className="commentSection">
             <div className="commentNickname">
               {localStorage.getItem("user")}
@@ -243,13 +309,7 @@ function FaqPost() {
               등록
             </button>
           </div>
-          <button
-            onClick={() => {
-              likePost(postObject.postNo);
-            }}
-          >
-            Like
-          </button>
+
         </div>
       )}
     </div>
