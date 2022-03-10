@@ -181,10 +181,10 @@ public class BoardController {
 	//추천 작성
 	//회원번호,게시판 번호, (댓글번호  or 게시글번호) 
 	@Transactional
-	@PostMapping("/{boardName}/recomm/{type}/{targetNo}/{nickname}") //type: 게시글 추천인지 댓글 추천인지, targetNo: 게시글번호, 댓글번호
+	@PostMapping("/{boardName}/recomm/{type}/{targetNo}") //type: 게시글 추천인지 댓글 추천인지, targetNo: 게시글번호, 댓글번호
 	public ResponseEntity<Long> insertRecomm(@PathVariable String boardName,@PathVariable String type, @PathVariable Long targetNo,
-			@PathVariable String nickname) {
-			
+			@RequestParam String nickname) {
+			log.info(""+nickname);
 		Long number = boardService.insertRecommend(boardName, nickname, type, targetNo);
 		
 		return new ResponseEntity<Long>(number,HttpStatus.OK); 
@@ -196,6 +196,7 @@ public class BoardController {
 	public ResponseEntity<Long> deleteRecomm(@PathVariable String boardName,@PathVariable String type, @PathVariable Long targetNo,
 			@PathVariable String nickname) {
 			
+		log.info(""+nickname+"");
 		Long number = boardService.deleteRecommend(boardName, nickname, type, targetNo);
 		
 		return new ResponseEntity<Long>(number,HttpStatus.OK); 

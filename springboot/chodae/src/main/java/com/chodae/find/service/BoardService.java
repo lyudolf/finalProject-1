@@ -1,15 +1,10 @@
 package com.chodae.find.service;
 
-import java.util.List;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.chodae.find.domain.Post;
-import com.chodae.find.domain.Recommendation;
-import com.chodae.find.domain.Reply;
-import com.chodae.find.domain.User;
 import com.chodae.find.dto.PostDTO;
 
 public interface BoardService {
@@ -21,10 +16,9 @@ public interface BoardService {
 	
 	//1. 게시글 조회 추가 수정 삭제
 	
-	//게시판 전체조회 
-	Page<Post> getPostListByPage(String boardName, Pageable pageable);
 	
-	// 게시판 검색 조회 
+	
+	// 게시판 검색  및 조회 
 	Page<Post> searchPost(String boardName, String searchType, String keyword, Pageable pageable);
 	
 	Post getPost(Long boardNo);
