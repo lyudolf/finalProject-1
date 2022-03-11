@@ -11,6 +11,13 @@ function Faq() {
     const navigate = useNavigate();
     const location = useLocation();
 
+    console.log(location);
+    const idx = location.pathname.indexOf("/", 1);
+    console.log(idx);
+    const boardGroup = location.pathname.slice(1, idx);
+    const boardName = location.pathname.slice(idx + 1);
+    console.log(boardName);
+
     const [searchParams, setSearchParams] = useSearchParams();
     let page = searchParams.get('page');
     let qType = searchParams.get('searchType');
@@ -47,13 +54,11 @@ function Faq() {
 
     //리액트화면에서 검색결과 창에서 x버튼 누르면 타입과 검색처 초기화?
     async function getFaq(page, searchType, keyword) {
-        let url = "/faq";
 
-        // if (searchType !== '' && keyword !== '') {
-        //     console.log("검색조회시작", searchType, keyword);
-        //     console.log(location);
-        //     url += "/list/search";  // '/faq/list/search '
-        // }
+
+
+        let url = `/${boardName}`;
+
 
         await axios.get(url, { params: { page: page, searchType: searchType, keyword: keyword } })
             .then((response) => {
@@ -71,7 +76,7 @@ function Faq() {
                 setPosts(postList);
                 setPageCount(response.data.totalPages);
 
-                navigate(`${url}?page=${page}&searchType=${searchType}&keyword=${keyword}`);
+                navigate(`/${boardGroup}/${boardName}?page=${page}&searchType=${searchType}&keyword=${keyword}`);
 
             })
             .catch((error) => { console.log(error) });
@@ -227,7 +232,7 @@ function Faq() {
                         <tr>
                             <td>{post.postNo}</td>
                             <td className="table-title">
-                                <Link to={`/faq/${post.postNo}`}>
+                                <Link to={`${post.postNo}`}>
                                     {post.postTitle}
                                 </Link>
                                 {post.replyCount > 0 && <span>[{post.replyCount}]</span>}
@@ -257,15 +262,18 @@ function Faq() {
 
                 <SearchBar getData={getData} />
                 <button
+                    // onClick={() => {
+                    //     if (true
+                    //         // localStorage.getItem("email") &&
+                    //         // localStorage.getItem("name") &&
+                    //         // localStorage.getItem("id")
+                    //     ) {
+                    //         window.location.href = "/mainboard/createpost";
+                    //     } else {
+                    //     }
+                    // }}
                     onClick={() => {
-                        if (true
-                            // localStorage.getItem("email") &&
-                            // localStorage.getItem("name") &&
-                            // localStorage.getItem("id")
-                        ) {
-                            window.location.href = "/mainboard/createpost";
-                        } else {
-                        }
+                        navigate('/faq/create');
                     }}
                     className="createPostBtn"
                 >

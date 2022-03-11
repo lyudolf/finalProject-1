@@ -12,6 +12,7 @@ import Preview from "./Preview";
 function CreatePost() {
   let navigate = useNavigate();
 
+
   //글 수정시 글 수정페이지로 넘어오면서 기존 글 정보로 initialValues를 초기화 해줘야되나? 
   const initialValues = {
     boardName: "edu",
@@ -110,8 +111,8 @@ function CreatePost() {
                 }>카테고리 초기화</button>
               </span>
               <div className="categorySelect">
-                <Field as="select" name="location" className="categoryField">
-                  <option value="" disabled selected>지역</option>
+                <Field as="select" name="location" className="categoryField" defaultValue={""}>
+                  <option value="" disabled>지역</option>
                   <option value="서울">서울</option>
                   <option value="부산">부산</option>
                   <option value="대구">대구</option>
@@ -131,14 +132,14 @@ function CreatePost() {
                   <option value="제주">제주</option>
                 </Field>
 
-                <Field as="select" name="interest" className="categoryField" >
-                  <option value="" disabled selected>분야</option>
+                <Field as="select" name="interest" className="categoryField" defaultValue={""}>
+                  <option value="" disabled>분야</option>
                   <option value="프론트엔드">프론트엔드</option>
                   <option value="백엔드">백엔드</option>
                   <option value="풀스택">풀스택</option>
                 </Field>
-                <Field as="select" name="level" className="categoryField" >
-                  <option value="" disabled selected>수준</option>
+                <Field as="select" name="level" className="categoryField" defaultValue={""}>
+                  <option value="" disabled>수준</option>
                   <option value="초보">초보</option>
                   <option value="중수">중수</option>
                   <option value="고수">고수</option>

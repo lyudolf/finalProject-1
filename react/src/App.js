@@ -32,6 +32,7 @@ import CustomerFaq from "./views/forget/Faq"; // 고객센터 자주하는질문
 import FaqPost from "./views/forget/FaqPost"; //글 보기
 import Front from "./views/board/Front";
 import CareerBoardcopy from "./views/board/CareerBoardcopy";
+import UpdatePost from "./views/board/UpdatePost";
 
 //----------------------------------------------------------------------------
 
@@ -58,17 +59,26 @@ function App() {
         <Route path="/register" element={<Registercopy />} />
         {/* 게시판 메인화면 */}
         <Route path="/mainboard" element={<MainBoard />}>
-          <Route path="careerboard" element={<CareerBoard />} />
           <Route path="technews" element={<TechNews />} />
-          <Route path="createpost" element={<CreatePost />} />
-          <Route path="post/:postno" element={<Post />} />
           <Route path="careerboardcopy" element={<CareerBoardcopy />} />
           <Route path="study" element={<Front />} />
-
         </Route>
-        <Route path="/notice" element={<CustomerNotice />} />
-        <Route path="/faq" element={<CustomerFaq />} />
-        <Route path="/faq/:postno" element={<FaqPost />} />
+
+        <Route path="/mainboard/career" element={<CustomerFaq />} />
+        <Route path="/mainboard/career/:postno" element={<FaqPost />} />
+        <Route path="/mainboard/career/create" element={<CreatePost />} />
+        <Route path="/mainboard/career/:postno/update" element={<UpdatePost />} />
+
+
+        <Route path="/customer/notice" element={<CustomerFaq />} />
+        <Route path="/customer/notice/:postno" element={<FaqPost />} />
+        <Route path="/customer/notice/create" element={<CreatePost />} />
+        <Route path="/customer/notice/:postno/update" element={<UpdatePost />} />
+
+        <Route path="/customer/faq" element={<CustomerFaq />} />
+        <Route path="/customer/faq/:postno" element={<FaqPost />} />
+        <Route path="/customer/faq/create" element={<CreatePost />} />
+        <Route path="/customer/faq/:postno/update" element={<UpdatePost />} />
       </Routes>
 
       <Footer />
