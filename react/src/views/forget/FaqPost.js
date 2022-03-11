@@ -21,6 +21,18 @@ function FaqPost() {
   const location = useLocation();
   const navigate = useNavigate();
 
+  console.log(location);
+  const idx = location.pathname.indexOf("/", 1);
+  console.log(idx);
+  const boardGroup = location.pathname.slice(1, idx);
+  console.log(boardGroup);
+
+  const idx2 = location.pathname.indexOf("/", idx + 1);
+  console.log(idx2);
+
+  const boardName = location.pathname.slice(idx + 1, idx2);
+  console.log(boardName);
+
   const [postObject, setPostObject] = useState(null);
   const [comments, setComments] = useState(null);
   const [newComment, setNewComment] = useState("");
@@ -28,14 +40,12 @@ function FaqPost() {
 
   useEffect(() => {
     getPost(postNo);
-    console.log(postNo);
-    console.log(postObject);
-    console.log(location);
   }, []);
 
   const getPost = function (postNo) {
+
     axios
-      .get(`${location.pathname}`)
+      .get(`/${boardName}/${postNo}`)
       .then((response) => {
         console.log(response.data);
 
@@ -86,7 +96,7 @@ function FaqPost() {
     formData.append("nickname", "닉네임51");
 
     await axios
-      .post(`${location.pathname}/reply`, formData, {
+      .post(`/${boardName}/${postNo}/reply`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -103,7 +113,7 @@ function FaqPost() {
   const deleteReply = async function (replyNo) {
     await axios({
       method: "DELETE",
-      url: `${location.pathname}/reply/${replyNo}/닉네임3`,
+      url: `/${boardName}/${postNo}/reply/${replyNo}/닉네임3`,
     }).then(() => {
       setComments(
         comments.filter((val) => {
@@ -135,13 +145,8 @@ function FaqPost() {
   const nickname = "닉네임51";
   //추천 버튼 함수   //게시글 추천 //댓글 추천
   const addLike = async (type, targetNo, nickname) => {
-    console.log(location);
-    const idx = location.pathname.indexOf("/", 1);
-    console.log(idx);
-    const boardName = location.pathname.slice(1, idx);
-    const postNo = location.pathname.slice(idx + 1);
-    console.log(boardName); //  =faq
-    console.log(postNo); //  =100
+
+
 
     const formData = new FormData();
     formData.append("nickname", nickname);
@@ -161,22 +166,16 @@ function FaqPost() {
   };
 
   const deleteLike = async (type, targetNo, nickname) => {
-    console.log(location);
-    const idx = location.pathname.indexOf("/", 1);
-    console.log(idx);
-    const boardName = location.pathname.slice(1, idx);
 
-    console.log(boardName); //  =faq
 
-    await axios
-      .delete(`/${boardName}/recomm/${type}/${targetNo}/${nickname}`)
-      .then((response) => {
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+
+    await axios.delete(`/${boardName}/recomm/${type}/${targetNo}/${nickname}`).then((response) => {
+      console.log(response.data)
+    })
+      .catch((error) => { console.log(error) });
+
+  }
+
   //추천 추가 ---- 추천 취소 토글 버튼
 
   return (
@@ -219,6 +218,13 @@ function FaqPost() {
             }}
           >
             추천취소
+          </button>
+          <button
+            onClick={() => {
+              navigate('update');
+            }}
+          >
+            글 수정하기
           </button>
 
           <div className="listOfComments">

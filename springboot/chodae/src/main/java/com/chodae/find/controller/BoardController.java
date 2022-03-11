@@ -101,12 +101,12 @@ public class BoardController {
 				@RequestParam String title,
 				@RequestParam String content,
 				@RequestParam String nickname,// 닉네임은 아직 사용필요 x 
-				@RequestParam String category,
+				@RequestParam(required = false, defaultValue = "[]") String category,
 				@RequestParam(required = false) MultipartFile file
 				){
 			
 			//작성자 닉네임와 현재 로그인된 id의 닉네임이 일치할 때 업데이트? 아직
-			
+			//게시판변경도 업데이트 되나? 
 			
 			//기존 카테고리 모두 삭제
 			boardService.deleteCategoryAll(postNo);
@@ -161,7 +161,9 @@ public class BoardController {
 			@RequestParam String content,
 			@RequestParam String nickname) {
 			
-		Long updatedReplyNo = boardService.updateReply(boardName, postNo, replyNo, content, nickname);
+
+		Long updatedReplyNo = boardService.updateReply(boardName, postNo,replyNo, content, nickname);
+
 		
 		return new ResponseEntity<Long>(updatedReplyNo,HttpStatus.OK); 
 	}

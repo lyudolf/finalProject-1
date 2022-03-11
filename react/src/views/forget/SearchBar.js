@@ -9,6 +9,13 @@ function SearchBar({ getData }) {
   const navigate = useNavigate();
   const location = useLocation();
 
+  console.log(location);
+  const idx = location.pathname.indexOf("/", 1);
+  console.log(idx);
+  const boardGroup = location.pathname.slice(1, idx);
+  const boardName = location.pathname.slice(idx + 1);
+  console.log(boardName);
+
   const [searchBy, setSearchBy] = useState("titleOrContent"); //초기값은 드롭박스 처음 값으로 설정.
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -22,7 +29,7 @@ function SearchBar({ getData }) {
 
   const searchList = async function (searchBy, searchTerm) {
 
-    let url = location.pathname;// /faq
+    let url = `/${boardName}`;
 
 
     await axios.get(url, { params: { page: 1, searchType: searchBy, keyword: searchTerm } })
@@ -31,7 +38,7 @@ function SearchBar({ getData }) {
         console.log("검색결과 1페이지(기본) 결과 검색")
         getData(response.data.content, response.data.totalPages, searchBy, searchTerm);
 
-        navigate(`${url}?page=${1}&searchType=${searchBy}&keyword=${searchTerm}`);
+        navigate(`/${boardGroup}/${boardName}?page=${1}&searchType=${searchBy}&keyword=${searchTerm}`);
       })
       .catch((error) => { console.log(error) });
   }
