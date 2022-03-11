@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useCallback } from "react";
 import ReactPaginate from "react-paginate";
 import {
-  Link,
-  useNavigate,
-  useLocation,
-  useParams,
-  useSearchParams,
+    Link,
+    useNavigate,
+    useLocation,
+    useParams,
+    useSearchParams,
 } from "react-router-dom";
 import axios from "../../plugins/axios";
 import "../board/CareerBoard.css";
@@ -103,83 +103,17 @@ function Faq() {
         return `${date.getFullYear()}-${month}-${day} ${hour}:${minute}:${second}`;
     };
 
-    const getPost = async function () {
-        await axios.get('/faq/106') // 50번글 조회
-            .then((response) => {
-                console.log(response.data)
 
-            })
-            .catch((error) => { console.log(error) });
-    };
+    const getData = (posts, pageCount, searchType, keyword) => {
 
-
-    const [categoryArr, setCategoryArr] = useState([]);
-    const [cateKey, setKey] = useState('지역');
-    const [cateValue, setValue] = useState('');
-
-    function cateAdd() {
-        const kind = cateKey;//카테고리 종류 
-        const value = cateValue; // 카테고리 값
-
-        const replaceValue = value.replace(/(\s*)/g, ""); //공백제거
-
-        if (replaceValue.length === 0) {
-            return;
-
-        }
-        //업데이트
-        setPostInfo(response.data);
-        setPosts(postList);
-        setPageCount(response.data.totalPages);
-
-        navigate(
-          `${url}?page=${page}&searchType=${searchType}&keyword=${keyword}`
-        );
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
-  function dateFormat(date) {
-    let month = date.getMonth() + 1;
-    let day = date.getDate();
-    let hour = date.getHours();
-    let minute = date.getMinutes();
-    let second = date.getSeconds();
-
-    month = month >= 10 ? month : "0" + month;
-    day = day >= 10 ? day : "0" + day;
-    hour = hour >= 10 ? hour : "0" + hour;
-    minute = minute >= 10 ? minute : "0" + minute;
-    second = second >= 10 ? second : "0" + second;
-
-    return `${date.getFullYear()}-${month}-${day} ${hour}:${minute}:${second}`;
-  }
-
-  const getPost = async function () {
-    await axios
-      .get("/faq/106") // 50번글 조회
-      .then((response) => {
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
-  const [categoryArr, setCategoryArr] = useState([]);
-  const [cateKey, setKey] = useState("지역");
-  const [cateValue, setValue] = useState("");
-
-  function cateAdd() {
-    const kind = cateKey; //카테고리 종류
-    const value = cateValue; // 카테고리 값
-
-    const replaceValue = value.replace(/(\s*)/g, ""); //공백제거
-
-    if (replaceValue.length === 0) {
-      return;
+        //검색버튼 누르면 검색결과 1페이지 리스트랑 페이지정보 넘어옴.
+        console.log(posts, pageCount, searchType, keyword);
+        setPosts(posts);
+        setPageCount(pageCount);
+        setSearchType(searchType);
+        setKeyword(keyword);
     }
+
 
     return (
         <div className="boardContainer">
@@ -259,35 +193,10 @@ function Faq() {
 
             {/* <img src={"http://localhost:8000/get/image/springboot-oauth.jpg"} width="100%" alt="이미지" /> */}
             {/* ??????????????????????????????????????????????????????? */}
-            <div>
-
-                <button onClick={getPost}>
-                    게시글정보받기
-                </button>
-                <button onClick={submitPost}>
-                    게시글등록
-                </button>
-                <button onClick={updatePost}>
-                    게시글업데이트
-                </button>
-                <button onClick={deletePost}>
-                    게시글삭제
-                </button>
-            </div>
 
 
-            <div>
-                <select onChange={onChangeKey}>
-                    <option key="지역" value="지역">지역</option>
-                    <option key="사용 언어" value="사용 언어">사용 언어</option>
-                    <option key="수준" value="수준">수준</option>
-                    <option key="분야" value="분야">분야</option>
-                </select>
-                <input onChange={onChangeValue} placeholder="카테고리 값" />
-                <button onClick={cateAdd}>
-                    카테고리 추가버튼
-                </button>
-            </div>
+
+
         </div>
     );
 
