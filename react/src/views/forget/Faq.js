@@ -27,6 +27,7 @@ function Faq() {
 
   const [searchType, setSearchType] = useState("");
   const [keyword, setKeyword] = useState("");
+
   const [paginationNumber, setPaginationNumber] = useState(0);
 
   useEffect(() => {
@@ -35,6 +36,7 @@ function Faq() {
     qWord = qWord === null ? "" : qWord;
 
     getFaq(page, qType, qWord);
+
     setPaginationNumber(parseInt(page));
   }, [page, qType, qWord]); //뒤로 가기시 페이지번호나 검색종류,검색어가 바뀌면 쿼리스트링으로 재검색)
   //게시판 하단 페이지네이션과 연동이 안되고 있는 상황임. 아직 방법을 모르겠다.
@@ -249,7 +251,6 @@ function Faq() {
         nextLabel={"Next"}
         pageCount={pageCount}
         forcePage={paginationNumber - 1}
-        // pageCount={pageCount}
         onPageChange={changePage}
         containerClassName={"paginationBttns"}
         previousLinkClassName={"previousBttn"}
@@ -262,13 +263,13 @@ function Faq() {
         <button
           onClick={() => {
             if (
-              localStorage.getItem("email") &&
-              localStorage.getItem("name") &&
-              localStorage.getItem("id")
+              true
+              // localStorage.getItem("email") &&
+              // localStorage.getItem("name") &&
+              // localStorage.getItem("id")
             ) {
               window.location.href = "/mainboard/createpost";
             } else {
-              alert("You need be logged in");
             }
           }}
           className="createPostBtn"

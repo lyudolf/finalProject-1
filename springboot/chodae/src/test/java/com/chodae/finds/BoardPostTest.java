@@ -163,34 +163,47 @@ public class BoardPostTest {
 		
 		//Post 데이터는 반드시 Board 객체에 대한 참조가 필요하다.(외래키로 게시판 번호 필요) 
 		//Board 객체를 잠시 생성해서  외래키로 사용되는 board_no 속성만 설정해주는게 더 효율적.  
-		Board board = new Board();
-		board.setBoardNo(BoardGroup.faq.getValue()); //ex> 공지사항 게시판에서 글을 쑈고 저장시
+
+		//모든 게시판 별로 게시글 50개씩 데이터 입력 
+		BoardGroup[] arr = BoardGroup.values();
 		
-		IntStream.range(1, 20).forEach(i -> {
-			Post post = new Post();
+		for (BoardGroup bg : arr) {
+			System.out.printf("%s=%d,", bg.name(), bg.getValue());
 			
-			post.setBoard(board); //공지사항 게시판번호 저장
+			Board board = new Board();
+			board.setBoardNo(bg.getValue());
 			
-			PostContent postContent = new PostContent();
-			postContent.setContent("게시글 내용"+i);
-			post.setPostContent(postContent);
+			IntStream.range(1, 50).forEach(i -> {
+				Post post = new Post();
+				
+				post.setBoard(board);
+				
+				PostContent postContent = new PostContent();
+				postContent.setContent("게시글 내용"+i);
+				post.setPostContent(postContent);
+				
+				post.setPostTitle(title+i);
+				post.setId(201L);
+				post.setPostViews(0);
+				post.setLevel(5);
+				post.setPostLevel(5);
+				post.setReplyCount(0);
+				post.setPostLike(0);
+				post.setPostRegdate(LocalDateTime.now());
+				post.setPostModdate(LocalDateTime.now());
+				post.setPostNotice("F");
+				post.setPostDisplay("T");
+				post.setPostComment("T");
+				
+				postRepo.save(post);
+				
+			});
 			
-			post.setPostTitle(title+i);
-			post.setId(201L);
-			post.setPostViews(0);
-			post.setLevel(5);
-			post.setPostLevel(5);
-			post.setReplyCount(0);
-			post.setPostLike(0);
-			post.setPostRegdate(LocalDateTime.now());
-			post.setPostModdate(LocalDateTime.now());
-			post.setPostNotice("F");
-			post.setPostDisplay("T");
-			post.setPostComment("T");
 			
-			postRepo.save(post);
 			
-		});
+		}
+		
+		
 	}
 	
 	//게시글 조회 
