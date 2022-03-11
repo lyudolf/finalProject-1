@@ -1,12 +1,18 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from "react";
 import ReactPaginate from "react-paginate";
-import { Link, useNavigate, useLocation, useParams, useSearchParams } from 'react-router-dom';
-import axios from '../../plugins/axios';
+import {
+  Link,
+  useNavigate,
+  useLocation,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
+import axios from "../../plugins/axios";
 import "../board/CareerBoard.css";
 import SearchBar from "./SearchBar";
 
-
 function Faq() {
+
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -119,91 +125,60 @@ function Faq() {
 
         if (replaceValue.length === 0) {
             return;
+
         }
+        //업데이트
+        setPostInfo(response.data);
+        setPosts(postList);
+        setPageCount(response.data.totalPages);
 
-        const cate = {};
-        cate[`${cateKey}`] = replaceValue;
+        navigate(
+          `${url}?page=${page}&searchType=${searchType}&keyword=${keyword}`
+        );
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+  function dateFormat(date) {
+    let month = date.getMonth() + 1;
+    let day = date.getDate();
+    let hour = date.getHours();
+    let minute = date.getMinutes();
+    let second = date.getSeconds();
 
-        setCategoryArr([...categoryArr, cate]);
-        setValue('');
+    month = month >= 10 ? month : "0" + month;
+    day = day >= 10 ? day : "0" + day;
+    hour = hour >= 10 ? hour : "0" + hour;
+    minute = minute >= 10 ? minute : "0" + minute;
+    second = second >= 10 ? second : "0" + second;
 
-        //필요시 추가로 처리할 부분 작성
+    return `${date.getFullYear()}-${month}-${day} ${hour}:${minute}:${second}`;
+  }
 
+  const getPost = async function () {
+    await axios
+      .get("/faq/106") // 50번글 조회
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
-        console.log("추가됨:", cate);
-        console.log("전체:", categoryArr);
-    }
-    const onChangeKey = event => {
+  const [categoryArr, setCategoryArr] = useState([]);
+  const [cateKey, setKey] = useState("지역");
+  const [cateValue, setValue] = useState("");
 
-        const value = event.target.value;
-        setKey(value);
+  function cateAdd() {
+    const kind = cateKey; //카테고리 종류
+    const value = cateValue; // 카테고리 값
 
-    };
-    const onChangeValue = event => {
+    const replaceValue = value.replace(/(\s*)/g, ""); //공백제거
 
-        const value = event.target.value;
-        const replaceValue = value.replace(/(\s*)/g, ""); //공백제거
-        setValue(replaceValue);
-
-    };
-    const submitPost = async function () {
-
-        //카테고리 : {종류: 이름} 형식으로 보내기 배열로 합쳐서 보내기
-
-        const formData = new FormData();
-        formData.append("title", "게시글제목");
-        formData.append("content", "게시글 내용~~~");
-        formData.append("nickname", "닉네임3");
-        formData.append("category", JSON.stringify(categoryArr));
-
-        await axios.post("/faq", formData, {
-            headers: {
-                "Content-Type": "multipart/form-data",
-            },
-        }).then((response) => {
-            console.log(response.data)
-        })
-            .catch((error) => { console.log(error) });
-    };
-    const updatePost = async function () {
-
-        const formData = new FormData();
-        formData.append("title", "게시글제목수정3");
-        formData.append("content", "게시글 내용수정@@!!");
-        formData.append("nickname", "닉네임3");
-        formData.append("category", JSON.stringify(categoryArr));
-
-        //게시글 수정
-        await axios.put("/faq/106", formData, {
-            headers: {
-                "Content-Type": "multipart/form-data",
-            },
-        }).then((response) => {
-            console.log(response.data)
-        })
-            .catch((error) => { console.log(error) });
-    };
-    const deletePost = async function () {
-
-        const formData = new FormData();
-
-        formData.append("nickname", "닉네임3");
-
-        //95번 게시글 삭제
-        await axios.delete("/faq/95", { params: { nickname: "닉네임3" } }).then((response) => {
-            console.log(response.data)
-        })
-            .catch((error) => { console.log(error) });
-    };
-
-    const getData = (posts, pageCount, searchType, keyword) => {
-
-        //검색버튼 누르면 검색결과 1페이지 리스트랑 페이지정보 넘어옴.
-        console.log(posts, pageCount, searchType, keyword);
-        setPosts(posts);
-        setPageCount(pageCount);
-        setSearchType(searchType);
-        setKeyword(keyword);
+    if (replaceValue.length === 0) {
+      return;
     }
 
     return (
@@ -315,6 +290,6 @@ function Faq() {
             </div>
         </div>
     );
+
 }
 export default Faq;
-

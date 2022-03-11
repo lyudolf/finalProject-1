@@ -161,7 +161,9 @@ public class BoardController {
 			@RequestParam String content,
 			@RequestParam String nickname) {
 			
+
 		Long updatedReplyNo = boardService.updateReply(boardName, postNo,replyNo, content, nickname);
+
 		
 		return new ResponseEntity<Long>(updatedReplyNo,HttpStatus.OK); 
 	}

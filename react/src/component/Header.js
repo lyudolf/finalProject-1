@@ -7,6 +7,7 @@ import searchIcon from "../assets/search.png";
 function Header() {
   const logout = () => {
     localStorage.removeItem("user");
+    window.location.reload();
   };
 
   return (
