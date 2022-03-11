@@ -131,7 +131,7 @@ function FaqPost() {
     formData.append("nickname", "닉네임3");
 
     await axios
-      .put(`${location.pathname}/reply/${replyNo}`, formData, {
+      .put(`/${boardName}/${postNo}/reply/${replyNo}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -251,13 +251,7 @@ function FaqPost() {
                           >
                             삭제
                           </button>
-                          <button
-                            onClick={() => {
-                              setUpdateClicked(!updateClicked);
-                            }}
-                          >
-                            수정버튼 인풋창으로 연결
-                          </button>
+
                         </div>
                       )}
                       {localStorage.getItem("user") !== reply.nickname && (
