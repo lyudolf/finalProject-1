@@ -3,6 +3,7 @@ import Header from "../src/component/Header";
 import Footer from "../src/component/Footer";
 import Main from "../src/component/Main";
 import MenuBar from "../src/component/MenuBar";
+import React,{useState} from 'react';
 
 import { Route, Routes } from "react-router-dom"; //리액트 라우터
 
@@ -25,19 +26,23 @@ import MainBoard from "./views/board/MainBoard"; //메인게시판
 import CareerBoard from "./views/board/CareerBoard"; //취업상담게시판
 import CreatePost from "./views/board/CreatePost"; //게시판 글쓰기
 import Post from "./views/board/Post"; //글 보기
-import TechNews from "./views/board/itnews/TechNews"; //it뉴스게시판
+import TechNews from "./views/board/itnews/index"; //it뉴스게시판
 
 import CustomerNotice from "./views/forget/CustomerNotice"; // 고객센터 공지사항게시판
 import CustomerFaq from "./views/forget/Faq"; // 고객센터 자주하는질문게시판
 import FaqPost from "./views/forget/FaqPost"; //글 보기
-import Front from "./views/board/Front";
-import CareerBoardcopy from "./views/board/CareerBoardcopy";
-import UpdatePost from "./views/board/UpdatePost";
-
-import NotFound from "./views/NotFound"; //404 page
+//----------------------------------------------------------------
+import data from '../src/views/Review/Reviewdata.js'; //국비지원리뷰의 데이터
+import ReviewMain from "../src/views/Review/ReviewMain"; //국비지원 리뷰창
+import Detail from "../src/views/Review/Detail";
+//-----------------------------------------------------
+import Study from "../src/views/Study/Studymain";
 //----------------------------------------------------------------------------
 
 function App() {
+
+  const [shoes,shoes1] = useState(data);
+
   return (
     <div className="App">
       <Header />
@@ -60,33 +65,19 @@ function App() {
         <Route path="/register" element={<Registercopy />} />
         {/* 게시판 메인화면 */}
         <Route path="/mainboard" element={<MainBoard />}>
+          <Route path="careerboard" element={<CareerBoard />} />
           <Route path="technews" element={<TechNews />} />
-          <Route path="careerboardcopy" element={<CareerBoardcopy />} />
-          <Route path="study" element={<Front />} />
+          <Route path="createpost" element={<CreatePost />} />
+          <Route path="post/:postno" element={<Post />} />
         </Route>
-
-        <Route path="/mainboard/career" element={<CustomerFaq />} />
-        <Route path="/mainboard/career/:postno" element={<FaqPost />} />
-        <Route path="/mainboard/career/create" element={<CreatePost />} />
-        <Route
-          path="/mainboard/career/:postno/update"
-          element={<UpdatePost />}
-        />
-
-        <Route path="/customer/notice" element={<CustomerFaq />} />
-        <Route path="/customer/notice/:postno" element={<FaqPost />} />
-        <Route path="/customer/notice/create" element={<CreatePost />} />
-        <Route
-          path="/customer/notice/:postno/update"
-          element={<UpdatePost />}
-        />
-
-        <Route path="/customer/faq" element={<CustomerFaq />} />
-        <Route path="/customer/faq/:postno" element={<FaqPost />} />
-        <Route path="/customer/faq/create" element={<CreatePost />} />
-        <Route path="/customer/faq/:postno/update" element={<UpdatePost />} />
-
-        <Route path="*" element={<NotFound />} />
+        <Route path="/notice" element={<CustomerNotice />} />
+        <Route path="/faq" element={<CustomerFaq />} />
+        <Route path="/faq/:postno" element={<FaqPost />} />
+        {/* 국비교육 */}
+        <Route path= "/reviewmain" element={<ReviewMain shoes={shoes} shoes1={shoes1} /> }/>
+        <Route path ="/detail/:id" element={<Detail shoes={shoes}/>}/>
+        {/* 스터디모집 */}
+        <Route path="/study" element={<Study />} />
       </Routes>
 
       <Footer />
