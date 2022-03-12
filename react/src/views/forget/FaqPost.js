@@ -37,13 +37,12 @@ function FaqPost() {
   const [comments, setComments] = useState(null);
   const [newComment, setNewComment] = useState("");
   const [updateClicked, setUpdateClicked] = useState(false);
-
+  const [sendComment, setSendComment] = useState(false);
   useEffect(() => {
     getPost(postNo);
   }, []);
 
   const getPost = function (postNo) {
-
     axios
       .get(`/${boardName}/${postNo}`)
       .then((response) => {
@@ -145,9 +144,6 @@ function FaqPost() {
   const nickname = "닉네임51";
   //추천 버튼 함수   //게시글 추천 //댓글 추천
   const addLike = async (type, targetNo, nickname) => {
-
-
-
     const formData = new FormData();
     formData.append("nickname", nickname);
 
@@ -166,15 +162,15 @@ function FaqPost() {
   };
 
   const deleteLike = async (type, targetNo, nickname) => {
-
-
-
-    await axios.delete(`/${boardName}/recomm/${type}/${targetNo}/${nickname}`).then((response) => {
-      console.log(response.data)
-    })
-      .catch((error) => { console.log(error) });
-
-  }
+    await axios
+      .delete(`/${boardName}/recomm/${type}/${targetNo}/${nickname}`)
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   //추천 추가 ---- 추천 취소 토글 버튼
 
@@ -221,7 +217,7 @@ function FaqPost() {
           </button>
           <button
             onClick={() => {
-              navigate('update');
+              navigate("update");
             }}
           >
             글 수정하기
@@ -234,7 +230,11 @@ function FaqPost() {
                   <div className="comment" key={index}>
                     <div className="commentNickname">{reply.nickname}</div>
                     {updateClicked === true ? (
-                      <CommentList updateReply={updateReply} reply={reply} />
+                      <CommentList
+                        sendComment={sendComment}
+                        updateReply={updateReply}
+                        reply={reply}
+                      />
                     ) : (
                       <div>{reply.replyContent}</div>
                     )}
@@ -243,15 +243,34 @@ function FaqPost() {
                     </span>
                     <span>
                       {localStorage.getItem("user") === reply.nickname && (
-                        <div>
+                        <div className="commentAddBtnWrapper">
                           <button
+                            className="commentAddBtn"
                             onClick={() => {
-                              deleteReply(reply.replyNo);
+                              setUpdateClicked(!updateClicked);
                             }}
                           >
-                            삭제
+                            {updateClicked ? "취소" : "수정"}
                           </button>
-
+                          {updateClicked ? (
+                            <button
+                              className="commentAddBtn"
+                              onClick={() => {
+                                setSendComment(true);
+                              }}
+                            >
+                              수정
+                            </button>
+                          ) : (
+                            <button
+                              className="commentAddBtn"
+                              onClick={() => {
+                                deleteReply(reply.replyNo);
+                              }}
+                            >
+                              삭제
+                            </button>
+                          )}
                         </div>
                       )}
                       {localStorage.getItem("user") !== reply.nickname && (
@@ -282,24 +301,28 @@ function FaqPost() {
             <div className="commentNickname">
               {localStorage.getItem("user")}
             </div>
-            <input
-              className="commentInputBox"
-              type="text"
-              placeholder="댓글을 남겨보세요"
-              autoComplete="off"
-              value={newComment}
-              onChange={(event) => {
-                setNewComment(event.target.value);
-              }}
-            ></input>
-            <button
-              className="commentAddBtn"
-              onClick={() => {
-                addComment();
-              }}
-            >
-              등록
-            </button>
+            <div className="commentInputWrapper">
+              <input
+                className="commentInputBox"
+                type="text"
+                placeholder="댓글을 남겨보세요"
+                autoComplete="off"
+                value={newComment}
+                onChange={(event) => {
+                  setNewComment(event.target.value);
+                }}
+              ></input>
+              <div className="commentAddBtnWrapper">
+                <button
+                  className="commentAddBtn"
+                  onClick={() => {
+                    addComment();
+                  }}
+                >
+                  등록
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       )}

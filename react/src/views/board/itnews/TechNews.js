@@ -3,8 +3,9 @@ import axios from "axios";
 //searchBar 새로 만들어야함
 import SearchBar from "../SearchBar";
 import moment from "moment";
+import "./TechNews.css";
 
-function ITNews() {
+function TechNews() {
   const [newsData, setNewsData] = useState([]);
 
   useEffect(() => {
@@ -29,6 +30,7 @@ function ITNews() {
         >
           <thead>
             <tr>
+              <th className="postTitle"></th>
               <th className="postTitle">제목</th>
               <th className="postTitle">내용</th>
               <th className="postTitle">일자</th>
@@ -38,6 +40,9 @@ function ITNews() {
             {newsData.map((e) => {
               return (
                 <tr style={{ textAlign: "left" }}>
+                  <td>
+                    <img className="techImg" src={e.urlToImage}></img>
+                  </td>
                   <td>{e.title}</td>
                   <td>{e.description}...</td>
                   <td>{moment(e.publishedAt).format("l")}</td>
@@ -52,4 +57,4 @@ function ITNews() {
   );
 }
 
-export default ITNews;
+export default TechNews;

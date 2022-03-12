@@ -5,9 +5,12 @@
   justify-content: center;
   margin: auto;
 }
+* {
+  scroll-behavior: smooth;
+}
 
 .studyLeft {
-  color: white;
+  color: #eee;
   font-size: 28px;
   display: flex;
   justify-content: center;
@@ -55,6 +58,7 @@
   border-radius: 10px;
   margin-left: 50px;
 }
+
 .bootCampWrapper {
   position: relative;
   display: flex;
@@ -78,7 +82,8 @@
 
 .bootCampText {
   text-shadow: 0 0 5px;
-  color: white;
+  color: gray;
+  font-size: 30px;
 }
 
 .boardBg {
@@ -97,6 +102,9 @@
 
 .boardText {
   animation: slideRight ease 0.4s forwards;
+  color: #eee;
+  font-size: 25px;
+  align-items: center;
 }
 .forumLink {
   text-decoration: none;

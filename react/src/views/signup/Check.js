@@ -109,8 +109,11 @@ const Check = () => {
             </div>
             <TextField type="checkbox" name="checked3" className="hq" />
           </div>
-
-          <button type="submit">다음</button>
+          <div className="checkBtnWrapper">
+            <button className="loginBtn" type="submit">
+              다음
+            </button>
+          </div>
         </Form>
       )}
     </Formik>

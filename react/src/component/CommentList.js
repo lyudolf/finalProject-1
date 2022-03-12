@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
-function CommentList({ updateReply, reply }) {
+function CommentList({ updateReply, reply, sendComment }) {
   const [updatedComment, setUpdatedComment] = useState(reply.replyContent);
 
-  const handleUpdateReply = () => {
-    updateReply(updatedComment, reply.replyNo);
-  };
+  useEffect(() => {
+    if (sendComment) {
+      updateReply(updatedComment, reply.replyNo);
+    }
+  }, [sendComment]);
 
   return (
     <div>
@@ -13,12 +15,12 @@ function CommentList({ updateReply, reply }) {
         className="commentInputBox"
         type="text"
         autoComplete="off"
+        autofocus
         value={updatedComment}
         onChange={(event) => {
           setUpdatedComment(event.target.value);
         }}
       ></input>
-      <button onClick={handleUpdateReply}>수정2</button>
     </div>
   );
 }
