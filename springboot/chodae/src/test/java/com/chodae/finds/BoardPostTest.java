@@ -18,10 +18,13 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.chodae.find.category.BoardGroup;
 import com.chodae.find.domain.Board;
+import com.chodae.find.domain.Category;
 import com.chodae.find.domain.Post;
 import com.chodae.find.domain.PostContent;
 import com.chodae.find.domain.Reply;
+import com.chodae.find.dto.PostDTO;
 import com.chodae.find5.repository.BoardRepo;
+import com.chodae.find5.repository.CategoryRepo;
 import com.chodae.find5.repository.PostRepo;
 import com.chodae.find5.repository.ReplyRepo;
 
@@ -44,6 +47,9 @@ public class BoardPostTest {
 	
 	@Autowired
 	ReplyRepo replyRepo;
+	
+	@Autowired
+	CategoryRepo cateRepo;
 	
 	@Transactional
 	@Test
@@ -168,6 +174,11 @@ public class BoardPostTest {
 		BoardGroup[] arr = BoardGroup.values();
 		
 		for (BoardGroup bg : arr) {
+			
+			if(bg.getValue() == 7 ) {
+				continue; //리뷰 게시판은 생략
+			}
+			
 			System.out.printf("%s=%d,", bg.name(), bg.getValue());
 			
 			Board board = new Board();
@@ -203,6 +214,83 @@ public class BoardPostTest {
 			
 		}
 		
+		
+	}
+	//2-1. 리뷰게시판 게시글 세팅
+	@Transactional
+	@Test
+	public void insertReviewPost() {
+		
+		//Post 데이터는 반드시 Board 객체에 대한 참조가 필요하다.(외래키로 게시판 번호 필요) 
+		//Board 객체를 잠시 생성해서  외래키로 사용되는 board_no 속성만 설정해주는게 더 효율적.  
+		
+		
+		BoardGroup[] arr = BoardGroup.values();
+		
+		for (BoardGroup bg : arr) {
+			
+			//리뷰 게시판 설정
+			if(bg.getValue() != 7 ) {
+				continue;
+			}
+			
+			System.out.printf("%s=%d,", bg.name(), bg.getValue());
+			
+			Board board = new Board();
+			board.setBoardNo(bg.getValue());
+			
+			IntStream.range(0, 11).forEach(i -> {
+				Post post = new Post();
+				
+				post.setBoard(board);
+				
+				PostContent postContent = new PostContent();
+				postContent.setContent("리뷰게시판카드내용"+i);
+				post.setPostContent(postContent);
+				
+				
+				post.setPostTitle("리뷰게시판카드"+i);
+				post.setId(201L);//관리자 아이디가 생성 
+				post.setPostViews(0);
+				post.setLevel(5);
+				post.setPostLevel(5);
+				post.setReplyCount(0);
+				post.setPostLike(0);
+				post.setPostRegdate(LocalDateTime.now());
+				post.setPostModdate(LocalDateTime.now());
+				post.setPostNotice("F");
+				post.setPostDisplay("T");
+				post.setPostComment("T");
+				
+				Post postDB = postRepo.save(post);
+				
+				Category category = new Category();
+				category.setCategoryKind("index");
+				category.setCategoryName(String.valueOf(i));
+				category.setPost(postDB);
+				cateRepo.save(category);
+				
+			});
+			
+			
+			
+		}
+		
+		
+	}
+	
+	//리뷰게시판 조회 (카테고리의 인덱스 넘버로 찾기)
+	@Test
+	@Transactional
+	public Post selectReviewPosts() {
+		
+		List<Post> result = postRepo.findCateKindAndName("index","0");
+		
+		Post postInfo = result.get(0);
+		
+		log.info(""+postInfo);
+		
+		return postInfo;
 		
 	}
 	
