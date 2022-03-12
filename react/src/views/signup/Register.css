@@ -124,20 +124,19 @@ select {
   margin: 30px 0 91px;
 }
 
-#btnJoin {
-  width: 100%;
-  padding: 21px 0 17px;
-  border: 0;
-  cursor: pointer;
-  color: className= "createPostErr";
-  background-color: #dcd6f7;
-  border-radius: 5px;
-  font-size: 20px;
-  font-weight: 700;
-  font-family: Dotum, "돋움", Helvetica, sans-serif;
-}
 .text-error {
   color: red;
   font-size: 12px;
   position: absolute;
+}
+
+.checkBtnWrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+.registerWidth {
+  width: 100%;
+  margin: 0;
 }

@@ -25,7 +25,7 @@ import MainBoard from "./views/board/MainBoard"; //메인게시판
 import CareerBoard from "./views/board/CareerBoard"; //취업상담게시판
 import CreatePost from "./views/board/CreatePost"; //게시판 글쓰기
 import Post from "./views/board/Post"; //글 보기
-import TechNews from "./views/board/itnews/index"; //it뉴스게시판
+import TechNews from "./views/board/itnews/TechNews"; //it뉴스게시판
 
 import CustomerNotice from "./views/forget/CustomerNotice"; // 고객센터 공지사항게시판
 import CustomerFaq from "./views/forget/Faq"; // 고객센터 자주하는질문게시판
@@ -34,6 +34,7 @@ import Front from "./views/board/Front";
 import CareerBoardcopy from "./views/board/CareerBoardcopy";
 import UpdatePost from "./views/board/UpdatePost";
 
+import NotFound from "./views/NotFound"; //404 page
 //----------------------------------------------------------------------------
 
 function App() {
@@ -67,18 +68,25 @@ function App() {
         <Route path="/mainboard/career" element={<CustomerFaq />} />
         <Route path="/mainboard/career/:postno" element={<FaqPost />} />
         <Route path="/mainboard/career/create" element={<CreatePost />} />
-        <Route path="/mainboard/career/:postno/update" element={<UpdatePost />} />
-
+        <Route
+          path="/mainboard/career/:postno/update"
+          element={<UpdatePost />}
+        />
 
         <Route path="/customer/notice" element={<CustomerFaq />} />
         <Route path="/customer/notice/:postno" element={<FaqPost />} />
         <Route path="/customer/notice/create" element={<CreatePost />} />
-        <Route path="/customer/notice/:postno/update" element={<UpdatePost />} />
+        <Route
+          path="/customer/notice/:postno/update"
+          element={<UpdatePost />}
+        />
 
         <Route path="/customer/faq" element={<CustomerFaq />} />
         <Route path="/customer/faq/:postno" element={<FaqPost />} />
         <Route path="/customer/faq/create" element={<CreatePost />} />
         <Route path="/customer/faq/:postno/update" element={<UpdatePost />} />
+
+        <Route path="*" element={<NotFound />} />
       </Routes>
 
       <Footer />

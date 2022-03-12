@@ -1,22 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import "./Main.css";
 import { Link } from "react-router-dom";
 import studyImg from "../assets/main/studyBeige.jpg";
 import bootCampImg from "../assets/main/bootcamp.jpg";
 import boardImg from "../assets/main/news.jpg";
+// import { AuthContext } from "../state/GlobalState";
 
 function Main() {
   const [scrollY, setScrollY] = useState(0);
-
+  // const { user } = useContext(AuthContext);
   const monitor = () => {
     setScrollY(window.pageYOffset);
   };
 
   useEffect(() => {
     window.addEventListener("scroll", monitor);
-    return () => {
-      window.removeEventListener("scroll", monitor);
-    };
   });
 
   useEffect(() => console.log(scrollY), [scrollY]);
@@ -25,7 +23,7 @@ function Main() {
     <div className="mainContainer">
       <div className="studyBg">
         <div className="studyLeft">
-          <div className="studyText">
+          <div>
             <h1 className="studyTitle">스터디 모집</h1>
             <p className="studySubTitle">
               처음 시작한 코딩 공부, 어려우신가요? <br />
@@ -42,12 +40,14 @@ function Main() {
       <div className="bootCampBg">
         <div className="bootCampWrapper">
           <img className="bootCampImg" src={bootCampImg}></img>
-          <div style={{ paddingTop: scrollY < 650 ? scrollY : 650 }}>
-            <h1>국비교육</h1>
-            <p>
-              국비교육에 대한 정보를 찾고 계신가요? <br />
-              아래버튼을 눌러보세요!
-            </p>
+          <div style={{ paddingTop: scrollY < 500 ? scrollY : 500 }}>
+            <div className="bootCampText">
+              <h1 style={{ margin: 0 }}>국비교육</h1>
+              <p style={{ margin: 0 }}>
+                국비교육에 대한 정보를 찾고 계신가요? <br />
+                아래버튼을 눌러보세요!
+              </p>
+            </div>
             <button className="mainBtn">입장하기</button>
           </div>
         </div>
@@ -72,8 +72,8 @@ function Main() {
           }`}
         >
           <div className="boardText">
-            <h1>게시판 Board</h1>
-            <p>
+            <h1 className="studyTitle">게시판</h1>
+            <p className="studySubTitle">
               IT 뉴스, 취업준비, 고민상담등의 게시판입니다.
               <br />
               아래버튼을 누르시면 됩니다.
