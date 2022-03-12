@@ -31,6 +31,8 @@ public interface BoardService {
 	
 	Long deletePost(String boardName, Long postNo, String nickname);
 	
+	//리뷰게시판 인덱스로 게시글 검색
+	Post findPostByIndex(String index);
 	
 	
 	//2. 댓글 조회 추가 수정 삭제
@@ -77,6 +79,7 @@ public interface BoardService {
 		
 		return dto;
 	}
+
 
 	
 

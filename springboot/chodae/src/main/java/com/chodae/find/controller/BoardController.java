@@ -1,5 +1,7 @@
 package com.chodae.find.controller;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -95,52 +97,53 @@ public class BoardController {
 	}
 	
 	//게시글 업데이트
-		@Transactional
-		@PutMapping("/{boardName}/{postNo}")
-		ResponseEntity<Long> updatePost(@PathVariable String boardName, @PathVariable Long postNo,
-				@RequestParam String title,
-				@RequestParam String content,
-				@RequestParam String nickname,// 닉네임은 아직 사용필요 x 
-				@RequestParam(required = false, defaultValue = "[]") String category,
-				@RequestParam(required = false) MultipartFile file
-				){
+	@Transactional
+	@PutMapping("/{boardName}/{postNo}")
+	ResponseEntity<Long> updatePost(@PathVariable String boardName, @PathVariable Long postNo,
+			@RequestParam String title,
+			@RequestParam String content,
+			@RequestParam String nickname,// 닉네임은 아직 사용필요 x 
+			@RequestParam(required = false, defaultValue = "[]") String category,
+			@RequestParam(required = false) MultipartFile file
+			){
+		
+		//작성자 닉네임와 현재 로그인된 id의 닉네임이 일치할 때 업데이트? 아직
+		//게시판변경도 업데이트 되나? 
+		
+		//기존 카테고리 모두 삭제
+		boardService.deleteCategoryAll(postNo);
+		
+		Post post = boardService.updatePost(postNo, title, content, category);
 			
-			//작성자 닉네임와 현재 로그인된 id의 닉네임이 일치할 때 업데이트? 아직
-			//게시판변경도 업데이트 되나? 
 			
-			//기존 카테고리 모두 삭제
-			boardService.deleteCategoryAll(postNo);
+		// 기존 이미지 삭제 후 -> 새로운 이미지 저장
+		if(file != null) {
 			
-			Post post = boardService.updatePost(postNo, title, content, category);
+			//기존 이미지 삭제
+			boardService.deleteImg(post.getPostNo());
 			
-			
-			// 기존 이미지 삭제 후 -> 새로운 이미지 저장
-			if(file != null) {
-				
-				//기존 이미지 삭제
-				boardService.deleteImg(post.getPostNo());
-				
-			
-				//새로운 이미지 저장
-				boardService.saveImg(file, post);
-			}
-			
-			return new ResponseEntity<Long>(post.getPostNo(), HttpStatus.OK);	
+		
+			//새로운 이미지 저장
+			boardService.saveImg(file, post);
 		}
 		
+		return new ResponseEntity<Long>(post.getPostNo(), HttpStatus.OK);	
+	}
+		
 	//게시글 삭제
-		@Transactional
-		@DeleteMapping("/{boardName}/{postNo}/{nickname}")
-		ResponseEntity<Long> deletePost(@PathVariable String boardName, @PathVariable Long postNo,
-				@PathVariable String nickname){
-			
-			//프론트에서는 삭제가능한 버튼이 작성자 본인에게만 표시되어야 함.?
-			//작성자 닉네임와 현재 로그인된 id의 닉네임이 일치할 때 업데이트는 아직
-			
-			Long deletedPostNo = boardService.deletePost(boardName,postNo,nickname); //게시글 삭제시 연결된 카테고리, 댓글, 게시글 내용 모두 자동 삭제됨
-			
-			return new ResponseEntity<Long>(deletedPostNo, HttpStatus.OK);	
-		}
+	@Transactional
+	@DeleteMapping("/{boardName}/{postNo}/{nickname}")
+	ResponseEntity<Long> deletePost(@PathVariable String boardName, @PathVariable Long postNo,
+			@PathVariable String nickname){
+		
+		//프론트에서는 삭제가능한 버튼이 작성자 본인에게만 표시되어야 함.?
+		//작성자 닉네임와 현재 로그인된 id의 닉네임이 일치할 때 업데이트는 아직
+		
+		Long deletedPostNo = boardService.deletePost(boardName,postNo,nickname); //게시글 삭제시 연결된 카테고리, 댓글, 게시글 내용 모두 자동 삭제됨
+		
+		return new ResponseEntity<Long>(deletedPostNo, HttpStatus.OK);	
+	}
+		
 		
 	//댓글추가
 	@Transactional
@@ -175,6 +178,80 @@ public class BoardController {
 			@PathVariable String nickname) {
 			
 		Long deletedReplyNo = boardService.deleteReply(boardName, postNo, replyNo, nickname);
+		
+		return new ResponseEntity<Long>(deletedReplyNo,HttpStatus.OK); 
+	}
+	
+	
+	//리뷰게시글 및 댓글 목록 조회
+		@Transactional
+		@GetMapping("/{boardName}/index/{index}")
+		PostDTO getReviewPost(@PathVariable String boardName,@PathVariable String index){
+			//1. 카테고리의 index로  게시글 객체 찾기
+			Post post = boardService.findPostByIndex(index);
+			
+			if(post == null) {
+				return null;
+			}
+			
+			PostDTO dto = boardService.entityToDto(post);
+		
+			return dto;	
+		}
+	
+	//리뷰게시판 댓글 추가
+	@Transactional
+	@PostMapping("/{boardName}/reply/{index}")
+	public ResponseEntity<Long> insertReplyInReview(@PathVariable String boardName,@PathVariable String index,
+			@RequestParam String content,
+			@RequestParam String nickname) {
+		
+		//1. 카테고리의 index로  게시글 객체 찾기
+		Post post = boardService.findPostByIndex(index);
+		
+		if(post == null) {
+			return new ResponseEntity<Long>(0L,HttpStatus.FORBIDDEN);
+		}
+			
+		Long insertedpostNo = boardService.insertReply(boardName, post.getPostNo(), content, nickname);
+		
+		return new ResponseEntity<Long>(insertedpostNo,HttpStatus.OK);
+	}
+		
+	//리뷰 게시판 댓글 수정
+	@Transactional
+	@PutMapping("/{boardName}/index/{index}/reply/{replyNo}")
+	public ResponseEntity<Long> updateReplyInReview(@PathVariable String boardName,@PathVariable String index, @PathVariable Long replyNo,
+			@RequestParam String content,
+			@RequestParam String nickname) {
+			
+		//1. 카테고리의 index로  게시글 객체 찾기
+		Post post = boardService.findPostByIndex(index);
+		
+		if(post == null) {
+			return new ResponseEntity<Long>(0L,HttpStatus.FORBIDDEN);
+		}
+
+		Long updatedReplyNo = boardService.updateReply(boardName, post.getPostNo(),replyNo, content, nickname);
+
+		
+		return new ResponseEntity<Long>(updatedReplyNo,HttpStatus.OK); 
+	}
+		
+	// 리뷰게시판 댓글 삭제
+	@Transactional
+	@DeleteMapping("/{boardName}/index/{index}/reply/{replyNo}/{nickname}")
+	public ResponseEntity<Long> deleteReplyInReview(@PathVariable String boardName,@PathVariable String index, @PathVariable Long replyNo, 
+			@PathVariable String nickname) {
+		
+		//1. 카테고리의 index로  게시글 객체 찾기
+		Post post = boardService.findPostByIndex(index);
+		
+		if(post == null) {
+			return new ResponseEntity<Long>(0L,HttpStatus.FORBIDDEN);
+		}
+			
+		Long deletedReplyNo = boardService.deleteReply(boardName, post.getPostNo(), replyNo, nickname);
 		
 		return new ResponseEntity<Long>(deletedReplyNo,HttpStatus.OK); 
 	}

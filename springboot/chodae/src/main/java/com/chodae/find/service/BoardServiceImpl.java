@@ -500,6 +500,31 @@ public class BoardServiceImpl implements BoardService {
 		return num;//추천삭제한 게시글번호 또는 댓글 번호 반환 
 	}
 
+	@Override
+	public Post findPostByIndex(String index) {
+		
+		List<Post> result = postRepo.findCateKindAndName("index", index);
+		
+		if(!result.isEmpty()) {
+			
+			Post post = result.get(0);
+			
+			List<Reply> replies = post.getReplies();
+			replies.forEach(reply -> {
+				User replyUser = userRepo.findById(reply.getId()).get();
+				reply.setNickname(replyUser.getNickname());
+			});
+			post.setReplies(replies);
+			
+			return post;
+		}
+		
+		
+		
+		return null;
+	}
+
+
 
 	
 
