@@ -40,7 +40,7 @@ function Main() {
       <div className="bootCampBg">
         <div className="bootCampWrapper">
           <img className="bootCampImg" src={bootCampImg}></img>
-          <div style={{ paddingTop: scrollY < 500 ? scrollY : 500 }}>
+          <div style={{ paddingTop: scrollY < 500 ? scrollY - 150 : 500 }}>
             <div className="bootCampText">
               <h1 style={{ margin: 0 }}>국비교육</h1>
               <p style={{ margin: 0 }}>

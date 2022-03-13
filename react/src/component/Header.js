@@ -31,7 +31,7 @@ function Header() {
         {/* 추후 수정 필요 */}
         {localStorage.getItem("user") ? (
           <nav className="headerItems">
-            <Link className="headerLink" to="/signup">
+            <Link className="headerLink" to="/mypage">
               마이페이지
             </Link>
             <button className="headerLink" onClick={logout}>

@@ -4,9 +4,20 @@ import axios from "axios";
 import SearchBar from "../SearchBar";
 import moment from "moment";
 import "./TechNews.css";
+import ReactPaginate from "react-paginate";
 
 function TechNews() {
   const [newsData, setNewsData] = useState([]);
+
+  const [pageNumber, setPageNumber] = useState(0);
+  const newsDataPerPage = 10;
+  const pagesVisited = pageNumber * newsDataPerPage;
+
+  const pageCount = Math.ceil(newsData.length / newsDataPerPage);
+
+  const changePage = ({ selected }) => {
+    setPageNumber(selected);
+  };
 
   useEffect(() => {
     axios
@@ -22,38 +33,56 @@ function TechNews() {
   useEffect(() => console.log(newsData), [newsData]);
 
   return (
-    <>
+    <div className="newsContainer">
+      <div className="techNewsHeading">IT News 게시판</div>
       {newsData && (
-        //css 수정 필요
-        <table
-          style={{ width: "80%", margin: "auto", border: "2px solid black" }}
-        >
+        <table>
           <thead>
-            <tr>
-              <th className="postTitle"></th>
-              <th className="postTitle">제목</th>
-              <th className="postTitle">내용</th>
-              <th className="postTitle">일자</th>
+            <tr style={{ textAlign: "center" }}>
+              <th style={{ width: "10%" }}></th>
+              <th style={{ width: "30%" }}>제목</th>
+              <th style={{ width: "50%" }}>내용</th>
+              <th style={{ width: "10%" }}>일자</th>
             </tr>
           </thead>
           <tbody>
-            {newsData.map((e) => {
-              return (
-                <tr style={{ textAlign: "left" }}>
-                  <td>
-                    <img className="techImg" src={e.urlToImage}></img>
-                  </td>
-                  <td>{e.title}</td>
-                  <td>{e.description}...</td>
-                  <td>{moment(e.publishedAt).format("l")}</td>
-                </tr>
-              );
-            })}
+            {newsData
+              .slice(pagesVisited, pagesVisited + newsDataPerPage)
+              .map((e) => {
+                return (
+                  <tr style={{ textAlign: "left" }}>
+                    <td style={{ width: "10%" }}>
+                      <img className="techImg" src={e.urlToImage}></img>
+                    </td>
+                    <td style={{ width: "30%" }}>{e.title.slice(0, 50)}...</td>
+                    <td style={{ width: "50%" }}>
+                      {e.description.slice(0, 80)}...
+                    </td>
+                    <td style={{ width: "10%", textAlign: "center" }}>
+                      {moment(e.publishedAt).format("l")}
+                    </td>
+                  </tr>
+                );
+              })}
           </tbody>
         </table>
       )}
+      <div className="paginationContainer">
+        <ReactPaginate
+          previousLabel={"이전"}
+          nextLabel={"다음"}
+          pageCount={pageCount}
+          onPageChange={changePage}
+          containerClassName={"paginationBttns"}
+          previousLinkClassName={"previousBttn"}
+          nextLinkClassName={"nextBttn"}
+          disabledClassName={"paginationDisabled"}
+          activeClassName={"paginationActive"}
+        />
+      </div>
       <SearchBar />
-    </>
+      <div style={{ margin: "20px" }}></div>
+    </div>
   );
 }
 
