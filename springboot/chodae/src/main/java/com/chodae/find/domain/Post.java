@@ -69,8 +69,6 @@ public class Post {
 	
 	private LocalDateTime postModdate;//수정일자
 	
-
-//	private String campCategory;//기관 카테고리? 
 	
 	private Integer level;  //회원 등급 
 	
@@ -99,6 +97,7 @@ public class Post {
 	@OneToMany(mappedBy = "post",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<Category> category = new ArrayList<Category>();
 	
+	@JsonManagedReference
 	@OneToMany(mappedBy ="post", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<Image> image = new ArrayList<Image>();
 }

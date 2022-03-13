@@ -10,7 +10,6 @@ import org.springframework.data.repository.query.Param;
 
 import com.chodae.find.domain.Board;
 import com.chodae.find.domain.Post;
-import com.chodae.find.domain.User;
 
 public interface PostRepo  extends JpaRepository<Post, Long>{
 	
@@ -51,6 +50,12 @@ public interface PostRepo  extends JpaRepository<Post, Long>{
 	
 	@Query("SELECT p FROM Post p WHERE p.board.boardNo = ?1 and p.id = ?2 ")
 	Page<Post> getPostFromWriter(int boardNo, Long id, Pageable paging);
+	
+	
+	
+	//리뷰 게시판 인덱스로 특정 게시글 찾기
+	@Query("SELECT p FROM Post p left join p.category c WHERE c.categoryKind = ?1 and c.categoryName = ?2")
+	List<Post> findCateKindAndName(String Kind, String Name);
 	
 	
 	

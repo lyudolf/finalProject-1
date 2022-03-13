@@ -11,6 +11,7 @@ import lombok.ToString;
 import javax.persistence.*;
 
 import com.chodae.find.domain.Post;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @ToString(exclude = "post")
@@ -36,7 +37,7 @@ public class Image {
 	@Column(name = "image", unique = false, nullable = false, length = 100000)
 	private byte[] image;
 	
-	@JsonIgnore
+	@JsonBackReference
 	@ManyToOne
 	@JoinColumn(name = "post_no")
 	private Post post;

@@ -3,6 +3,7 @@ import Header from "../src/component/Header";
 import Footer from "../src/component/Footer";
 import Main from "../src/component/Main";
 import MenuBar from "../src/component/MenuBar";
+import React, { useState } from 'react';
 
 import { Route, Routes } from "react-router-dom"; //리액트 라우터
 
@@ -36,10 +37,19 @@ import Front from "./views/board/Front";
 import CareerBoardcopy from "./views/board/CareerBoardcopy";
 import UpdatePost from "./views/board/UpdatePost";
 
+//---------------------------------------------------
+import data from '../src/views/Review/Reviewdata.js'; //국비지원리뷰의 데이터
+import ReviewMain from "../src/views/Review/ReviewMain"; //국비지원 리뷰창
+import Detail from "../src/views/Review/Detail";
+//-----------------------------------------------------
+import Study from "../src/views/Study/Studymain";
+//-----------------------------------------------
 import NotFound from "./views/NotFound"; //404 page
 //----------------------------------------------------------------------------
 
+
 function App() {
+  let [shoes, shoes1] = useState(data);
   return (
     <div className="App">
       <Header />
@@ -89,6 +99,12 @@ function App() {
         <Route path="/customer/faq/:postno" element={<FaqPost />} />
         <Route path="/customer/faq/create" element={<CreatePost />} />
         <Route path="/customer/faq/:postno/update" element={<UpdatePost />} />
+
+        {/* 국비교육 */}
+        <Route path="/reviewmain" element={<ReviewMain shoes={shoes} shoes1={shoes1} />} />
+        <Route path="/detail/:id" element={<Detail shoes={shoes} />} />
+        {/* 스터디모집 */}
+        <Route path="/study" element={<Study />} />
 
         <Route path="*" element={<NotFound />} />
       </Routes>
