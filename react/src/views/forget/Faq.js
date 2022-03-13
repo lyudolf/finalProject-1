@@ -11,7 +11,7 @@ import axios from "../../plugins/axios";
 import "../board/CareerBoard.css";
 import SearchBar from "./SearchBar";
 
-function Faq() {
+function Faq(props) {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -112,7 +112,7 @@ function Faq() {
           <Link to="/faq"> 자주하는질문;;;;; </Link>
         </li>
       </div>
-      <div>공지사항게시판</div>
+      <h1 className="heading">{props.title}</h1>
       <table>
         <thead>
           <tr>
@@ -160,7 +160,6 @@ function Faq() {
         <div className="writePostBtnWrapper">
           <button
             onClick={() => {
-              // 주소를 다 입력해야지 넘어감...상대주소 같이는 안되나?
               navigate("/customer/faq/create");
             }}
             className="writePostBtn"
