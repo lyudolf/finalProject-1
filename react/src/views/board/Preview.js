@@ -17,7 +17,8 @@ const Preview = ({ image }) => {
 
         <div>
             <img src={preview} alt="preview" width="100px" height="100px" />
-        </div>
+            {/* 푸터 넘어가면 안보이는 함정 */}
+        </div >
     );
 };
 

@@ -8,12 +8,10 @@ import Preview from "./Preview";
 
 //Formik에서 필드 네임은 데이터베이스에 들어갈 이름임.
 
-
 function CreatePost() {
   let navigate = useNavigate();
 
-
-  //글 수정시 글 수정페이지로 넘어오면서 기존 글 정보로 initialValues를 초기화 해줘야되나? 
+  //글 수정시 글 수정페이지로 넘어오면서 기존 글 정보로 initialValues를 초기화 해줘야되나?
   const initialValues = {
     boardName: "edu",
     title: "",
@@ -21,9 +19,8 @@ function CreatePost() {
     // nickname: localStorage.getItem("user"),
     nickname: "",
     category: [],
-    file: null
+    file: null,
   };
-
 
   const validationSchema = Yup.object().shape({
     title: Yup.string().required("글 제목을 입력해주세요!"),
@@ -31,7 +28,8 @@ function CreatePost() {
   });
 
   const submitPost = async function (values) {
-    const { boardName, location, interest, level, title, content, image } = values;
+    const { boardName, location, interest, level, title, content, image } =
+      values;
 
     let categoryArr = [];
 
@@ -44,7 +42,6 @@ function CreatePost() {
     if (level !== undefined) {
       categoryArr.push({ level: level });
     }
-
 
     const formData = new FormData();
     formData.append("title", title);
@@ -72,12 +69,9 @@ function CreatePost() {
       });
   };
 
-
-
   const fileRef = useRef(null);
 
   return (
-
     //글 등록 게시판 카테고리 드롭박스
     // 게시글 카테고리 드롭박스
     <div className="createPost">
@@ -86,9 +80,7 @@ function CreatePost() {
         onSubmit={submitPost}
         validationSchema={validationSchema}
       >
-
         {({ setFieldValue, values }) => (
-
           <Form className="createPostformContainer">
             <label>등록할 게시판 고르기 </label>
             <Field as="select" name="boardName" className="boardNameField">
@@ -103,16 +95,26 @@ function CreatePost() {
             <div>
               <label>카테고리</label>
               <span className="clearCate">
-                <button onClick={() => {
-                  setFieldValue("location", "", false);
-                  setFieldValue("interest", "", false);
-                  setFieldValue("level", "", false);
-                }
-                }>카테고리 초기화</button>
+                <button
+                  onClick={() => {
+                    setFieldValue("location", "", false);
+                    setFieldValue("interest", "", false);
+                    setFieldValue("level", "", false);
+                  }}
+                >
+                  카테고리 초기화
+                </button>
               </span>
               <div className="categorySelect">
-                <Field as="select" name="location" className="categoryField" defaultValue={""}>
-                  <option value="" disabled>지역</option>
+                <Field
+                  as="select"
+                  name="location"
+                  className="categoryField"
+                  defaultValue={""}
+                >
+                  <option value="" disabled>
+                    지역
+                  </option>
                   <option value="서울">서울</option>
                   <option value="부산">부산</option>
                   <option value="대구">대구</option>
@@ -132,14 +134,28 @@ function CreatePost() {
                   <option value="제주">제주</option>
                 </Field>
 
-                <Field as="select" name="interest" className="categoryField" defaultValue={""}>
-                  <option value="" disabled>분야</option>
+                <Field
+                  as="select"
+                  name="interest"
+                  className="categoryField"
+                  defaultValue={""}
+                >
+                  <option value="" disabled>
+                    분야
+                  </option>
                   <option value="프론트엔드">프론트엔드</option>
                   <option value="백엔드">백엔드</option>
                   <option value="풀스택">풀스택</option>
                 </Field>
-                <Field as="select" name="level" className="categoryField" defaultValue={""}>
-                  <option value="" disabled>수준</option>
+                <Field
+                  as="select"
+                  name="level"
+                  className="categoryField"
+                  defaultValue={""}
+                >
+                  <option value="" disabled>
+                    수준
+                  </option>
                   <option value="초보">초보</option>
                   <option value="중수">중수</option>
                   <option value="고수">고수</option>
@@ -159,7 +175,6 @@ function CreatePost() {
                   <option value="Rust">Rust</option>
                 </Field> */}
               </div>
-
             </div>
 
             <label>글 제목: </label>
@@ -183,17 +198,30 @@ function CreatePost() {
               className="bodyField"
             />
 
+            <input
+              ref={fileRef}
+              hidden
+              id="image"
+              name="image"
+              type="file"
+              onChange={(event) => {
+                setFieldValue("image", event.currentTarget.files[0]);
+              }}
+              className="form-control"
+            />
 
-
-            <input ref={fileRef} hidden id="image" name="image" type="file" onChange={(event) => {
-              setFieldValue("image", event.currentTarget.files[0]);
-            }} className="form-control" />
-
-            <div className="previewImg">   {values.image && <Preview image={values.image} />}</div>
-            <input className="previewButton" type="button" onClick={() => {
-              fileRef.current.click();
-            }} value="사진" />
-
+            <div className="previewImg">
+              {" "}
+              {values.image && <Preview image={values.image} />}
+            </div>
+            <input
+              className="previewButton"
+              type="button"
+              onClick={() => {
+                fileRef.current.click();
+              }}
+              value="사진"
+            />
 
             <div className="postSubmitBtnWrapper">
               <button className="postSubmitBtn" type="submit">
@@ -201,10 +229,15 @@ function CreatePost() {
               </button>
 
               {/* 작성취소 버튼은 기능 구현 해야함. */}
-              <button type="button" onClick={() => {
-                //글 작성을 취소하시겠습니까?
-                navigate(-1); //뒤로가기
-              }} >작성취소</button>
+              <button
+                type="button"
+                onClick={() => {
+                  //글 작성을 취소하시겠습니까?
+                  navigate(-1); //뒤로가기
+                }}
+              >
+                작성취소
+              </button>
             </div>
           </Form>
         )}

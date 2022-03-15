@@ -52,6 +52,7 @@ public class RegService {
 		User registeredMember = regRepo.save(user);
 		
 		return registeredMember; 
+
 	}
 	
 	//로그인시 아이디 비밀번호 일치여부 확인할떄

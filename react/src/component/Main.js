@@ -29,7 +29,9 @@ function Main() {
               처음 시작한 코딩 공부, 어려우신가요? <br />
               스터디 그룹에 참여해보세요!
             </p>
-            <button className="mainBtn">입장하기</button>
+            <Link to="/together/study">
+              <button className="mainBtn">입장하기</button>
+            </Link>
           </div>
         </div>
         <div className="studyRight">
@@ -40,7 +42,7 @@ function Main() {
       <div className="bootCampBg">
         <div className="bootCampWrapper">
           <img className="bootCampImg" src={bootCampImg}></img>
-          <div style={{ paddingTop: scrollY < 500 ? scrollY : 500 }}>
+          <div style={{ paddingTop: scrollY < 500 ? scrollY - 150 : 500 }}>
             <div className="bootCampText">
               <h1 style={{ margin: 0 }}>국비교육</h1>
               <p style={{ margin: 0 }}>
@@ -56,20 +58,18 @@ function Main() {
       <div className="boardBg">
         <div className="boardLeft">
           <img
-            className={`${
-              scrollY > 480
-                ? "boardImg animate__animated animate__slideInLeft animate__slow"
-                : "boardImg"
-            }`}
+            className={`${scrollY > 480
+              ? "boardImg animate__animated animate__slideInLeft animate__slow"
+              : "boardImg"
+              }`}
             src={boardImg}
           ></img>
         </div>
         <div
-          className={`${
-            scrollY > 480
-              ? "boardRight animate__animated animate__slideInRight animate__slow"
-              : "boardRight"
-          }`}
+          className={`${scrollY > 480
+            ? "boardRight animate__animated animate__slideInRight animate__slow"
+            : "boardRight"
+            }`}
         >
           <div className="boardText">
             <h1 className="studyTitle">게시판</h1>

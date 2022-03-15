@@ -43,7 +43,7 @@ th {
 }
 
 table {
-  width: 100%;
+  width: 70%;
   margin: auto;
   border-collapse: collapse;
   text-align: center;
@@ -97,4 +97,11 @@ table {
 
 .writePostBtn:hover {
   background: #a6b1e1;
+}
+
+.heading {
+  font-weight: bold;
+  font-size: 30px;
+  margin-bottom: 20px;
+  color: #a6b1e1;
 }
