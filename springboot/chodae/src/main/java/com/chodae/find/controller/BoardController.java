@@ -46,7 +46,7 @@ public class BoardController {
 	Page<Post> getSearchPost(@PathVariable String boardName, PageVO pageVo,
 			@RequestParam String searchType,
 			@RequestParam String keyword){
-		
+	System.out.println(boardName);
 		log.info(""+pageVo+":::"+searchType+"::::"+keyword);
 		log.info(""+pageVo.makePageable(0, "postRegdate"));
 		

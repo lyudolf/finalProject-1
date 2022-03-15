@@ -1,4 +1,79 @@
-.Card button img{
-    height: 300px;
-    width: 300px;
+.life {
+  height: 250px;
+  width: 300px;
+  border: none;
+  outline: none;
+  box-shadow: none;
+}
+.life2 {
+  border: solid 3px red;
+  height: 300px;
+  width: 300px;
+}
+.main {
+  height: 300px;
+
+  margin-bottom: 90px;
+  padding: 30px;
+}
+.main2 {
+  width: 100vw;
+  display: flex;
+  flex-flow: row wrap;
+  margin: auto;
+  justify-content: center;
+}
+.miss {
+  width: 300px;
+  height: 250px;
+}
+.bottom-g {
+  border: 1px solid black;
+  height: 100px;
+}
+.cateText {
+  text-align: left;
+  font-size: 15px;
+  margin-left: 10px;
+  font-weight: 550;
+}
+.postTitle2 {
+  font-size: 18px;
+  font-weight: bolder;
+  padding: 5px;
+}
+.Card img {
+  max-width: none;
+  width: -webkit-calc(100%);
+  width: calc(100%);
+  opacity: 0.7;
+  -webkit-transition: opacity 0.35s, -webkit-transform 0.35s;
+  transition: opacity 0.35s, transform 0.35s;
+  -webkit-transform: translate3d(-40px, 0, 0);
+  transform: translate3d(0, 0, 0);
+}
+.Card {
+  -webkit-transform: translate3d(0, 40px, 0);
+  transform: translate3d(0, 40px, 0);
+}
+
+.Card:hover img,
+.bottom-g:hover {
+  opacity: 1;
+}
+
+.Card:hover img,
+.Card:hover {
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+}
+
+.Card:hover {
+  -webkit-transition-delay: 0.05s;
+  transition-delay: 0.05s;
+  -webkit-transition-duration: 0.35s;
+  transition-duration: 0.35s;
+}
+.writePostBtnWrapper {
+  margin-right: 170px;
 }
