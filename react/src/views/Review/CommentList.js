@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
-function CommentList({ updateReply, reply }) {
+function CommentList({ updateReplyInReview, reply, sendComment, idindex }) {
   const [updatedComment, setUpdatedComment] = useState(reply.replyContent);
 
-  const handleUpdateReply = () => {
-    updateReply(updatedComment, reply.replyNo);
-  };
+  useEffect(() => {
+    if (sendComment) {
+      updateReplyInReview(updatedComment, reply.replyNo, idindex);
+    }
+  }, [sendComment]);
 
   return (
     <div>
@@ -18,7 +20,6 @@ function CommentList({ updateReply, reply }) {
           setUpdatedComment(event.target.value);
         }}
       ></input>
-      <button onClick={handleUpdateReply}>수정2</button>
     </div>
   );
 }

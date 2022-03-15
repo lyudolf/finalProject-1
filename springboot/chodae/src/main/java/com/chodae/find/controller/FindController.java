@@ -5,6 +5,7 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,10 +49,12 @@ public class FindController {
 	}
 
 	//비밀번호 재설정 : 비밀번호 업데이트 
-//	@Transactional
+	//암호화하여 저장되게 바꿔야함.....
 	@PutMapping("/login/find/ps")
 	public int updatePs(@RequestParam("id") String id, @RequestParam("password") String password) {
 		log.info("로그인아이디:"+id+",업데이트 비밀번호:"+password);
 		return userFindService.updatePassword(id, password);
 	}
+	
+	
 }
