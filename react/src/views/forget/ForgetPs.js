@@ -84,7 +84,7 @@ function ForgetPs() {
         console.log(response.data);
         if (data.length === 1) {
           console.log("비밀번호존재 비밀번호 재설정 페이지로 이동");
-          navigate(`/login/find/ps/reset/${data[0].loginId}`);
+          navigate(`/find/ps/reset/${data[0].loginId}`);
         }
       })
       .catch((error) => {
