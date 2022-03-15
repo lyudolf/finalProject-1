@@ -163,18 +163,20 @@ function Faq(props) {
         </tbody>
       </table>
 
-      <ReactPaginate
-        previousLabel={"이전"}
-        nextLabel={"다음"}
-        pageCount={pageCount}
-        forcePage={paginationNumber - 1}
-        onPageChange={changePage}
-        containerClassName={"paginationBttns"}
-        previousLinkClassName={"previousBttn"}
-        nextLinkClassName={"nextBttn"}
-        disabledClassName={"paginationDisabled"}
-        activeClassName={"paginationActive"}
-      />
+      <div className="paginateContainer">
+        <ReactPaginate
+          previousLabel={"이전"}
+          nextLabel={"다음"}
+          pageCount={pageCount}
+          forcePage={paginationNumber - 1}
+          onPageChange={changePage}
+          containerClassName={"paginationBttns"}
+          previousLinkClassName={"previousBttn"}
+          nextLinkClassName={"nextBttn"}
+          disabledClassName={"paginationDisabled"}
+          activeClassName={"paginationActive"}
+        />
+      </div>
 
       <div>
         <SearchBar getData={getData} />
