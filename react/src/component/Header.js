@@ -1,13 +1,17 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import "./Header.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import chodaeLogo from "../assets/Chodae-logo.png";
 import searchIcon from "../assets/search.png";
+import axios from "../plugins/axios";
 
-function Header() {
+function Header(props) {
+  let navigate = useNavigate();
+
   const logout = () => {
-    localStorage.removeItem("user");
-    window.location.reload();
+    localStorage.removeItem("username");
+    // axios.post("/logout");
+    navigate("/");
   };
 
   return (
@@ -29,7 +33,7 @@ function Header() {
           ></input>
         </div>
         {/* 추후 수정 필요 */}
-        {localStorage.getItem("user") ? (
+        {localStorage.getItem("username") ? (
           <nav className="headerItems">
             <Link className="headerLink" to="/mypage">
               마이페이지

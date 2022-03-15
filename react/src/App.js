@@ -3,7 +3,9 @@ import Header from "../src/component/Header";
 import Footer from "../src/component/Footer";
 import Main from "../src/component/Main";
 import MenuBar from "../src/component/MenuBar";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from "react";
+
+import axios from "../src/plugins/axios";
 
 import { Route, Routes } from "react-router-dom"; //리액트 라우터
 
@@ -16,6 +18,7 @@ import ResultId from "./views/forget/ResultId"; //아이디찾기 결과
 import ForgetPs from "./views/forget/ForgetPs"; // 비밀번호찾기
 import ResetPs from "./views/forget/ResetPs"; // 비밀번호 리셋
 import ResetCompleted from "./views/forget/ResetCompleted"; // 비밀번호 리셋완료
+import Find from "./views/forget/Find";
 
 //회원가입 라우터 연결--------------------------------------------
 import Check from "./views/signup/Check"; //개인정보 동의서
@@ -38,7 +41,7 @@ import CareerBoardcopy from "./views/board/CareerBoardcopy";
 import UpdatePost from "./views/board/UpdatePost";
 
 //---------------------------------------------------
-import data from '../src/views/Review/Reviewdata.js'; //국비지원리뷰의 데이터
+import data from "../src/views/Review/Reviewdata.js"; //국비지원리뷰의 데이터
 import ReviewMain from "../src/views/Review/ReviewMain"; //국비지원 리뷰창
 import Detail from "../src/views/Review/Detail";
 //-----------------------------------------------------
@@ -47,11 +50,12 @@ import Study from "../src/views/Study/Studymain";
 import NotFound from "./views/NotFound"; //404 page
 //----------------------------------------------------------------------------
 
-
 function App() {
   let [shoes, shoes1] = useState(data);
+
   return (
     <div className="App">
+      {/* 로그인 정보 저장한거 provider 안에 있는거에 다 적용할 예정 */}
       <Header />
       <MenuBar />
 
@@ -62,18 +66,22 @@ function App() {
         <Route path="/login" element={<Login />} />
 
         {/* 아이디찾기 메인화면 */}
-        <Route path="/login/find/id" element={<ForgetId />} />
-        <Route path="/login/find/id/result/:uid" element={<ResultId />} />
-        <Route path="/login/find/ps" element={<ForgetPs />} />
-        <Route path="/login/find/ps/reset/:uid" element={<ResetPs />} />
-        <Route path="/login/find/ps/done" element={<ResetCompleted />} />
+        <Route path="/find" element={<Find />}>
+          <Route path="id" element={<ForgetId />} />
+          <Route path="id/result/:uid" element={<ResultId />} />
+          <Route path="ps" element={<ForgetPs />} />
+          <Route path="ps/reset/:uid" element={<ResetPs />} />
+          <Route path="ps/done" element={<ResetCompleted />} />
+        </Route>
+
         {/* 회원가입화면 */}
         <Route path="/signup" element={<Check />} />
         <Route path="/register" element={<Registercopy />} />
+        
         {/* 게시판 메인화면 */}
         <Route path="/mainboard" element={<MainBoard />}>
           <Route path="technews" element={<TechNews />} />
-          <Route path="career" element={<CustomerFaq title="취업상담" />} />
+          <Route path="career" element={<CustomerFaq title="취업준비" />} />
           <Route path="career/:postno" element={<FaqPost />} />
           <Route path="career/create" element={<CreatePost />} />
           <Route path="career/:postno/update" element={<UpdatePost />} />
@@ -101,7 +109,10 @@ function App() {
         <Route path="/customer/faq/:postno/update" element={<UpdatePost />} />
 
         {/* 국비교육 */}
-        <Route path="/reviewmain" element={<ReviewMain shoes={shoes} shoes1={shoes1} />} />
+        <Route
+          path="/reviewmain"
+          element={<ReviewMain shoes={shoes} shoes1={shoes1} />}
+        />
         <Route path="/detail/:id" element={<Detail shoes={shoes} />} />
         {/* 스터디모집 */}
         <Route path="/study" element={<Study />} />

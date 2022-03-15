@@ -1,10 +1,9 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import ReactPaginate from "react-paginate";
 import {
   Link,
   useNavigate,
   useLocation,
-  useParams,
   useSearchParams,
 } from "react-router-dom";
 import axios from "../../plugins/axios";
@@ -69,6 +68,7 @@ function Faq(props) {
         //업데이트
         setPostInfo(response.data);
         setPosts(postList);
+        console.log(postList);
         setPageCount(response.data.totalPages);
 
         navigate(
@@ -106,12 +106,6 @@ function Faq(props) {
 
   return (
     <div className="boardContainer">
-      <div>
-        <li>
-          <Link to="/notice">공지사항;;;;; </Link>
-          <Link to="/faq"> 자주하는질문;;;;; </Link>
-        </li>
-      </div>
       <h1 className="heading">{props.title}</h1>
       <table>
         <thead>
@@ -160,7 +154,7 @@ function Faq(props) {
         <div className="writePostBtnWrapper">
           <button
             onClick={() => {
-              navigate("/customer/faq/create");
+              navigate(`/${boardGroup}/${boardName}/create`);
             }}
             className="writePostBtn"
           >

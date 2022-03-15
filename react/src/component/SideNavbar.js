@@ -1,7 +1,5 @@
-import React, { useState } from "react";
-
 // Routing
-import { NavLink, Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 // Data File
 import { MainboardData } from "./MainboardData";

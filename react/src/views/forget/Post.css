@@ -123,3 +123,33 @@
 .commentAddBtn:hover {
   background: #a6b1e1;
 }
+
+.recommend {
+  cursor: pointer;
+  font-size: 25px;
+  color: #a6b1e1;
+}
+
+.notRecommend {
+  cursor: pointer;
+  font-size: 25px;
+  color: #424874;
+}
+
+.replyRecommentContainer {
+  display: flex;
+  justify-content: end;
+  padding-right: 10px;
+}
+
+.replyRecommend {
+  cursor: pointer;
+  font-size: 20px;
+  color: #a6b1e1;
+}
+
+.replyNotRecommend {
+  cursor: pointer;
+  font-size: 20px;
+  color: #424874;
+}
