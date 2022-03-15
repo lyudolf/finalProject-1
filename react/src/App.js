@@ -84,7 +84,7 @@ function App() {
         {/* 회원가입화면 */}
         <Route path="/signup" element={<Check />} />
         <Route path="/register" element={<Registercopy />} />
-        
+
         {/* 게시판 메인화면 */}
         <Route path="/mainboard" element={<MainBoard />}>
           <Route path="technews" element={<TechNews />} />
@@ -93,7 +93,6 @@ function App() {
           <Route path="career/create" element={<CreatePost />} />
           <Route path="career/:postno/update" element={<UpdatePost />} />
           <Route path="careerboardcopy" element={<CareerBoardcopy />} />
-
         </Route>
 
         <Route
