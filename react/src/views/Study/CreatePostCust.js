@@ -57,7 +57,7 @@ function CreatePostCust() {
         formData.append("title", title);
         formData.append("content", content);
         //나중에 데이터값 받아와서 수정
-        formData.append("nickname", "닉네임1");
+        formData.append("nickname", "닉네임2");
         formData.append("category", JSON.stringify(categoryArr));
 
         if (image !== undefined) {

@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 // import axios from "axios";
@@ -7,6 +7,7 @@ import axios from "../../plugins/axios";
 import "./Register.css";
 
 const Registercopy = () => {
+  const navigate = useNavigate();
   const phoneRegExp = /^[0-9]{11}$/;
   //const emailRegExp = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
   const validate = Yup.object({
@@ -157,6 +158,7 @@ const Registercopy = () => {
           .then(function (response) {
             console.log(response);
             console.log("넘어감");
+            navigate("/");
           })
           .catch(function (error) {
             console.log(error.response);
@@ -320,15 +322,15 @@ const Registercopy = () => {
                   </div>
 
                   <div className="btn_area">
-                    <Link to="/">
-                      <button
-                        className="loginBtn registerWidth"
-                        type="submit"
-                        id="btnJoin"
-                      >
-                        <span>가입하기</span>
-                      </button>
-                    </Link>
+
+                    <button
+                      className="loginBtn registerWidth"
+                      type="submit"
+                      id="btnJoin"
+                    >
+                      <span>가입하기</span>
+                    </button>
+
                   </div>
                 </div>
               </div>

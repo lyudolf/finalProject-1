@@ -159,6 +159,9 @@ public class BoardServiceImpl implements BoardService {
 		} else if (searchType.equals("writer")) {
 			User user = userRepo.findUserByNickname(keyword);//회원번호 조회
 			list = postRepo.getPostFromWriter(boardNo, user.getId(),pageable);
+		} else if(searchType.equals("location")) {
+			list = postRepo.getPostLikeLocation(boardNo, keyword, pageable);
+			
 		} else {
 			// 검색조건 없이 조회시
 			list = postRepo.findPostByBoardAndPage(BoardGroup.valueOf(boardName).getValue(), pageable);
