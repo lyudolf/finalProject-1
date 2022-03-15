@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useContext } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import axios from "../../plugins/axios";
 import * as Yup from "yup";
@@ -11,12 +11,19 @@ import Preview from "./Preview";
 function CreatePost() {
   let navigate = useNavigate();
 
+  //왜 username 정보가 없는데... 로그인 페이지로 넘어가지 않는 것인가....
+  useEffect(() => {
+    if (!localStorage.getItem("username")) {
+      alert("로그인 해주세요");
+      navigate("/login");
+    }
+  }, []);
+
   //글 수정시 글 수정페이지로 넘어오면서 기존 글 정보로 initialValues를 초기화 해줘야되나?
   const initialValues = {
     boardName: "edu",
     title: "",
     content: "",
-    // nickname: localStorage.getItem("user"),
     nickname: "",
     category: [],
     file: null,
@@ -28,8 +35,16 @@ function CreatePost() {
   });
 
   const submitPost = async function (values) {
-    const { boardName, location, interest, level, title, content, image } =
-      values;
+    const {
+      boardName,
+      location,
+      interest,
+      level,
+      title,
+      content,
+      image,
+      nickname,
+    } = values;
 
     let categoryArr = [];
 
@@ -44,10 +59,11 @@ function CreatePost() {
     }
 
     const formData = new FormData();
+
     formData.append("title", title);
     formData.append("content", content);
     //나중에 데이터값 받아와서 수정
-    formData.append("nickname", "닉네임1");
+    formData.append("nickname", localStorage.getItem("username"));
     formData.append("category", JSON.stringify(categoryArr));
 
     if (image !== undefined) {
@@ -62,7 +78,7 @@ function CreatePost() {
       })
       .then((response) => {
         console.log(response.data);
-        // navigate("/carrerboard");
+        navigate(-1);
       })
       .catch((error) => {
         console.log(error);
@@ -96,6 +112,7 @@ function CreatePost() {
               <label>카테고리</label>
               <span className="clearCate">
                 <button
+                  className="postBtn"
                   onClick={() => {
                     setFieldValue("location", "", false);
                     setFieldValue("interest", "", false);
@@ -211,7 +228,6 @@ function CreatePost() {
             />
 
             <div className="previewImg">
-              {" "}
               {values.image && <Preview image={values.image} />}
             </div>
             <input
@@ -223,13 +239,9 @@ function CreatePost() {
               value="사진"
             />
 
-            <div className="postSubmitBtnWrapper">
-              <button className="postSubmitBtn" type="submit">
-                작성완료
-              </button>
-
-              {/* 작성취소 버튼은 기능 구현 해야함. */}
+            <div className="postBtnWrapper">
               <button
+                className="postBtn"
                 type="button"
                 onClick={() => {
                   //글 작성을 취소하시겠습니까?
@@ -237,6 +249,9 @@ function CreatePost() {
                 }}
               >
                 작성취소
+              </button>
+              <button className="postBtn" type="submit">
+                작성완료
               </button>
             </div>
           </Form>

@@ -1,10 +1,9 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import ReactPaginate from "react-paginate";
 import {
   Link,
   useNavigate,
   useLocation,
-  useParams,
   useSearchParams,
 } from "react-router-dom";
 import axios from "../../plugins/axios";
@@ -21,7 +20,6 @@ function Faq(props) {
   const boardGroup = location.pathname.slice(1, idx);
   const boardName = location.pathname.slice(idx + 1);
 
-
   let currentUrl = "";
 
   const [searchParams, setSearchParams] = useSearchParams();
@@ -33,7 +31,6 @@ function Faq(props) {
   const [postInfo, setPostInfo] = useState({});
   const [posts, setPosts] = useState([]);
   const [pageCount, setPageCount] = useState(0);
-
 
   const [searchType, setSearchType] = useState("");
   const [keyword, setKeyword] = useState("");
@@ -58,9 +55,7 @@ function Faq(props) {
   const addOrder = (e) => {
     console.log(e.target.value);
     getFaq(page, qType, qWord, e.target.value);
-
-  }
-
+  };
 
   //리액트화면에서 검색결과 창에서 x버튼 누르면 타입과 검색처 초기화?
   async function getFaq(page, searchType, keyword, order = "postRegdate") {
@@ -68,7 +63,12 @@ function Faq(props) {
 
     await axios
       .get(url, {
-        params: { page: page, searchType: searchType, keyword: keyword, order: order },
+        params: {
+          page: page,
+          searchType: searchType,
+          keyword: keyword,
+          order: order,
+        },
       })
       .then((response) => {
         const postList = response.data.content;
@@ -80,10 +80,10 @@ function Faq(props) {
         //업데이트
         setPostInfo(response.data);
         setPosts(postList);
+        console.log(postList);
         setPageCount(response.data.totalPages);
 
-
-        currentUrl = `/${boardGroup}/${boardName}?page=${page}&searchType=${searchType}&keyword=${keyword}&order=${order}`
+        currentUrl = `/${boardGroup}/${boardName}?page=${page}&searchType=${searchType}&keyword=${keyword}&order=${order}`;
 
         navigate(
           `/${boardGroup}/${boardName}?page=${page}&searchType=${searchType}&keyword=${keyword}&order=${order}`
@@ -120,18 +120,17 @@ function Faq(props) {
 
   return (
     <div className="boardContainer">
-      <div>
-        <li>
-          <Link to="/notice">공지사항;;;;; </Link>
-          <Link to="/faq"> 자주하는질문;;;;; </Link>
-        </li>
-      </div>
-
-       <h1 className="heading">{props.title}</h1>
+      <h1 className="heading">{props.title}</h1>
       <div className="orderButtons">
-        <button value="postViews" onClick={addOrder}>조회순</button>
-        <button value="postLike" onClick={addOrder}>추천순</button>
-        <button value="replyCount" onClick={addOrder}>댓글순</button>
+        <button value="postViews" onClick={addOrder}>
+          조회순
+        </button>
+        <button value="postLike" onClick={addOrder}>
+          추천순
+        </button>
+        <button value="replyCount" onClick={addOrder}>
+          댓글순
+        </button>
       </div>
 
       <table>
@@ -182,7 +181,7 @@ function Faq(props) {
         <div className="writePostBtnWrapper">
           <button
             onClick={() => {
-              navigate("/customer/faq/create");
+              navigate(`/${boardGroup}/${boardName}/create`);
             }}
             className="writePostBtn"
           >
