@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 
-function CommentList({ updateReplyInReview, reply, sendComment, idindex }) {
+function CommentList({ updateReplyInReview, reply, sendComment,idindex }) {
   const [updatedComment, setUpdatedComment] = useState(reply.replyContent);
 
   useEffect(() => {
     if (sendComment) {
-      updateReplyInReview(updatedComment, reply.replyNo, idindex);
+      updateReplyInReview(updatedComment, reply.replyNo , idindex);
     }
   }, [sendComment]);
 

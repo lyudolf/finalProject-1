@@ -47,6 +47,10 @@ import Detail from "../src/views/Review/Detail";
 //-----------------------------------------------------
 import Study from "../src/views/Study/study";
 //-----------------------------------------------
+
+import Company from "./views/Footer/company"; // 푸터 상세페이지
+import Tos from "./views/Footer/Tos";
+//-----------------------------------------------
 import NotFound from "./views/NotFound"; //404 page
 import CreatePostCust from "./views/Study/CreatePostCust";
 import StudyPost from "./views/Study/StudyPost";
@@ -121,6 +125,9 @@ function App() {
         <Route path="/together/study" element={<Study />} />
         <Route path="/together/study/create" element={<CreatePostCust />} />
         <Route path="/together/study/:postno" element={<StudyPost />} />
+        {/* 푸터 */}
+        <Route path="/Company" element={<Company />} />
+        <Route path="/tos" element={<Tos />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
 

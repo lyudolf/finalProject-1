@@ -1,11 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Link,
-  useNavigate,
-  useLocation,
-  useParams,
-  useSearchParams,
-} from "react-router-dom";
+
 import axios from "../../plugins/axios";
 import "./ReviewComment.css";
 
@@ -14,13 +8,12 @@ import CommentList from "./CommentList"; //댓글 수정하면 나오는 입력�
 
 
 
-function ReviewComment(indexObject) {
+function ReviewComment(id) {
 
-
-
-  const ReviewIndex = indexObject.id;// {id: index}
-  console.log("REVUEWCOMMENT" + indexObject.id);
-
+  
+  
+  const idindex = id;
+  
   const [postObject, setPostObject] = useState(null);
   const [comments, setComments] = useState(null);
   const [newComment, setNewComment] = useState("");
@@ -28,12 +21,12 @@ function ReviewComment(indexObject) {
   const [sendComment, setSendComment] = useState(false);
 
   useEffect(() => {
-    getPost(ReviewIndex);
+    getPost(idindex.id);
   }, []);
 
-  const getPost = function (ReviewIndex) {
+  const getPost = function (idindex) {
     axios
-      .get(`/review/index/${ReviewIndex}`)
+      .get(`/review/index/${idindex}`)
       .then((response) => {
         console.log(response.data);
 
@@ -51,8 +44,8 @@ function ReviewComment(indexObject) {
         console.log(error);
       });
   };
-
-
+  
+  
   function dateFormat(date) {
     let month = date.getMonth() + 1;
     let day = date.getDate();
@@ -79,7 +72,7 @@ function ReviewComment(indexObject) {
     formData.append("nickname", "닉네임51");
 
     await axios
-      .post(`/review/reply/${ReviewIndex}`, formData, {
+      .post(`/review/reply/${idindex.id}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -93,47 +86,52 @@ function ReviewComment(indexObject) {
       });
   };
   //댓글 삭제
-  const deleteReply = async function (postNo, replyNo) {
+  const deleteReply = async function (postNo ,replyNo) {
+    console.log(replyNo,idindex);
     await axios({
       method: "DELETE",
       url: `/review/post/${postNo}/reply/${replyNo}/닉네임51`,
     }).then(() => {
+      window.location.reload();
       setComments(
         comments.filter((val) => {
+          
           return val.replyNo !== replyNo;
-
+          
         })
       );
-
+   
     });
   };
 
   //댓글 수정
-  const updateReplyInReview = async function (content, replyNo, ReviewIndex) {
+  const updateReplyInReview = async function (content, replyNo, idindex) {
     const formData = new FormData();
+    formData.append("index", idindex);
     formData.append("nickname", "닉네임51");
-    formData.append("content", content)
+    formData.append("content",content )
+    console.log(replyNo,idindex);
     await axios
-      .put(`/review/index/${ReviewIndex}/reply/${replyNo}`, formData, {
+      .put(`/review/index/${idindex}/reply/${replyNo}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
-
+         
         },
       })
       .then((response) => {
         console.log(response.data);
-        window.location.reload();
+         window.location.reload();
       });
   };
 
   const nickname = "닉네임51";
-
+  
 
   return (
     <div className="postContainer">
       {postObject && (
         <div className="postSection">
-
+    
           <div className="listOfComments">
             {postObject != null &&
               postObject.replies.map((reply, index) => {
@@ -145,7 +143,7 @@ function ReviewComment(indexObject) {
                         sendComment={sendComment}
                         updateReplyInReview={updateReplyInReview}
                         reply={reply}
-                        index={ReviewIndex}
+                        idindex={idindex.id}
                       />
                     ) : (
                       <div>{reply.replyContent}</div>
@@ -178,7 +176,7 @@ function ReviewComment(indexObject) {
                               className="commentAddBtn"
                               onClick={() => {
                                 deleteReply(postObject.postNo, reply.replyNo);
-
+                                
                               }}
                             >
                               삭제
@@ -186,13 +184,13 @@ function ReviewComment(indexObject) {
                           )}
                         </div>
                       )}
-
+                      
                     </span>
                   </div>
                 );
               })}
           </div>
-
+     
           <div className="commentSection">
             <div className="commentNickname">
               {localStorage.getItem("user")}
