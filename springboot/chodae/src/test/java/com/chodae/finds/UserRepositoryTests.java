@@ -13,9 +13,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import com.chodae.find.category.MemberRole;
 import com.chodae.find.domain.User;
 import com.chodae.find.repository.UserRepository;
 
@@ -26,6 +28,9 @@ public class UserRepositoryTests {
 	
 	@Autowired
 	private UserRepository userRepo;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 	
 	@Test
 	public void inspect() {
@@ -101,20 +106,27 @@ public class UserRepositoryTests {
 	}
 	
 	
-	
+	//유저 테스트 데이터 입력 + 권한
 	@Test
-	public void testInsert300() {
-		for(int i = 1; i <=300;i++) {
+	public void testInsert100() {
+		
+		for(int i = 1; i <=100;i++) {
+			
 			User user = new User();
-			user.setPassword(password+i);
+			user.setPassword(passwordEncoder.encode("11111"));
 			user.setName(name+i);
 			user.setEmail(i+email);
 			user.setNickname(nickname+i);
 			user.setStatus(status);
 			user.setLoginId(login_id+i);
+			user.setSocial(false);
 			
+//			user.addMemberRole(MemberRole.USER);
 			
-			
+			if( i > 95) {
+				//95번 이상 멤버는 추가로 관리자 권한 부여
+//				user.addMemberRole(MemberRole.ADMIN);
+			}
 			
 			userRepo.save(user);
 		}
