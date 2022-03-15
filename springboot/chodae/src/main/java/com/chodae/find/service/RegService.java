@@ -19,6 +19,7 @@ public class RegService {
 	
 @Transactional //서비스 함수가 종료 될떄 commit 할지 rollback 할지 관리
 	public User regSave(User user) {
+	System.out.println(user.getPassword());
 		return regRepo.save(user);
 	}
 @Transactional(readOnly=true)

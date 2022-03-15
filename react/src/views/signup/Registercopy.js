@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
@@ -160,7 +161,7 @@ const Registercopy = () => {
             console.log(error.response);
           });
       }}
-      // formik.setFieldTouched('email')
+    // formik.setFieldTouched('email')
     >
       {(formik) => {
         const renderErrorMessage = (field) => {
@@ -318,13 +319,15 @@ const Registercopy = () => {
                   </div>
 
                   <div className="btn_area">
-                    <button
-                      className="loginBtn registerWidth"
-                      type="submit"
-                      id="btnJoin"
-                    >
-                      <span>가입하기</span>
-                    </button>
+                    <Link to="/">
+                      <button
+                        className="loginBtn registerWidth"
+                        type="submit"
+                        id="btnJoin"
+                      >
+                        <span>가입하기</span>
+                      </button>
+                    </Link>
                   </div>
                 </div>
               </div>

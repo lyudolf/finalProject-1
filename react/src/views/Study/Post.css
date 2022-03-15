@@ -1,0 +1,63 @@
+/* .postContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.commentSection {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  margin-top: 10px;
+  width: 100%;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  margin: 5px 0;
+  padding: 5px 0 5px 10px;
+}
+.postCatogory{
+  display: flex;
+  justify-content: end;
+}
+.postTitle {
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.postContent {
+  height: 400px;
+}
+
+.listOfComments {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  margin-top: 10px;
+}
+
+.comment {
+  width: 100%;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  margin: 5px 0;
+  padding: 5px 0 5px 10px;
+}
+
+.commentNickname {
+  font-weight: bold;
+  padding-bottom: 3px;
+}
+
+.commentTime {
+  padding-right: 10px;
+  color: rgba(148, 141, 141);
+}
+
+.commentInputBox {
+  border-style: none;
+  display: inline-block;
+}
+
+.commentAddBtn {
+  display: inline-block;
+} */
