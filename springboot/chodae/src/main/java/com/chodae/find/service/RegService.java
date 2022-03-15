@@ -51,13 +51,10 @@ public class RegService {
 		user.setSocial(false);
 		User registeredMember = regRepo.save(user);
 		
-//		MemberDTO responseMemberDTO = MemberDTO.builder()
-//				.build();//수정중
-		
 		return registeredMember; 
 	}
 	
-	//로그인시 아이디 비밀번호 일치여부 확인
+	//로그인시 아이디 비밀번호 일치여부 확인할떄
 	public User getByCredentials(String loginId, String password, BCryptPasswordEncoder passwordEncoder) {
 		
 		Optional<User> result = userRepo.findByLoginId(loginId, false);
