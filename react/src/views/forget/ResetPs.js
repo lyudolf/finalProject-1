@@ -112,7 +112,7 @@ function ResetPs() {
           console.log(response.data);
           //성공시 재설정 결과화면 페이지로 이동, 업데이트 성공시 숫자1 반환
           if (response.data === 1) {
-            navigate(`/login/find/ps/done`);
+            navigate(`/find/ps/done`);
           }
         })
         .catch((error) => {
