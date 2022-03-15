@@ -127,8 +127,6 @@ select option[value=""][disabled] {
 
 .postBtn:hover {
   background: #a6b1e1;
-}
-
 .createPostErr2 {
   display: flex;
   flex-flow: row;
