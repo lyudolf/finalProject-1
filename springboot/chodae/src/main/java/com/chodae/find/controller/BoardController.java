@@ -44,6 +44,7 @@ public class BoardController {
 			@RequestParam String keyword,
 			@RequestParam(required = false, defaultValue = "postRegdate") String order){
 		
+
 		log.info(""+pageVo+":::"+searchType+"::::"+keyword);
 		log.info(""+pageVo.makePageable(0, order)); 
 		

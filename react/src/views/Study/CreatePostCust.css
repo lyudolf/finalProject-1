@@ -92,8 +92,15 @@ select option[value=""][disabled] {
   color: red;
 }
 .previewButton {
-  width: 100px;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
+  border-radius: 3px;
+  height: 25px;
+  width: 60px;
+  background-color: #dcd6f7;
+  border: none;
+  color: #424874;
+  font-weight: bold;
+  cursor: pointer;
 }
 .previewImg {
   position: relative;
@@ -126,4 +133,67 @@ select option[value=""][disabled] {
   margin-top: -12px;
   margin-left: 465px;
   position: absolute;
+}
+
+.resetButton {
+  margin-left: 10px;
+  margin-top: 3px;
+  margin-bottom: 20px;
+  border-radius: 3px;
+  height: 25px;
+  width: 60px;
+  background-color: #dcd6f7;
+  border: none;
+  color: #424874;
+  font-weight: bold;
+  cursor: pointer;
+  padding-bottom: 3px;
+}
+.postSubmitBtnWrapper {
+  text-align: right;
+}
+.postSubmitBtn {
+  margin-left: 20px;
+  margin-top: 3px;
+  margin-bottom: 20px;
+  border-radius: 3px;
+  height: 30px;
+  width: 80px;
+  background-color: #dcd6f7;
+  border: none;
+  color: #424874;
+  font-weight: bold;
+  cursor: pointer;
+  padding-bottom: 3px;
+}
+
+.postSubmitBtn2 {
+  margin-left: 20px;
+  margin-top: 3px;
+  margin-bottom: 20px;
+  border-radius: 3px;
+  height: 30px;
+  width: 80px;
+  background-color: #dcd6f7;
+  border: none;
+  color: #424874;
+  font-weight: bold;
+  cursor: pointer;
+  padding-bottom: 3px;
+}
+.cateButton {
+  margin-top: 3px;
+  margin-bottom: 20px;
+  border-radius: 3px;
+  height: 25px;
+  width: 60px;
+  background-color: #dcd6f7;
+  border: none;
+  color: #424874;
+  font-weight: bold;
+  cursor: pointer;
+  padding-bottom: 3px;
+}
+.refresh {
+  width: 10px;
 }

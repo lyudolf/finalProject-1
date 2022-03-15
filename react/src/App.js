@@ -24,6 +24,8 @@ import Registercopy from "./views/signup/Registercopy"; //회원가입폼
 //게시판---------------------------------------------------------
 import MainBoard from "./views/board/MainBoard"; //메인게시판
 import CareerBoard from "./views/board/CareerBoard"; //취업상담게시판
+
+import SideNavbar from "./component/SideNavbar"; //사이드 네비바
 import CreatePost from "./views/board/CreatePost"; //게시판 글쓰기
 import Post from "./views/board/Post"; //글 보기
 import TechNews from "./views/board/itnews/TechNews"; //it뉴스게시판
@@ -40,9 +42,12 @@ import data from '../src/views/Review/Reviewdata.js'; //국비지원리뷰의 �
 import ReviewMain from "../src/views/Review/ReviewMain"; //국비지원 리뷰창
 import Detail from "../src/views/Review/Detail";
 //-----------------------------------------------------
-import Study from "../src/views/Study/Studymain";
+import Study from "../src/views/Study/study";
 //-----------------------------------------------
 import NotFound from "./views/NotFound"; //404 page
+import CreatePostCust from "./views/Study/CreatePostCust";
+import StudyPost from "./views/Study/StudyPost";
+
 //----------------------------------------------------------------------------
 
 
@@ -71,19 +76,18 @@ function App() {
         {/* 게시판 메인화면 */}
         <Route path="/mainboard" element={<MainBoard />}>
           <Route path="technews" element={<TechNews />} />
+          <Route path="career" element={<CustomerFaq title="취업상담" />} />
+          <Route path="career/:postno" element={<FaqPost />} />
+          <Route path="career/create" element={<CreatePost />} />
+          <Route path="career/:postno/update" element={<UpdatePost />} />
           <Route path="careerboardcopy" element={<CareerBoardcopy />} />
-          <Route path="study" element={<Front />} />
+
         </Route>
 
-        <Route path="/mainboard/career" element={<CustomerFaq />} />
-        <Route path="/mainboard/career/:postno" element={<FaqPost />} />
-        <Route path="/mainboard/career/create" element={<CreatePost />} />
         <Route
-          path="/mainboard/career/:postno/update"
-          element={<UpdatePost />}
+          path="/customer/notice"
+          element={<CustomerFaq title="공지사항" />}
         />
-
-        <Route path="/customer/notice" element={<CustomerFaq />} />
         <Route path="/customer/notice/:postno" element={<FaqPost />} />
         <Route path="/customer/notice/create" element={<CreatePost />} />
         <Route
@@ -91,7 +95,10 @@ function App() {
           element={<UpdatePost />}
         />
 
-        <Route path="/customer/faq" element={<CustomerFaq />} />
+        <Route
+          path="/customer/faq"
+          element={<CustomerFaq title="고객센터" />}
+        />
         <Route path="/customer/faq/:postno" element={<FaqPost />} />
         <Route path="/customer/faq/create" element={<CreatePost />} />
         <Route path="/customer/faq/:postno/update" element={<UpdatePost />} />
@@ -100,8 +107,9 @@ function App() {
         <Route path="/reviewmain" element={<ReviewMain shoes={shoes} shoes1={shoes1} />} />
         <Route path="/detail/:id" element={<Detail shoes={shoes} />} />
         {/* 스터디모집 */}
-        <Route path="/study" element={<Study />} />
-
+        <Route path="/together/study" element={<Study />} />
+        <Route path="/together/study/create" element={<CreatePostCust />} />
+        <Route path="/together/study/:postno" element={<StudyPost />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
 

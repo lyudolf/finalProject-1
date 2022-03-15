@@ -1,13 +1,14 @@
 import React from "react";
 import { Link, Outlet } from "react-router-dom";
+import SideNavbar from "../../component/SideNavbar";
 
 function MainBoard() {
   return (
     <div>
       <div>
-        <Link to="/mainboard/career">취업준비게시판</Link>
-        <Link to="/mainboard/technews">IT뉴스 게시판</Link>
+        <SideNavbar />
         <Outlet />
+        {/* <div style={{ height: "500px" }}>메인보드 내용 들어가야함</div> */}
       </div>
     </div>
   );
