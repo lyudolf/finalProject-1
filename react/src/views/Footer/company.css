@@ -1,0 +1,18 @@
+.company{
+ display: flex;
+ justify-content: center;
+ 
+}
+.company h3{
+    
+}
+.companyimage img{
+    width: 100%;
+}
+.companyimage{
+    width: 45%;
+}
+.companycontent{
+    width: 45%;
+    text-align: center;
+}

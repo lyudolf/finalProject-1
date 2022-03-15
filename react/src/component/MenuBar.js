@@ -7,7 +7,7 @@ function MenuBar() {
   return (
     <div className="menu">
       <ul>
-        <li><a href="#">스터디모집</a>
+        <li><a href="/together/study">스터디모집</a>
         <ul>
         <li><a href="#">간이테스트</a> </li>
         <li> <a href="#">지역별 검색</a></li>
@@ -16,19 +16,19 @@ function MenuBar() {
         </li>
       
       
-      <li> <a href="#">국비교육</a>
+      <li> <a href="/reviewmain">국비교육</a>
       <ul>
-        <li> <a href="#">기관검색</a></li>
+        <li> <a href="/reviewmain">기관검색</a></li>
       </ul>
       </li>
       
         <li>
-          <a href="#">게시판</a>
+          <a href="/mainboard">게시판</a>
         <ul>
         <li><a href="#">리뷰게시판</a> </li>
         <li><a href="#">고민상담게시판</a></li>
-        <li><a href="#">최업준비게시판</a></li>
-        <li> <a href="#">IT게시판</a> </li>
+        <li><a href="/career">최업준비게시판</a></li>
+        <li> <a href="/technews">IT게시판</a> </li>
         </ul>
     </li>
       
@@ -43,9 +43,9 @@ function MenuBar() {
       
       
         <li>
-          <a href="#">고객센터</a>
+          <a href="/customer/faq">고객센터</a>
         <ul>
-        <li><a href="#">공지사항</a></li>
+        <li><a href="/customer/faq">공지사항</a></li>
         <li><a href="#">자주하는 질문</a> </li>
         </ul>
      </li>

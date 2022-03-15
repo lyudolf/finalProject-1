@@ -1,0 +1,20 @@
+.toscontent{
+
+width: 90%;
+
+
+}
+.tos{
+    justify-content: center;
+    height: 700px;
+    overflow: scroll;
+    width: 100%;
+    overflow-x:hidden;
+   
+}
+.tos h2,h4{
+    text-align: center;
+}
+.tos li{
+    list-style: none;
+}
