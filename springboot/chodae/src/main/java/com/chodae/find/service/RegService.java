@@ -8,14 +8,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.chodae.find.category.MemberRole;
 import com.chodae.find.domain.User;
-import com.chodae.find.dto.MemberDTO;
 import com.chodae.find5.repository.RegRepo;
 import com.chodae.find5.repository.UserRepo;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -25,7 +22,7 @@ public class RegService {
 
 	private final RegRepo regRepo;
 	private final UserRepo userRepo;
-	private final BCryptPasswordEncoder passwordEncoder;
+	private final PasswordEncoder passwordEncoder;
 	
 	
 	//일반회원 가입시
@@ -56,7 +53,7 @@ public class RegService {
 	}
 	
 	//로그인시 아이디 비밀번호 일치여부 확인할떄
-	public User getByCredentials(String loginId, String password, BCryptPasswordEncoder passwordEncoder) {
+	public User getByCredentials(String loginId, String password, PasswordEncoder passwordEncoder) {
 		
 		Optional<User> result = userRepo.findByLoginId(loginId, false);
 		
