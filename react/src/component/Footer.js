@@ -1,12 +1,17 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "./Footer.css";
 
 function Footer() {
   return (
     <div className="footerContainer">
       <div className="footerTop">
-        <p>회사소개</p>
-        <p>이용약관</p>
+        <Link to="company">
+          <p>회사소개</p>
+        </Link>
+        <Link to="/tos">
+          <p>이용약관</p>
+        </Link>
         <p>개인정보처리방침</p>
         <p>고객센터</p>
       </div>

@@ -1,28 +1,37 @@
-.eachcard button{
-    width: 100%;
-    height: 300px;
-    margin: 10px 0;
-    background-color: white;
-    border-radius: 10px;
-    border-width: 1px;
-    
+.reviewmainContainer {
+  height: 1200px;
+  display: flex;
+  justify-content: center;
 }
-.eachcard img{
-    width: 100%;
-    height: 200px;
+.eachcard button {
+  width: 100%;
+  height: 300px;
+  margin: 10px 0;
+  background-color: white;
+  border-radius: 10px;
+  border-width: 1px;
+}
+.eachcard img {
+  width: 100%;
+  height: 200px;
 }
 
-.eachcard h4{
-    font-size: 17px;
-    text-align: center;
+.eachcard h4 {
+  font-size: 17px;
+  text-align: center;
 }
-.eachcard{
-    width: 300px;
-    margin: 20px;
+.eachcard {
+  width: 300px;
+  margin: 20px;
 }
-.row{
-    display: flex;
-    width: 95vw;
-    flex-flow: wrap;
-    justify-content: center;
+.row {
+  display: flex;
+  width: 95vw;
+  flex-flow: wrap;
+  justify-content: center;
+}
+
+.headline {
+  width: 75%;
+  margin: auto;
 }

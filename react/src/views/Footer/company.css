@@ -1,18 +1,21 @@
-.company{
- display: flex;
- justify-content: center;
- 
+.company {
+  display: column;
+  justify-content: center;
 }
-.company h3{
-    
+
+.companyimageWrapper {
+  display: flex;
+  flex: 1;
+  justify-content: center;
 }
-.companyimage img{
-    width: 100%;
+
+.companyimage {
+  width: 50%;
 }
-.companyimage{
-    width: 45%;
+.companycontent {
+  text-align: center;
 }
-.companycontent{
-    width: 45%;
-    text-align: center;
+
+.companyTextContainer {
+  margin-top: 30px;
 }
