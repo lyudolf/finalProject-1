@@ -1,7 +1,8 @@
 import React from "react";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
-import axios from "axios";
+// import axios from "axios";
+import axios from "../../plugins/axios";
 import "./Register.css";
 
 const Registercopy = () => {
@@ -160,7 +161,7 @@ const Registercopy = () => {
             console.log(error.response);
           });
       }}
-      // formik.setFieldTouched('email')
+    // formik.setFieldTouched('email')
     >
       {(formik) => {
         const renderErrorMessage = (field) => {

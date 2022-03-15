@@ -1,9 +1,12 @@
 package com.chodae.find5.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
+import org.springframework.data.jpa.repository.EntityGraph;
+import org.springframework.data.jpa.repository.EntityGraph.EntityGraphType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -23,6 +26,20 @@ public interface UserRepo extends JpaRepository<User, Long> {
 	int updatePassword(String id, String password);
 	
 	User findUserByNickname(String nickname);
+	
+	
+	
+	// 소셜 회원이 아닌 회원을  로그인 아이디로 검색. 
+	@EntityGraph(attributePaths = {"roleSet"}, type = EntityGraph.EntityGraphType.LOAD)
+	@Query("SELECT u from User u WHERE u.social = :social and u.loginId = :loginId")
+	Optional<User> findByLoginId(String loginId, boolean social);
+	
+	Boolean existsByLoginId(String loginId);
+	
+	User findByLoginIdAndPassword(String loginId,String password);
+	
+	
+	
 
 
 	

@@ -50,7 +50,6 @@ public class BoardServiceImpl implements BoardService {
 	@Autowired
 	public BoardServiceImpl(PostRepo postRepo, ReplyRepo replyRepo, RecommendationRepo recommRepo,
 			CategoryRepo categoryRepo, UserRepo userRepo,ImageRepository imageRepo) {
-		super();
 		this.postRepo = postRepo;
 		this.replyRepo = replyRepo;
 		this.recommRepo = recommRepo;
@@ -370,7 +369,8 @@ public class BoardServiceImpl implements BoardService {
 		return reply.getReplyNo();
 		
 	}
-
+	
+	@Transactional
 	@Override
 	public Long deleteReply(String boardName, Long postNo, Long replyNo, String nickname) {
 		
@@ -379,14 +379,17 @@ public class BoardServiceImpl implements BoardService {
 		
 		if(result.isPresent()) {
 			Reply reply = result.get();
-			
+			log.info(""+reply);
 			Post post = reply.getPost();
 			post.setReplyCount(post.getReplyCount()-1);
 			
-			replyRepo.delete(reply);
+			postRepo.saveAndFlush(post);
+			
+			replyRepo.deleteById(replyNo);
+			return replyNo;
 		}
 		
-		return replyNo;
+		return 0L;
 	}
 
 	@Override
@@ -503,11 +506,11 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public Post findPostByIndex(String index) {
 		
-		List<Post> result = postRepo.findCateKindAndName("index", index);
+		Optional<Post> result = postRepo.findCateKindAndName("index", index);
 		
-		if(!result.isEmpty()) {
+		if(result.isPresent()) {
 			
-			Post post = result.get(0);
+			Post post = result.get();
 			
 			List<Reply> replies = post.getReplies();
 			replies.forEach(reply -> {

@@ -26,6 +26,22 @@ th {
   color: black;
 }
 
+.orderButtons{
+  display: flex;
+  justify-content: end;
+  padding: 4px;
+}
+.orderButtons button{
+  margin-right: 8px;
+  width: 60px;
+  height: 40px;
+  border-radius: 8px;
+  border: none;
+  background-color: #dcd6f7;
+  color: #424874;
+  font-weight: bold;
+}
+
 table {
   width: 100%;
   margin: auto;

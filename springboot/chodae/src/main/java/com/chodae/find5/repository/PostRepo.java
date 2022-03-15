@@ -1,6 +1,7 @@
 package com.chodae.find5.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -55,7 +56,7 @@ public interface PostRepo  extends JpaRepository<Post, Long>{
 	
 	//리뷰 게시판 인덱스로 특정 게시글 찾기
 	@Query("SELECT p FROM Post p left join p.category c WHERE c.categoryKind = ?1 and c.categoryName = ?2")
-	List<Post> findCateKindAndName(String Kind, String Name);
+	Optional<Post> findCateKindAndName(String Kind, String Name);
 	
 	
 	

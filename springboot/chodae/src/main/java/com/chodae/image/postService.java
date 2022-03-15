@@ -25,7 +25,7 @@ public class postService  {
 		this.postRepo = postRepo;
 		this.userRepo = userRepo;
 	}
-	
+	 
 	
 private PostRepo postRepo;
 	
