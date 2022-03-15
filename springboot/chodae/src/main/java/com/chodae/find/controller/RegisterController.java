@@ -32,6 +32,7 @@ public class RegisterController {
 	@Transactional
 	@PostMapping("/reg")
 	public ResponseEntity<?> saveAll(@RequestBody User user) {
+		log.info(""+user);
 		return new ResponseEntity<>(regService.regSave(user), HttpStatus.CREATED);
 	}
 	@Transactional

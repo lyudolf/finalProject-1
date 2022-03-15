@@ -24,7 +24,7 @@ public class UserFindServiceImpl implements UserFindService {
 	public UserFindServiceImpl(UserRepo userRepo) {
 		this.userRepo = userRepo;
 	}
-
+ 
 
 	@Override
 	public String searchId(String name, String email) {

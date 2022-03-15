@@ -19,14 +19,15 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import com.chodae.find.category.BoardGroup;
 import com.chodae.find.domain.Board;
 import com.chodae.find.domain.Category;
+import com.chodae.find.domain.User;
 import com.chodae.find.domain.Post;
 import com.chodae.find.domain.PostContent;
 import com.chodae.find.domain.Reply;
-import com.chodae.find.dto.PostDTO;
 import com.chodae.find5.repository.BoardRepo;
 import com.chodae.find5.repository.CategoryRepo;
 import com.chodae.find5.repository.PostRepo;
 import com.chodae.find5.repository.ReplyRepo;
+import com.chodae.find5.repository.UserRepo;
 
 import lombok.extern.java.Log;
 
@@ -40,16 +41,19 @@ import lombok.extern.java.Log;
 public class BoardPostTest {
 	
 	@Autowired
-	BoardRepo boardRepo;
+	private UserRepo userRepo;
 	
 	@Autowired
-	PostRepo postRepo;
+	private BoardRepo boardRepo;
 	
 	@Autowired
-	ReplyRepo replyRepo;
+	private PostRepo postRepo;
 	
 	@Autowired
-	CategoryRepo cateRepo;
+	private ReplyRepo replyRepo;
+	
+	@Autowired
+	private CategoryRepo cateRepo;
 	
 	@Transactional
 	@Test
@@ -280,17 +284,18 @@ public class BoardPostTest {
 	}
 	
 	//리뷰게시판 조회 (카테고리의 인덱스 넘버로 찾기)
+
 	@Test
 	@Transactional
-	public Post selectReviewPosts() {
+	public void selectReviewPosts() {
 		
-		List<Post> result = postRepo.findCateKindAndName("index","0");
+		Optional<Post> result = postRepo.findCateKindAndName("index","0");
 		
-		Post postInfo = result.get(0);
+		Post postInfo = result.get();
 		
 		log.info(""+postInfo);
 		
-		return postInfo;
+		
 		
 	}
 	
@@ -307,7 +312,53 @@ public class BoardPostTest {
 		});
 	}
 	
-	//댓글저장  그리고 게시글 조회시 댓글수 조회되나 확인
+	@Test
+	@Transactional
+	public void insertReviewReply() {
+		
+		Reply reply = new Reply();//댓글 엔티티 생성
+
+		reply.setBoardNo(BoardGroup.valueOf("review").getValue());//게시판 이름을 전달받아 enum으로 게시판 번호로 변환
+	
+		Post post =  postRepo.findById(393L).get();
+		post.setReplyCount(post.getReplyCount()+1); //댓글수 1 증가 
+		reply.setPost(post);//게시글 번호, 댓글수 1 증가 반영
+		
+		//닉네임 => id로 변환하여 설정
+		User user = userRepo.findUserByNickname("닉네임1");
+		reply.setId(user.getId());//작성 회원번호  (중복체크한 닉네임을  id로 바꿔서 등록) 
+		
+		
+		reply.setReplyContent("댓글테스트내용");//댓글 내용
+		reply.setReplyRegdate(LocalDateTime.now());//작성일자
+		reply.setReplyModdate(LocalDateTime.now());//수정일자
+		reply.setReplyLike(0);//추천수 (기본값 0) 
+		reply.setLevel(3);//회원등급
+		
+		reply.setUpperReply(0);//상위댓글번호(임의로 기본값 0으로 설정. 아직 사용하지 않음.) 
+		
+		replyRepo.save(reply);
+		
+	}
+	
+	@Test
+	@Transactional
+	public void deleteReviewReply() {
+		Optional<Reply> result =  replyRepo.findById(1L);
+		
+		if(result.isPresent()) {
+			Reply reply = result.get();
+			
+			Post post = reply.getPost();
+			post.setReplyCount(post.getReplyCount()-1);
+			postRepo.saveAndFlush(post);
+			
+			
+			replyRepo.deleteById(1L);
+			
+			
+		}
+	}
 	
 	@Test
 	@Transactional //지연로딩

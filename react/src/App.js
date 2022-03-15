@@ -45,9 +45,12 @@ import data from "../src/views/Review/Reviewdata.js"; //국비지원리뷰의 �
 import ReviewMain from "../src/views/Review/ReviewMain"; //국비지원 리뷰창
 import Detail from "../src/views/Review/Detail";
 //-----------------------------------------------------
-import Study from "../src/views/Study/Studymain";
+import Study from "../src/views/Study/study";
 //-----------------------------------------------
 import NotFound from "./views/NotFound"; //404 page
+import CreatePostCust from "./views/Study/CreatePostCust";
+import StudyPost from "./views/Study/StudyPost";
+
 //----------------------------------------------------------------------------
 
 function App() {
@@ -86,7 +89,7 @@ function App() {
           <Route path="career/create" element={<CreatePost />} />
           <Route path="career/:postno/update" element={<UpdatePost />} />
           <Route path="careerboardcopy" element={<CareerBoardcopy />} />
-          <Route path="study" element={<Front />} />
+
         </Route>
 
         <Route
@@ -115,8 +118,9 @@ function App() {
         />
         <Route path="/detail/:id" element={<Detail shoes={shoes} />} />
         {/* 스터디모집 */}
-        <Route path="/study" element={<Study />} />
-
+        <Route path="/together/study" element={<Study />} />
+        <Route path="/together/study/create" element={<CreatePostCust />} />
+        <Route path="/together/study/:postno" element={<StudyPost />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
 

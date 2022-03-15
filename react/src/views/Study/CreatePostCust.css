@@ -41,7 +41,6 @@ select option[value=""][disabled] {
   margin-bottom: 10px;
   border: 2px solid grey;
   border-radius: 5px;
-  padding-left: 10px;
   margin-right: 10px;
   font-size: 20px;
 }
@@ -93,40 +92,22 @@ select option[value=""][disabled] {
   color: red;
 }
 .previewButton {
-  width: 100px;
-  margin: 0 0 20px 5px;
-  display: inline-block;
-  border-radius: 5px;
-  border: none;
-  padding: 5px;
+  margin-bottom: 24px;
+  border-radius: 3px;
+  height: 25px;
+  width: 60px;
   background-color: #dcd6f7;
+  border: none;
   color: #424874;
   font-weight: bold;
+  cursor: pointer;
 }
 .previewImg {
   position: relative;
+
   width: 100px;
   height: 100px;
 }
-
-.postBtnWrapper {
-  display: flex;
-  justify-content: end;
-}
-
-.postBtn {
-  display: inline-block;
-  border-radius: 5px;
-  border: none;
-  margin: 5px;
-  padding: 5px;
-  background-color: #dcd6f7;
-  color: #424874;
-  font-weight: bold;
-}
-
-.postBtn:hover {
-  background: #a6b1e1;
 .createPostErr2 {
   display: flex;
   flex-flow: row;
@@ -152,4 +133,67 @@ select option[value=""][disabled] {
   margin-top: -12px;
   margin-left: 465px;
   position: absolute;
+}
+
+.resetButton {
+  margin-left: 10px;
+  margin-top: 3px;
+  margin-bottom: 20px;
+  border-radius: 3px;
+  height: 25px;
+  width: 60px;
+  background-color: #dcd6f7;
+  border: none;
+  color: #424874;
+  font-weight: bold;
+  cursor: pointer;
+  padding-bottom: 3px;
+}
+.postSubmitBtnWrapper {
+  text-align: right;
+}
+.postSubmitBtn {
+  margin-left: 20px;
+  margin-top: 3px;
+  margin-bottom: 20px;
+  border-radius: 3px;
+  height: 30px;
+  width: 80px;
+  background-color: #dcd6f7;
+  border: none;
+  color: #424874;
+  font-weight: bold;
+  cursor: pointer;
+  padding-bottom: 3px;
+}
+
+.postSubmitBtn2 {
+  margin-left: 20px;
+  margin-top: 3px;
+  margin-bottom: 20px;
+  border-radius: 3px;
+  height: 30px;
+  width: 80px;
+  background-color: #dcd6f7;
+  border: none;
+  color: #424874;
+  font-weight: bold;
+  cursor: pointer;
+  padding-bottom: 3px;
+}
+.cateButton {
+  margin-top: 3px;
+  margin-bottom: 20px;
+  border-radius: 3px;
+  height: 25px;
+  width: 60px;
+  background-color: #dcd6f7;
+  border: none;
+  color: #424874;
+  font-weight: bold;
+  cursor: pointer;
+  padding-bottom: 3px;
+}
+.refresh {
+  width: 10px;
 }

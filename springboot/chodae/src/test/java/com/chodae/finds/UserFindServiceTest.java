@@ -50,7 +50,7 @@ public class UserFindServiceTest {
 			user.setLevel(level);
 			user.setNickname(nickname+i);
 			user.setStatus(status);
-			user.setRole(role);
+			
 			
 			
 			userRepo.save(user);

@@ -1,7 +1,5 @@
 package com.chodae.find.controller;
 
-import java.util.List;
-
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,24 +36,23 @@ public class BoardController {
 	}
 
 	//전체 조회 + 검색 
-	//게시글 검색 개선  페이지네이션 적용 (특정한 게시판에서 -- 제목, 내용 , 작성자 , 제목+내용,) 
-	//분류 :  카테고리(지역,사용언어, 수준, 프로그램,분야:풀스택, 프론트엔드, 백엔드 ...), 평점, 
-//	@GetMapping("/{boardName}/find")
+	//분류 :  카테고리(지역,사용언어, 수준, 프로그램,분야:풀스택, 프론트엔드, 백엔드 ...), 평점,
 	@Transactional
 	@GetMapping("/{boardName}")
 	Page<Post> getSearchPost(@PathVariable String boardName, PageVO pageVo,
 			@RequestParam String searchType,
-			@RequestParam String keyword){
+			@RequestParam String keyword,
+			@RequestParam(required = false, defaultValue = "postRegdate") String order){
 		
+
 		log.info(""+pageVo+":::"+searchType+"::::"+keyword);
-		log.info(""+pageVo.makePageable(0, "postRegdate"));
+		log.info(""+pageVo.makePageable(0, order)); 
 		
-		//url 쿼리스트링까지 모든 주소를 변수로 저장한 다음 그 뒤에다가 추천순, 댓글순, 조회순이라는 조건을 추가하는 방식?
 		// 카테고리 분류 검색? 
 		//평점 분류 검색? 
 		
 		
-		Page<Post> result = boardService.searchPost(boardName, searchType, keyword,pageVo.makePageable(0, "postRegdate"));
+		Page<Post> result = boardService.searchPost(boardName, searchType, keyword,pageVo.makePageable(0, order));
 		
 		return result;	
 	}
@@ -184,20 +181,20 @@ public class BoardController {
 	
 	
 	//리뷰게시글 및 댓글 목록 조회
-		@Transactional
-		@GetMapping("/{boardName}/index/{index}")
-		PostDTO getReviewPost(@PathVariable String boardName,@PathVariable String index){
-			//1. 카테고리의 index로  게시글 객체 찾기
-			Post post = boardService.findPostByIndex(index);
-			
-			if(post == null) {
-				return null;
-			}
-			
-			PostDTO dto = boardService.entityToDto(post);
+	@Transactional
+	@GetMapping("/{boardName}/index/{index}")
+	PostDTO getReviewPost(@PathVariable String boardName,@PathVariable String index){
+		//1. 카테고리의 index로  게시글 객체 찾기
+		Post post = boardService.findPostByIndex(index);
 		
-			return dto;	
+		if(post == null) {
+			return null;
 		}
+		
+		PostDTO dto = boardService.entityToDto(post);
+	
+		return dto;	
+	}
 	
 	//리뷰게시판 댓글 추가
 	@Transactional
@@ -240,20 +237,13 @@ public class BoardController {
 		
 	// 리뷰게시판 댓글 삭제
 	@Transactional
-	@DeleteMapping("/{boardName}/index/{index}/reply/{replyNo}/{nickname}")
-	public ResponseEntity<Long> deleteReplyInReview(@PathVariable String boardName,@PathVariable String index, @PathVariable Long replyNo, 
+	@DeleteMapping("/{boardName}/post/{postNo}/reply/{replyNo}/{nickname}")
+	public ResponseEntity<Long> deleteReplyInReview(@PathVariable String boardName,@PathVariable Long postNo, @PathVariable Long replyNo, 
 			@PathVariable String nickname) {
 		
-		//1. 카테고리의 index로  게시글 객체 찾기
-		Post post = boardService.findPostByIndex(index);
+		Long deletedReplyNo = boardService.deleteReply(boardName, postNo, replyNo, nickname);
 		
-		if(post == null) {
-			return new ResponseEntity<Long>(0L,HttpStatus.FORBIDDEN);
-		}
-			
-		Long deletedReplyNo = boardService.deleteReply(boardName, post.getPostNo(), replyNo, nickname);
-		
-		return new ResponseEntity<Long>(deletedReplyNo,HttpStatus.OK); 
+		return new ResponseEntity<Long>(deletedReplyNo, HttpStatus.OK); 
 	}
 	
 	

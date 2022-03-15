@@ -75,6 +75,7 @@ public interface BoardService {
 				.postNotice(entity.getPostNotice())
 				.postComment(entity.getPostComment())
 				.postDisplay(entity.getPostDisplay())
+				.name(entity.getImage())
 				.build();
 		
 		return dto;

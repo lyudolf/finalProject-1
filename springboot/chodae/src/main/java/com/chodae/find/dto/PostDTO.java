@@ -7,6 +7,7 @@ import com.chodae.find.domain.Board;
 import com.chodae.find.domain.Category;
 import com.chodae.find.domain.PostContent;
 import com.chodae.find.domain.Reply;
+import com.chodae.image.Image;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -35,7 +36,7 @@ public class PostDTO {
 	private LocalDateTime postModdate;//수정일자
 	private Integer level;  //회원 등급 
 	private Integer postLevel; //게시글 등급
-	
+	private List<Image> name;
 	private String postNotice;//공지사항여부
 	private String postComment;//댓글사항 여부 
 	private String postDisplay;// 게시 여부

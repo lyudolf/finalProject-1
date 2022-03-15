@@ -20,15 +20,17 @@ function Faq(props) {
   const boardGroup = location.pathname.slice(1, idx);
   const boardName = location.pathname.slice(idx + 1);
 
+  let currentUrl = "";
+
   const [searchParams, setSearchParams] = useSearchParams();
   let page = searchParams.get("page");
   let qType = searchParams.get("searchType");
   let qWord = searchParams.get("keyword");
+  let qOrder = searchParams.get("order");
 
   const [postInfo, setPostInfo] = useState({});
   const [posts, setPosts] = useState([]);
   const [pageCount, setPageCount] = useState(0);
-  // const [pageNo, setPageNo] = useState(1);
 
   const [searchType, setSearchType] = useState("");
   const [keyword, setKeyword] = useState("");
@@ -39,24 +41,34 @@ function Faq(props) {
     page = page === null ? 1 : page;
     qType = qType === null ? "" : qType;
     qWord = qWord === null ? "" : qWord;
+    qOrder = qOrder === null ? "" : qOrder;
 
-    getFaq(page, qType, qWord);
+    getFaq(page, qType, qWord, qOrder);
 
     setPaginationNumber(parseInt(page));
-  }, [page, qType, qWord]); //뒤로 가기시 페이지번호나 검색종류,검색어가 바뀌면 쿼리스트링으로 재검색)
-  //게시판 하단 페이지네이션과 연동이 안되고 있는 상황임. 아직 방법을 모르겠다.
+  }, [page, qType, qWord, qOrder]);
 
   const changePage = ({ selected }) => {
-    getFaq(selected + 1, qType, qWord);
+    getFaq(selected + 1, qType, qWord, qOrder);
+  };
+
+  const addOrder = (e) => {
+    console.log(e.target.value);
+    getFaq(page, qType, qWord, e.target.value);
   };
 
   //리액트화면에서 검색결과 창에서 x버튼 누르면 타입과 검색처 초기화?
-  async function getFaq(page, searchType, keyword) {
+  async function getFaq(page, searchType, keyword, order = "postRegdate") {
     let url = `/${boardName}`;
 
     await axios
       .get(url, {
-        params: { page: page, searchType: searchType, keyword: keyword },
+        params: {
+          page: page,
+          searchType: searchType,
+          keyword: keyword,
+          order: order,
+        },
       })
       .then((response) => {
         const postList = response.data.content;
@@ -71,8 +83,10 @@ function Faq(props) {
         console.log(postList);
         setPageCount(response.data.totalPages);
 
+        currentUrl = `/${boardGroup}/${boardName}?page=${page}&searchType=${searchType}&keyword=${keyword}&order=${order}`;
+
         navigate(
-          `/${boardGroup}/${boardName}?page=${page}&searchType=${searchType}&keyword=${keyword}`
+          `/${boardGroup}/${boardName}?page=${page}&searchType=${searchType}&keyword=${keyword}&order=${order}`
         );
       })
       .catch((error) => {
@@ -107,6 +121,18 @@ function Faq(props) {
   return (
     <div className="boardContainer">
       <h1 className="heading">{props.title}</h1>
+      <div className="orderButtons">
+        <button value="postViews" onClick={addOrder}>
+          조회순
+        </button>
+        <button value="postLike" onClick={addOrder}>
+          추천순
+        </button>
+        <button value="replyCount" onClick={addOrder}>
+          댓글순
+        </button>
+      </div>
+
       <table>
         <thead>
           <tr>
@@ -149,6 +175,7 @@ function Faq(props) {
         disabledClassName={"paginationDisabled"}
         activeClassName={"paginationActive"}
       />
+
       <div>
         <SearchBar getData={getData} />
         <div className="writePostBtnWrapper">
