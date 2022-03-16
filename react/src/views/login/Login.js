@@ -34,12 +34,14 @@ function Login() {
         console.log(response.data);
         const token = response.data;
         const dt = jwt_decode(token);
+
         store.setMemberInfo(dt.member);
 
         localStorage.setItem("accessToken", response.data);
         localStorage.setItem("username", useStore.getState().member.nickname); //임시
 
-        console.log(useStore.getState().member.nickname);
+        console.log("useStore.getState().member.nickname", useStore.getState().member.nickname);
+        console.log("useStore.getState().member", useStore.getState().member);
         console.log(dt);
         console.log(dt.member);
 
