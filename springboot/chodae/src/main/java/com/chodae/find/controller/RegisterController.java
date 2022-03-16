@@ -28,6 +28,12 @@ public class RegisterController {
 
 	private final RegService regService;
 	
+	@PostMapping("/api/login")
+	public ResponseEntity<?> login(@RequestBody User user){
+		log.info(""+user);
+		return new ResponseEntity<>(user, HttpStatus.OK);
+	}
+	
 	
 	@Transactional
 	@PostMapping("/reg")

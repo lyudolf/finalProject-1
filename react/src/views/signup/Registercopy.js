@@ -1,5 +1,12 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+
+import {
+  Link,
+  useNavigate,
+  useLocation,
+  useSearchParams,
+} from "react-router-dom";
+
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 // import axios from "axios";
@@ -7,6 +14,7 @@ import axios from "../../plugins/axios";
 import "./Register.css";
 
 const Registercopy = () => {
+
   const navigate = useNavigate();
   const phoneRegExp = /^[0-9]{11}$/;
   //const emailRegExp = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;

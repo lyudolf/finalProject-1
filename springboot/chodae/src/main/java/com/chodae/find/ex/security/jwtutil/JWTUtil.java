@@ -6,6 +6,8 @@ import java.security.Key;
 import java.time.ZonedDateTime;
 import java.util.Date;
 
+import com.chodae.find.ex.security.dto.MemberAuthDTO;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
@@ -24,13 +26,15 @@ public class JWTUtil {
 	
 	private long expire = 60*24*30; //한달
 	
-	public String generateToken(Object content) throws InvalidKeyException, UnsupportedEncodingException {
+	public String generateToken(MemberAuthDTO memberDTO) throws InvalidKeyException, UnsupportedEncodingException {
 		
 		return Jwts.builder()
 				.setIssuedAt(new Date())
 				.setExpiration(Date.from(ZonedDateTime.now().plusMinutes(expire).toInstant()))
 //				.setExpiration(Date.from(ZonedDateTime.now().plusSeconds(2).toInstant()))
-				.claim("sub", content)
+				.claim("iss", "chodae")
+				.claim("sub", memberDTO.getUsername())
+				.claim("member", memberDTO)
 				.signWith(key, SignatureAlgorithm.HS256)
 				.compact();
 	}

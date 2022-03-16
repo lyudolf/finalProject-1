@@ -5,8 +5,6 @@ import Main from "../src/component/Main";
 import MenuBar from "../src/component/MenuBar";
 import React, { useState, useEffect } from "react";
 
-import axios from "../src/plugins/axios";
-
 import { Route, Routes } from "react-router-dom"; //리액트 라우터
 
 //로그인 라우터 연결---------------------------------------------
@@ -57,8 +55,10 @@ import StudyPost from "./views/Study/StudyPost";
 
 //----------------------------------------------------------------------------
 
+
 function App() {
   let [shoes, shoes1] = useState(data);
+
 
   return (
     <div className="App">

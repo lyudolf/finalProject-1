@@ -114,7 +114,7 @@ public class UserRepositoryTests {
 			
 			User user = new User();
 			user.setPassword(passwordEncoder.encode("11111"));
-			user.setName(name+i);
+			user.setName(name);
 			user.setEmail(i+email);
 			user.setNickname(nickname+i);
 			user.setStatus(status);
