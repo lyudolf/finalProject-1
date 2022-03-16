@@ -93,7 +93,6 @@ function App() {
           <Route path="career/create" element={<CreatePost />} />
           <Route path="career/:postno/update" element={<UpdatePost />} />
           <Route path="careerboardcopy" element={<CareerBoardcopy />} />
-
         </Route>
 
         <Route

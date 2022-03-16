@@ -118,23 +118,23 @@ function Study(props) {
     //         )}
     //     )}
 
-    const [filter, setFilter] = useState(posts)
-    const filterResult = (인천) => {
-        const postLists = posts[2];
-        const postCates = postLists.category;
-        const postCates2 = postCates[0].categoryName;
-        console.log(postCates2)
-        const result2 = postCates.filter((curData) => {
+    // const [filter, setFilter] = useState(posts)
+    // const filterResult = (인천) => {
+    //     const postLists = posts[2];
+    //     const postCates = postLists.category;
+    //     const postCates2 = postCates[0].categoryName;
+    //     console.log(postCates2)
+    //     const result2 = postCates.filter((curData) => {
 
-            return curData.categoryName !== 인천;
-        })
-        setFilter(result2)
+    //         return curData.categoryName !== 인천;
+    //     })
+    //     setFilter(result2)
 
-    }
+    // }
 
     return (
         <div className="boardContainer">
-            <button onClick={() => filterResult("인천")}>인천</button>
+            {/* <button onClick={() => filterResult("인천")}>인천</button> */}
             <div className="main2">
                 {posts.slice(0, 6).map((post, i) => (
                     <div key={i} className='main'>
@@ -188,8 +188,6 @@ function Study(props) {
                 </div>
             </div>
 
-            {/* <img src={"http://localhost:8000/get/image/springboot-oauth.jpg"} width="100%" alt="이미지" /> */}
-            {/* ??????????????????????????????????????????????????????? */}
         </div>
     );
 }

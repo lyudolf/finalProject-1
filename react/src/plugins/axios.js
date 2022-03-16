@@ -11,8 +11,10 @@ const instance = axios.create({
 instance.interceptors.request.use(
     function (config) {
 
+
         if (localStorage.hasOwnProperty("accessToken"))
             config.headers.Authorization = 'Bearer ' + localStorage.getItem("accessToken");
+
 
         return config;
     },

@@ -1,10 +1,12 @@
 import React from "react";
+
 import {
   Link,
   useNavigate,
   useLocation,
   useSearchParams,
 } from "react-router-dom";
+
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 // import axios from "axios";
@@ -164,7 +166,7 @@ const Registercopy = () => {
           .then(function (response) {
             console.log(response);
             console.log("넘어감");
-            // navigate("/");
+            navigate("/");
           })
           .catch(function (error) {
             console.log(error.response);

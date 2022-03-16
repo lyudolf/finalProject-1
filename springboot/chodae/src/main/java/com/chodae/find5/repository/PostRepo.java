@@ -52,6 +52,8 @@ public interface PostRepo  extends JpaRepository<Post, Long>{
 	@Query("SELECT p FROM Post p WHERE p.board.boardNo = ?1 and p.id = ?2 ")
 	Page<Post> getPostFromWriter(int boardNo, Long id, Pageable paging);
 	
+	@Query("SELECT p FROM Post p left join p.category c where c.categoryName= ?2 and p.board.boardNo= ?1")
+	Page<Post> getPostLikeLocation(int boardNo, String keyword, Pageable paging);
 	
 	
 	//리뷰 게시판 인덱스로 특정 게시글 찾기

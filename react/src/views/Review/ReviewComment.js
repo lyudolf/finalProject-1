@@ -6,14 +6,9 @@ import "./ReviewComment.css";
 import moment from "moment"; //날짜 수정하기 위해 모멘트 설치
 import CommentList from "./CommentList"; //댓글 수정하면 나오는 입력창
 
-
-
 function ReviewComment(id) {
-
-  
-  
   const idindex = id;
-  
+
   const [postObject, setPostObject] = useState(null);
   const [comments, setComments] = useState(null);
   const [newComment, setNewComment] = useState("");
@@ -44,8 +39,7 @@ function ReviewComment(id) {
         console.log(error);
       });
   };
-  
-  
+
   function dateFormat(date) {
     let month = date.getMonth() + 1;
     let day = date.getDate();
@@ -86,8 +80,8 @@ function ReviewComment(id) {
       });
   };
   //댓글 삭제
-  const deleteReply = async function (postNo ,replyNo) {
-    console.log(replyNo,idindex);
+  const deleteReply = async function (postNo, replyNo) {
+    console.log(replyNo, idindex);
     await axios({
       method: "DELETE",
       url: `/review/post/${postNo}/reply/${replyNo}/닉네임51`,
@@ -95,12 +89,9 @@ function ReviewComment(id) {
       window.location.reload();
       setComments(
         comments.filter((val) => {
-          
           return val.replyNo !== replyNo;
-          
         })
       );
-   
     });
   };
 
@@ -109,35 +100,32 @@ function ReviewComment(id) {
     const formData = new FormData();
     formData.append("index", idindex);
     formData.append("nickname", "닉네임51");
-    formData.append("content",content )
-    console.log(replyNo,idindex);
+    formData.append("content", content);
+    console.log(replyNo, idindex);
     await axios
       .put(`/review/index/${idindex}/reply/${replyNo}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
-         
         },
       })
       .then((response) => {
         console.log(response.data);
-         window.location.reload();
+        window.location.reload();
       });
   };
 
   const nickname = "닉네임51";
-  
 
   return (
-    <div className="postContainer">
+    <div className="postContainer1">
       {postObject && (
-        <div className="postSection">
-    
-          <div className="listOfComments">
+        <div className="postSection1">
+          <div className="listOfComments1">
             {postObject != null &&
               postObject.replies.map((reply, index) => {
                 return (
-                  <div className="comment" key={index}>
-                    <div className="commentNickname">{reply.nickname}</div>
+                  <div className="comment1" key={index}>
+                    <div className="commentNickname1">{reply.nickname}</div>
                     {updateClicked === true ? (
                       <CommentList
                         sendComment={sendComment}
@@ -148,14 +136,14 @@ function ReviewComment(id) {
                     ) : (
                       <div>{reply.replyContent}</div>
                     )}
-                    <span className="commentTime">
+                    <span className="commentTime1">
                       {moment(reply.replyRegdate).format("LLL")}
                     </span>
                     <span>
                       {localStorage.getItem("user") === reply.nickname && (
-                        <div className="commentAddBtnWrapper">
+                        <div className="commentAddBtnWrapper1">
                           <button
-                            className="commentAddBtn"
+                            className="commentAddBtn1"
                             onClick={() => {
                               setUpdateClicked(!updateClicked);
                             }}
@@ -164,7 +152,7 @@ function ReviewComment(id) {
                           </button>
                           {updateClicked ? (
                             <button
-                              className="commentAddBtn"
+                              className="commentAddBtn1"
                               onClick={() => {
                                 setSendComment(true);
                               }}
@@ -173,10 +161,9 @@ function ReviewComment(id) {
                             </button>
                           ) : (
                             <button
-                              className="commentAddBtn"
+                              className="commentAddBtn1"
                               onClick={() => {
                                 deleteReply(postObject.postNo, reply.replyNo);
-                                
                               }}
                             >
                               삭제
@@ -184,20 +171,19 @@ function ReviewComment(id) {
                           )}
                         </div>
                       )}
-                      
                     </span>
                   </div>
                 );
               })}
           </div>
-     
-          <div className="commentSection">
-            <div className="commentNickname">
+
+          <div className="commentSection1">
+            <div className="commentNickname1">
               {localStorage.getItem("user")}
             </div>
-            <div className="commentInputWrapper">
+            <div className="commentInputWrapper1">
               <input
-                className="commentInputBox"
+                className="commentInputBox1"
                 type="text"
                 placeholder="댓글을 남겨보세요"
                 autoComplete="off"
@@ -206,9 +192,9 @@ function ReviewComment(id) {
                   setNewComment(event.target.value);
                 }}
               ></input>
-              <div className="commentAddBtnWrapper">
+              <div className="commentAddBtnWrapper1">
                 <button
-                  className="commentAddBtn"
+                  className="commentAddBtn1"
                   onClick={() => {
                     addComment();
                   }}
