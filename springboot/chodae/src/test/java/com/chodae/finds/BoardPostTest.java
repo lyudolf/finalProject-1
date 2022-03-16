@@ -198,7 +198,7 @@ public class BoardPostTest {
 				post.setPostContent(postContent);
 				
 				post.setPostTitle(title+i);
-				post.setId(201L);
+				post.setId(51L);
 				post.setPostViews(0);
 				post.setLevel(5);
 				post.setPostLevel(5);
