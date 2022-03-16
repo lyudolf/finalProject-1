@@ -15,12 +15,19 @@ import CommentList from "../../component/CommentList"; //댓글 수정하면 나
 import { FaThumbsUp } from "react-icons/fa";
 import { FaThumbsDown } from "react-icons/fa";
 
+import useStore from "../../plugins/store";
+
 function FaqPost() {
+
+  const store = useStore();
+  const nickname = (useStore.getState().member !== null) ? useStore.getState().member.nickname : null;
+
+
+
   const params = useParams();
   const postNo = params.postno;
   const location = useLocation();
   const navigate = useNavigate();
-  const nickname = localStorage.getItem("username");
 
   console.log(location);
   const idx = location.pathname.indexOf("/", 1);
@@ -84,13 +91,13 @@ function FaqPost() {
 
   // 게시글 삭제
   const deletePost = (postNo) => {
-    axios.delete(`/${boardName}/${postNo}/nickname`).then(() => {
+
+    axios.delete(`/${boardName}/${postNo}/${nickname}`).then(() => {
       navigate(-1);
     });
   };
 
-  //댓글 추가 => 추가후 게시글 다시조회 댓글확인. 날짜 오름차순으로 출력,
-  // 댓글도 닉네임으로 불러와야함.
+
   const addComment = async function () {
     const formData = new FormData();
 
@@ -115,7 +122,7 @@ function FaqPost() {
   const deleteReply = async function (replyNo) {
     await axios({
       method: "DELETE",
-      url: `/${boardName}/${postNo}/reply/${replyNo}/nickname`,
+      url: `/${boardName}/${postNo}/reply/${replyNo}/${nickname}`,
     }).then(() => {
       setComments(
         comments.filter((val) => {
@@ -205,6 +212,7 @@ function FaqPost() {
               </div>
             )}
           </div>
+          {/* 로그인한 닉네임의 유저가 게시글을 추천한경우 / 아직 안한경우  */}
           {postObject !== null && !postRecommendOrNot ? (
             <FaThumbsUp
               className="recommend"
@@ -273,6 +281,7 @@ function FaqPost() {
                           )}
                         </div>
                       )}
+                      {/* db에서 회원 댓글 추천 유무 확인 */}
                       {nickname !== reply.nickname && (
                         <div className="replyRecommentContainer">
                           {!replyRecommendOrNot ? (

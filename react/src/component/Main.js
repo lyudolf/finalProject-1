@@ -4,9 +4,14 @@ import { Link } from "react-router-dom";
 import studyImg from "../assets/main/studyBeige.jpg";
 import bootCampImg from "../assets/main/bootcamp.jpg";
 import boardImg from "../assets/main/news.jpg";
+import useStore from "../plugins/store";
 // import { AuthContext } from "../state/GlobalState";
 
 function Main() {
+  const store = useStore();
+
+  console.log(useStore.getState().member);
+
   const [scrollY, setScrollY] = useState(0);
   // const { user } = useContext(AuthContext);
   const monitor = () => {
@@ -60,20 +65,18 @@ function Main() {
       <div className="boardBg">
         <div className="boardLeft">
           <img
-            className={`${
-              scrollY > 480
+            className={`${scrollY > 480
                 ? "boardImg animate__animated animate__slideInLeft animate__slow"
                 : "boardImg"
-            }`}
+              }`}
             src={boardImg}
           ></img>
         </div>
         <div
-          className={`${
-            scrollY > 480
+          className={`${scrollY > 480
               ? "boardRight animate__animated animate__slideInRight animate__slow"
               : "boardRight"
-          }`}
+            }`}
         >
           <div className="boardText">
             <h1 className="studyTitle">게시판</h1>

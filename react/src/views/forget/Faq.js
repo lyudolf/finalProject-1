@@ -9,8 +9,13 @@ import {
 import axios from "../../plugins/axios";
 import "../board/CareerBoard.css";
 import SearchBar from "./SearchBar";
+import useStore from "../../plugins/store";
 
 function Faq(props) {
+  const store = useStore();
+
+  console.log(useStore.getState().member);
+
   const navigate = useNavigate();
   const location = useLocation();
 
