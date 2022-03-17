@@ -14,11 +14,14 @@ import com.chodae.find.domain.PostContent;
 import com.chodae.find5.repository.CategoryRepo;
 import com.chodae.find5.repository.PostRepo;
 
+import lombok.extern.java.Log;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.Optional;
-
+import java.util.UUID;
+@Log
 @RestController
 @CrossOrigin() // open for all ports
 public class ImageController {
@@ -89,12 +92,15 @@ public class ImageController {
 		}//if end
     	
     	
-    	
+	    String fileName = file.getOriginalFilename();
+	    String saveFileName= uuidFileName(fileName);
+	    System.out.println(saveFileName);
+	    System.out.println(nickname);	 
     	
     	
 
         imageRepository.save(Image.builder()
-                .name(file.getOriginalFilename())
+                .name(saveFileName)
                 .type(file.getContentType())
                 .post(post2)  //image.setPost(post2)
                 .image(ImageUtility.compressImage(file.getBytes())).build());
@@ -117,7 +123,10 @@ public class ImageController {
                         file.getOriginalFilename()));
     }
 
-    
+    private String uuidFileName(String originalFileName) {
+	    UUID uuid = UUID.randomUUID();
+	    return uuid.toString()+"_"+ originalFileName;
+	    }   
     
     
     
@@ -147,10 +156,10 @@ public class ImageController {
                 .type(dbImage.get().getType())
                 .image(ImageUtility.decompressImage(dbImage.get().getImage())).build();
     }
-
+    
     @GetMapping(path = {"/get/image/{name}"})
     public ResponseEntity<byte[]> getImage(@PathVariable("name") String name) throws IOException {
-
+    
         final Optional<Image> dbImage = imageRepository.findByName(name);
 
         return ResponseEntity

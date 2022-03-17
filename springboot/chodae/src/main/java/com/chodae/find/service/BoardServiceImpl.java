@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import javax.transaction.Transactional;
 
@@ -63,8 +64,18 @@ public class BoardServiceImpl implements BoardService {
 		//새로운 이미지 저장
 		System.out.println(file);
 		try {
+	    	
+			
+		    String fileName = file.getOriginalFilename();
+		    String saveFileName= uuidFileName(fileName);
+		    System.out.println(saveFileName);
+		   
+	    	
+			
+			
+			
 			imageRepo.save(Image.builder()
-			        .name(file.getOriginalFilename())
+			        .name(saveFileName)
 			        .type(file.getContentType())
 			        .post(post)
 			        .image(ImageUtility.compressImage(file.getBytes())).build());
@@ -97,7 +108,10 @@ public class BoardServiceImpl implements BoardService {
         
 		return post.getPostNo();
 	}
-	
+	   private String uuidFileName(String originalFileName) {
+		    UUID uuid = UUID.randomUUID();
+		    return uuid.toString()+"_"+ originalFileName;
+		    }   
 	
 	@Override
 	public long deleteImg(Long postNo) {

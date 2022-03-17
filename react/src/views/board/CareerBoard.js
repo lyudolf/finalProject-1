@@ -159,7 +159,7 @@ function CareerBoard() {
           </tr>
         </thead>
 
-        <tbody>
+        <tbody className="nice">
           {posts.map((post) => (
             <tr>
               <td>{post.postNo}</td>

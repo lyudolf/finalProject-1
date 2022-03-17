@@ -7,7 +7,7 @@ import {
     useSearchParams,
 } from "react-router-dom";
 import axios from "../../plugins/axios";
-
+import "./Post.css";
 import CareerBoardTable from "../../component/CareerBoardTable";
 import moment from "moment"; //날짜 수정하기 위해 모멘트 설치
 import CommentList from "../../component/CommentList"; //댓글 수정하면 나오는 입력창
@@ -20,6 +20,7 @@ function FaqPost() {
     const postNo = params.postno;
     const location = useLocation();
     const navigate = useNavigate();
+    const nickname = localStorage.getItem("username");
 
     console.log(location);
     const idx = location.pathname.indexOf("/", 1);
@@ -38,7 +39,9 @@ function FaqPost() {
     const [newComment, setNewComment] = useState("");
     const [updateClicked, setUpdateClicked] = useState(false);
     const [sendComment, setSendComment] = useState(false);
-    const [pist, setPist] = useState("");
+    const [postRecommendOrNot, setPostRecommentOrNot] = useState(false);
+    const [replyRecommendOrNot, setReplyRecommentOrNot] = useState(false);
+
     useEffect(() => {
         getPost(postNo);
     }, []);
@@ -50,10 +53,6 @@ function FaqPost() {
                 console.log(response.data);
 
                 const post = response.data;
-                console.log(post.name)
-                const pist2 = post.name;
-                const pist = (pist2[0].name)
-                console.log(pist)
                 post.postRegdate = dateFormat(new Date(post.postRegdate));
 
                 for (const reply of post.replies) {
@@ -62,8 +61,6 @@ function FaqPost() {
 
                 setPostObject(post);
                 setComments(post.replies);
-                console.log(post)
-                setPist(pist)
             })
             .catch((error) => {
                 console.log(error);
@@ -87,19 +84,18 @@ function FaqPost() {
 
     // 게시글 삭제
     const deletePost = (postNo) => {
-        axios.delete(`${location.pathname}/닉네임201`).then(() => {
-            navigate("/faq");
+        axios.delete(`/${boardName}/${postNo}/nickname`).then(() => {
+            navigate(-1);
         });
     };
 
     //댓글 추가 => 추가후 게시글 다시조회 댓글확인. 날짜 오름차순으로 출력,
-    // 댓글 추가후 추가 된 댓글 새로고침없이 확인가능?
     // 댓글도 닉네임으로 불러와야함.
     const addComment = async function () {
         const formData = new FormData();
 
         formData.append("content", newComment);
-        formData.append("nickname", "닉네임51");
+        formData.append("nickname", nickname);
 
         await axios
             .post(`/${boardName}/${postNo}/reply`, formData, {
@@ -119,7 +115,7 @@ function FaqPost() {
     const deleteReply = async function (replyNo) {
         await axios({
             method: "DELETE",
-            url: `/${boardName}/${postNo}/reply/${replyNo}/닉네임3`,
+            url: `/${boardName}/${postNo}/reply/${replyNo}/nickname`,
         }).then(() => {
             setComments(
                 comments.filter((val) => {
@@ -134,7 +130,7 @@ function FaqPost() {
     const updateReply = async function (updatedComment, replyNo) {
         const formData = new FormData();
         formData.append("content", updatedComment);
-        formData.append("nickname", "닉네임3");
+        formData.append("nickname", nickname);
 
         await axios
             .put(`/${boardName}/${postNo}/reply/${replyNo}`, formData, {
@@ -148,7 +144,8 @@ function FaqPost() {
             });
     };
 
-    const nickname = "닉네임51";
+    // const nickname = "닉네임51";
+
     //추천 버튼 함수   //게시글 추천 //댓글 추천
     const addLike = async (type, targetNo, nickname) => {
         const formData = new FormData();
@@ -183,55 +180,48 @@ function FaqPost() {
 
     return (
         <div className="postContainer">
-
             {postObject && (
                 <div className="postSection">
-
                     <CareerBoardTable moment={moment} tableData={postObject} />
                     <div>
-                        {postObject !== null &&
-                            localStorage.getItem("user") === postObject.nickname && (
-                                <div>
-                                    <button
-                                        onClick={() => {
-                                            deletePost(postObject.postNo);
-                                        }}
-                                    >
-                                        게시글 삭제
-                                    </button>
-                                </div>
-                            )}
+                        {postObject !== null && nickname === postObject.nickname && (
+                            <div className="commentAddBtnWrapper">
+                                <button
+                                    className="commentAddBtn"
+                                    onClick={() => {
+                                        deletePost(postObject.postNo);
+                                    }}
+                                >
+                                    삭제
+                                </button>
+                                <button
+                                    className="commentAddBtn"
+                                    onClick={() => {
+                                        navigate("update");
+                                    }}
+                                >
+                                    수정
+                                </button>
+                            </div>
+                        )}
                     </div>
-
-                    {postObject !== null ? (
-                        <div className="recommend">
-                            아이콘 색칠 :유저가 해당글을 이미 추천함
-                        </div>
+                    {postObject !== null && !postRecommendOrNot ? (
+                        <FaThumbsUp
+                            className="recommend"
+                            onClick={() => {
+                                addLike("post", postObject.postNo, nickname);
+                                setPostRecommentOrNot(!postRecommendOrNot);
+                            }}
+                        />
                     ) : (
-                        <div className="notRecommend"> 아이콘 회색 추천아직</div>
+                        <FaThumbsDown
+                            className="notRecommend"
+                            onClick={() => {
+                                deleteLike("post", postObject.postNo, nickname);
+                                setPostRecommentOrNot(!postRecommendOrNot);
+                            }}
+                        />
                     )}
-
-                    <button
-                        onClick={() => {
-                            addLike("post", postObject.postNo, nickname);
-                        }}
-                    >
-                        추천 <FaThumbsUp />
-                    </button>
-                    <button
-                        onClick={() => {
-                            deleteLike("post", postObject.postNo, nickname);
-                        }}
-                    >
-                        추천취소
-                    </button>
-                    <button
-                        onClick={() => {
-                            navigate("update");
-                        }}
-                    >
-                        글 수정하기
-                    </button>
 
                     <div className="listOfComments">
                         {postObject != null &&
@@ -252,7 +242,7 @@ function FaqPost() {
                                             {moment(reply.replyRegdate).format("LLL")}
                                         </span>
                                         <span>
-                                            {localStorage.getItem("user") === reply.nickname && (
+                                            {nickname === reply.nickname && (
                                                 <div className="commentAddBtnWrapper">
                                                     <button
                                                         className="commentAddBtn"
@@ -283,22 +273,25 @@ function FaqPost() {
                                                     )}
                                                 </div>
                                             )}
-                                            {localStorage.getItem("user") !== reply.nickname && (
-                                                <div>
-                                                    <button
-                                                        onClick={() => {
-                                                            addLike("reply", reply.replyNo, nickname);
-                                                        }}
-                                                    >
-                                                        댓글추천 <FaThumbsUp />
-                                                    </button>
-                                                    <button
-                                                        onClick={() => {
-                                                            deleteLike("reply", reply.replyNo, nickname);
-                                                        }}
-                                                    >
-                                                        댓글추천취소
-                                                    </button>
+                                            {nickname !== reply.nickname && (
+                                                <div className="replyRecommentContainer">
+                                                    {!replyRecommendOrNot ? (
+                                                        <FaThumbsUp
+                                                            className="replyRecommend"
+                                                            onClick={() => {
+                                                                addLike("reply", reply.replyNo, nickname);
+                                                                setReplyRecommentOrNot(!replyRecommendOrNot);
+                                                            }}
+                                                        />
+                                                    ) : (
+                                                        <FaThumbsDown
+                                                            className="replyNotRecommend"
+                                                            onClick={() => {
+                                                                deleteLike("reply", reply.replyNo, nickname);
+                                                                setReplyRecommentOrNot(!replyRecommendOrNot);
+                                                            }}
+                                                        />
+                                                    )}
                                                 </div>
                                             )}
                                         </span>
@@ -308,9 +301,7 @@ function FaqPost() {
                     </div>
 
                     <div className="commentSection">
-                        <div className="commentNickname">
-                            {localStorage.getItem("user")}
-                        </div>
+                        <div className="commentNickname">{nickname}</div>
                         <div className="commentInputWrapper">
                             <input
                                 className="commentInputBox"

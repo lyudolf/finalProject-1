@@ -177,13 +177,17 @@ function FaqPost() {
   };
 
   //추천 추가 ---- 추천 취소 토글 버튼
+  const likeControl = () => {
+
+  }
+
 
   return (
     <div className="postContainer">
       {postObject && (
         <div className="postSection">
           <CareerBoardTable moment={moment} tableData={postObject} />
-          <div>
+          <div className="tempo">
             {postObject !== null && nickname === postObject.nickname && (
               <div className="commentAddBtnWrapper">
                 <button
@@ -275,23 +279,24 @@ function FaqPost() {
                       )}
                       {nickname !== reply.nickname && (
                         <div className="replyRecommentContainer">
-                          {!replyRecommendOrNot ? (
-                            <FaThumbsUp
-                              className="replyRecommend"
-                              onClick={() => {
-                                addLike("reply", reply.replyNo, nickname);
-                                setReplyRecommentOrNot(!replyRecommendOrNot);
-                              }}
-                            />
-                          ) : (
-                            <FaThumbsDown
-                              className="replyNotRecommend"
-                              onClick={() => {
-                                deleteLike("reply", reply.replyNo, nickname);
-                                setReplyRecommentOrNot(!replyRecommendOrNot);
-                              }}
-                            />
-                          )}
+
+                          <FaThumbsUp
+                            className="replyRecommend"
+                            onClick={() => {
+                              addLike("reply", reply.replyNo, nickname);
+                              setReplyRecommentOrNot(!replyRecommendOrNot);
+                            }}
+                          />
+
+                          <FaThumbsDown
+                            className="replyNotRecommend"
+                            onClick={() => {
+                              likeControl();
+                              deleteLike("reply", reply.replyNo, nickname);
+                              setReplyRecommentOrNot(!replyRecommendOrNot);
+                            }}
+                          />
+
                         </div>
                       )}
                     </span>
