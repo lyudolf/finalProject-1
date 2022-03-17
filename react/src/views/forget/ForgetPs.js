@@ -2,9 +2,12 @@ import React, { useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "../../plugins/axios";
 import "./ForgetId.css";
+import useStore from "../../plugins/store";
+
 
 function ForgetPs() {
   const navigate = useNavigate();
+  const store = useStore();
 
   const [id, setId] = useState("");
   const [idMsg, setIdMsg] = useState("");

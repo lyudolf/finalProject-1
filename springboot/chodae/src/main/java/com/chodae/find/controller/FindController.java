@@ -49,7 +49,9 @@ public class FindController {
 	}
 
 	//비밀번호 재설정 : 비밀번호 업데이트 
-	//암호화하여 저장되게 바꿔야함.....
+
+	//암호화하여 저장
+
 	@PutMapping("/find/ps")
 	public int updatePs(@RequestParam("id") String id, @RequestParam("password") String password) {
 		log.info("로그인아이디:"+id+",업데이트 비밀번호:"+password);

@@ -66,19 +66,19 @@ public class PasswordTest {
 	@Test
 	public void encode() throws InvalidKeyException, UnsupportedEncodingException {
 		String id = "loginid1";
-		String str = jwtUtil.generateToken(id);
-		System.out.println(str);
+//		String str = jwtUtil.generateToken(id);
+//		System.out.println(str);
 	}
 	
 	@Test
 	public void validateTest() throws InterruptedException, InvalidKeyException, UnsupportedEncodingException {
 		String id = "loginid1";
-		String str = jwtUtil.generateToken(id);
+//		String str = jwtUtil.generateToken(id);
 		
 		Thread.sleep(5000);
 		
-		String resultContent = jwtUtil.validateExtract(str);
-		System.out.println(resultContent);
+//		String resultContent = jwtUtil.validateExtract(str);
+//		System.out.println(resultContent);
 		
 	}
 	

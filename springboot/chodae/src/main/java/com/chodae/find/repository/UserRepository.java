@@ -52,6 +52,9 @@ public interface UserRepository extends JpaRepository<User, Long>{
 //	List<User> findUserByNameContaining(@Param("name") String name);
 	@Query("SELECT u.id,u.name,u.email FROM #{#entityName} u WHERE u.name LIKE %:name% AND u.id > 0 ORDER BY u.id DESC")
 	List<Object[]> findUserByNameContaining(@Param("name") String name);
+
+	
+	User findByloginId(String loginId);
 	
 	//@Query를 이용하더라도 페이징 처리를 하는 Pageable 인터페이스는 사용가능
 }

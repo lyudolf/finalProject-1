@@ -4,6 +4,7 @@ import axios from "../../plugins/axios";
 import "./ForgetId.css";
 
 function ResetPs() {
+
   const navigate = useNavigate();
   const params = useParams();
   const userId = params.uid;
