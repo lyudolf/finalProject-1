@@ -1,3 +1,4 @@
+
 /* .Image{
     height: 580px;
     display: flex;
@@ -17,31 +18,24 @@
 
 height: 100%;
 width: 100%; 
+
+.Card {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  margin: 100px 0;
+
 }
 
-.Card{
-display: flex;
-justify-content: center;
-}
-.content{
-    width: 45%;
-    height: 300px;
-    margin-top: 20px;
-    padding-left: 30px;
-}
-.content .contentA{
-    display: flex;
-    margin: 10px 0;    
+.detailImage {
+  width: 30%;
 }
 
-.content h2,a{
- width: 40%;
+.detailTableContainer {
+  width: 50%;
 }
-.contentA  a{
-    display: flex;
-    align-items: center;
-    
-}
+
 .content p{
     width: 55%;
    } */
+

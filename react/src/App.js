@@ -5,8 +5,6 @@ import Main from "../src/component/Main";
 import MenuBar from "../src/component/MenuBar";
 import React, { useState, useEffect } from "react";
 
-import axios from "../src/plugins/axios";
-
 import { Route, Routes } from "react-router-dom"; //리액트 라우터
 
 //로그인 라우터 연결---------------------------------------------
@@ -57,8 +55,10 @@ import StudyPost from "./views/Study/StudyPost";
 
 //----------------------------------------------------------------------------
 
+
 function App() {
   let [shoes, shoes1] = useState(data);
+
 
   return (
     <div className="App">
@@ -84,7 +84,7 @@ function App() {
         {/* 회원가입화면 */}
         <Route path="/signup" element={<Check />} />
         <Route path="/register" element={<Registercopy />} />
-        
+
         {/* 게시판 메인화면 */}
         <Route path="/mainboard" element={<MainBoard />}>
           <Route path="technews" element={<TechNews />} />
@@ -93,7 +93,6 @@ function App() {
           <Route path="career/create" element={<CreatePost />} />
           <Route path="career/:postno/update" element={<UpdatePost />} />
           <Route path="careerboardcopy" element={<CareerBoardcopy />} />
-
         </Route>
 
         <Route

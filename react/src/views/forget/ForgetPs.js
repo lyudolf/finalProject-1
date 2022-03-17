@@ -2,9 +2,12 @@ import React, { useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "../../plugins/axios";
 import "./ForgetId.css";
+import useStore from "../../plugins/store";
+
 
 function ForgetPs() {
   const navigate = useNavigate();
+  const store = useStore();
 
   const [id, setId] = useState("");
   const [idMsg, setIdMsg] = useState("");
@@ -84,7 +87,7 @@ function ForgetPs() {
         console.log(response.data);
         if (data.length === 1) {
           console.log("비밀번호존재 비밀번호 재설정 페이지로 이동");
-          navigate(`/login/find/ps/reset/${data[0].loginId}`);
+          navigate(`/find/ps/reset/${data[0].loginId}`);
         }
       })
       .catch((error) => {

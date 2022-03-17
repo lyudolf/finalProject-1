@@ -4,13 +4,17 @@ import { Link, useNavigate } from "react-router-dom";
 import chodaeLogo from "../assets/Chodae-logo.png";
 import searchIcon from "../assets/search.png";
 import axios from "../plugins/axios";
+import useStore from "../plugins/store";
 
 function Header(props) {
+  const store = useStore();
   let navigate = useNavigate();
 
   const logout = () => {
     localStorage.removeItem("username");
     // axios.post("/logout");
+    store.logout();
+
     navigate("/");
   };
 
@@ -33,7 +37,7 @@ function Header(props) {
           ></input>
         </div>
         {/* 추후 수정 필요 */}
-        {localStorage.getItem("username") ? (
+        {localStorage.getItem("accessToken") ? (
           <nav className="headerItems">
             <Link className="headerLink" to="/mypage">
               마이페이지

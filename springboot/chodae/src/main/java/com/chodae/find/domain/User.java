@@ -1,7 +1,10 @@
 package com.chodae.find.domain;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -70,13 +73,20 @@ public class User {
 	
 	private String status;  //유저상태
 	
-	@Column(columnDefinition = "varchar(50) default 'normal'")
-	private String role;  //유저역할,권한
+//	@Column(columnDefinition = "varchar(50) default 'normal'")
+//	private String role;  //유저역할,권한
+//	
+//	public List<String> getRoleList(){
+//		if(this.role.length()>0) {
+//			return Arrays.asList(this.role.split(","));
+//		}
+//		return new ArrayList<>();
+//	}
 	
 	//주석처리
-//	@ElementCollection(fetch = FetchType.LAZY)
-//	@Builder.Default
-//	private Set<MemberRole> roleSet = new HashSet<>();
+	@ElementCollection(fetch = FetchType.LAZY)
+	@Builder.Default
+	private Set<MemberRole> roleSet = new HashSet<>();
 
 	private String language;// 주로 사용하는 언어
 	private int phone; // 전화번호 
@@ -97,7 +107,7 @@ public class User {
 	//private String profileimg; // 프로필 이미지
 	
 	
-//	public void addMemberRole(MemberRole memberRole) {
-//		roleSet.add(memberRole);
-//	}
+	public void addMemberRole(MemberRole memberRole) {
+		roleSet.add(memberRole);
+	}
 }

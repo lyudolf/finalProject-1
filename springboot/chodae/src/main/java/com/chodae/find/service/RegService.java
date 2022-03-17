@@ -8,6 +8,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.chodae.find.category.MemberRole;
 import com.chodae.find.domain.User;
 import com.chodae.find5.repository.RegRepo;
 import com.chodae.find5.repository.UserRepo;
@@ -44,7 +45,7 @@ public class RegService {
 		
 		
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
-//		user.addMemberRole(MemberRole.USER);//추후수정
+		user.addMemberRole(MemberRole.USER);//추후
 		user.setSocial(false);
 		User registeredMember = regRepo.save(user);
 		

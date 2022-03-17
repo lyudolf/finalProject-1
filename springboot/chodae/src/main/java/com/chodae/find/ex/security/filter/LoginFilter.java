@@ -34,11 +34,13 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter {
 			throws AuthenticationException, IOException, ServletException {
 
 
-		log.info("@@@@@@loginFilter@@@@@@@");
-		log.info("@@@@@@attemptAuthentication@@@@@@@");
+		log.info("@@@@@@@@@@loginFilter@@@@@@@@@@@@@");
+		log.info("@@@@@@@@@attemptAuthentication@@@@@@@@@");
 		
-		String loginId = request.getParameter("id");
-		String pw = request.getParameter("pw");
+		
+		String loginId = request.getParameter("loginId");
+		String pw = request.getParameter("password");
+		log.info(loginId+" ::::::" + pw);
 		
 		//포스트 방식으로 로그인하고 파라미터는 암호화해서 처리
 		
@@ -61,15 +63,19 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter {
 		log.info("authResult:"+authResult);
 		log.info("authResult.getPrincipal():"+authResult.getPrincipal());
 		
-		String id = ((MemberAuthDTO)authResult.getPrincipal()).getUsername();
+		MemberAuthDTO userDTO = (MemberAuthDTO)authResult.getPrincipal();
+		String id = userDTO.getUsername();
 		Object info = authResult.getPrincipal();
+		
+		log.info("info => "+info);
+		log.info("MemberAuthDTO => "+userDTO);
 		log.info("getUsername() => "+id);
 		
 		String token = null;
 		try {
 			
 //			token = jwtUtil.generateToken(id);
-			token = jwtUtil.generateToken(info);
+			token = jwtUtil.generateToken(userDTO);
 			response.setContentType("aplication/json;charset=utf-8");
 			response.getOutputStream().write(token.getBytes());
 			

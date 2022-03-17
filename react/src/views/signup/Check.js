@@ -37,7 +37,7 @@ const Check = () => {
           <div role="group" className="checkbox-group">
             <h4>초대 이용약관 (필수)</h4>
             <div className="scroll">
-              추후 수정===> 동의를 누르고 다른곳을 눌러야 알림이 뜸 n se about
+              추후 수정=== 동의를 누르고 다른곳을 눌러야 알림이 뜸 n se about
               how long sentences = run-on sentences. You can have a six-word
               run-on sentence (“I went shopping I ate donuts.”), while most of
               the sentences below are much, much longer than that and are not
