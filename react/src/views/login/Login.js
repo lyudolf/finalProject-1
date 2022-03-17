@@ -1,17 +1,21 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import kakao from "../../assets/kakao.png";
-// import LoginForm from "./LoginForm";
 import axios from "../../plugins/axios";
 import useStore from "../../plugins/store";
 import jwt_decode from 'jwt-decode'
-
-
 import "./Login.css";
+import { Buffer } from 'buffer';
+import kakao from "../../assets/kakao.png";
+import Auth from "./Auth";
+import { BrowserRouter as Routes, Route } from "react-router-dom";
 
 function Login() {
 
+  const REST_API_KEY = "[본인 REST API KEY 값]";
+    const REDIRECT_URI = "http://localhost:3000/oauth/kakao/callback";
+    const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=b57361b0269da06ba5b8bf17e32058f5&redirect_uri=http://localhost:8000/kakaologin&response_type=code`;
   const store = useStore();
+
 
   const [loginId, setloginId] = useState("");
   const [password, setPassword] = useState("");
@@ -51,9 +55,6 @@ function Login() {
         console.log(error);
       });
   };
-
-
-
 
 
   // const data = { loginId: loginId, password: password };
@@ -99,27 +100,20 @@ function Login() {
   // let navigate = useNavigate();
   // const { Kakao } = window;
 
-  // const login = () => {
-  //   axios
-  //     .post("/login", {
-  //       params: {
-  //         username: "username",
-  //         password: "password",
-  //       },
-  //     })
-  //     .then((response) => {
-  //       localStorage.setItem("username", response.data.user);
-  //       console.log(response);
-  //       navigate("/");
-  //     })
-  //     .catch((error) => console.log(error.message));
-  // };
 
+
+        // token이 필요한 API 요청 시 header Authorization에 token 담아서 보내기
+  //       axios.defaults.headers.common['Authorization'] = `Bearer ${response.data}`;
+  //       console.log(localStorage.getItem("hi"))
+  //     }).catch((error) => {
+  //       console.log(error);
+  //     });
+  // };
   // const kakaoLogin = () => {
   //   Kakao.Auth.login({
   //     success: function (authObj) {
-  //       fetch(
-  //         `https://kauth.kakao.com/oauth/authorize?client_id=b57361b0269da06ba5b8bf17e32058f5&redirect_uri=http://localhost:3000/login&response_type=code`,
+  //       //https://kauth.kakao.com/oauth/authorize?client_id=b57361b0269da06ba5b8bf17e32058f5&redirect_uri=http://localhost:8000/kakaologin&response_type=code
+  //       fetch("https://kauth.kakao.com/oauth/authorize?client_id=b57361b0269da06ba5b8bf17e32058f5&redirect_uri=http://localhost:8000/kakaologin&response_type=code",
   //         {
   //           method: "POST",
   //           body: JSON.stringify({
@@ -141,16 +135,6 @@ function Login() {
   //     },
   //   });
   // };
-
-  // console.log("kakao 로그인");
-  // router.push({
-  //   pathname: "https://kauth.kakao.com/oauth/authorize",
-  //   query: {
-  //     response_type: "code",
-  //     client_id: "b57361b0269da06ba5b8bf17e32058f5",
-  //     redirect_url: "http://localhost:3000/kakaologin",
-  //   },
-  // });
 
   return (
     <div className="loginContainer">
@@ -175,13 +159,19 @@ function Login() {
       <button className="loginBtn" onClick={login}>
         로그인
       </button>
-      <Link to="/find/id">
+      <Link to="/login/find/id">
         <button className="loginBtn">ID/PW 찾기</button>
       </Link>
       {/* <button onClick={kakaoLogin}>
         <img src={kakao} alt="kakao_button" />
       </button> */}
-    </div>
+
+      <Routes>
+          <Route path="/" exact element={KAKAO_AUTH_URL}></Route>
+            <h1><a href={KAKAO_AUTH_URL}>Kakao Login</a></h1>
+          <Route path="/oauth/kakao/callback" exact element={<Auth/>}></Route>
+      </Routes>
+      </div>
   );
 }
 export default Login;
