@@ -32,36 +32,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		http.cors().configurationSource(corsConfigurationSource());		
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		
-		http.authorizeHttpRequests().antMatchers("/**").permitAll()
-									.antMatchers("/sample/member").hasRole("USER");
+		http.authorizeHttpRequests().antMatchers("/").permitAll();
+		http.authorizeHttpRequests().antMatchers("/faq/**").hasRole("USER");//로그인 '유저'만 접근 가능 
+		http.authorizeHttpRequests().antMatchers("/notice/**").permitAll();
+		http.authorizeHttpRequests().antMatchers("/api/find/**").permitAll();
+		http.authorizeHttpRequests().antMatchers("/api/login").permitAll();
+		http.authorizeHttpRequests().antMatchers("/**").permitAll();
 		
-//		http.authorizeRequests()
-//				.antMatchers("/sample/all").permitAll()
-//				.antMatchers("/sample/member").hasRole("USER");
-//		
-//		http.formLogin();
-//		http.logout();
 		
+
+		
+		
+//		http.authorizeRequests().anyRequest().authenticated();
 		
 		http.addFilterBefore(checkFilter(), UsernamePasswordAuthenticationFilter.class);
 		http.addFilterBefore(loginFilter(), UsernamePasswordAuthenticationFilter.class);
-		
-		
-		
-//		.and()
-//		.cors().configurationSource(corsConfigurationSource());
-		
-		
-//		http.authorizeRequests().anyRequest().authenticated();//나머지 요청들은 모두 인증되어야함
-		
-		
 	}
 	
-	//접근제한목록 (Access Control List)
 	
-	
-	
-	// CORS 허용 적용
+	//CORS허용
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
     	
@@ -88,8 +77,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     
     @Bean
     public HeaderCheckFilter checkFilter() {
-    	return new HeaderCheckFilter("**",jwtUtil());
+    	
+    	HeaderCheckFilter checkFilter = new HeaderCheckFilter("/**", jwtUtil());
+   	
+    	return checkFilter;
     }
+    
     
     @Bean
     public LoginFilter loginFilter() throws Exception {

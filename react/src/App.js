@@ -31,7 +31,6 @@ import CreatePost from "./views/board/CreatePost"; //게시판 글쓰기
 import Post from "./views/board/Post"; //글 보기
 import TechNews from "./views/board/itnews/TechNews"; //it뉴스게시판
 
-import CustomerNotice from "./views/forget/CustomerNotice"; // 고객센터 공지사항게시판
 import CustomerFaq from "./views/forget/Faq"; // 고객센터 자주하는질문게시판
 import FaqPost from "./views/forget/FaqPost"; //글 보기
 import Front from "./views/board/Front";

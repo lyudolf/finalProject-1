@@ -1,11 +1,10 @@
 import create from 'zustand'
-import { devtools } from 'zustand/middleware'
 import axios from "../plugins/axios";
 import jwt_decode from 'jwt-decode'
 import { Link, useNavigate } from "react-router-dom";
 import { persist } from "zustand/middleware"
 
-
+//로컬스토리지 저장. 리프레쉬토큰 , 액세스 토큰
 const useStore = create(persist(
     (set, get) => ({
         member: null,
@@ -14,11 +13,17 @@ const useStore = create(persist(
         refreshToken: '',
         setMemberInfo: (member) => {
             set({ member: member, isLogin: true });
-            // console.log("setMemberInfo", member);
             console.log("after login => member:", get().member, get().member.nickname);
         },
         getMemberInfo: () => {
-            return useStore.getState().member;
+            if (get().member !== null) {
+                return get().member;
+            }
+        },
+        getMemberRole: () => {
+            if (get().member !== null) {
+                return get().member.authorities[0].authority;// "ROLE_USER"
+            }
         },
         logout: () => {
             localStorage.clear();

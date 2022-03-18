@@ -51,7 +51,7 @@ function Faq(props) {
     getFaq(page, qType, qWord, qOrder);
 
     setPaginationNumber(parseInt(page));
-  }, [page, qType, qWord, qOrder]);
+  }, [props, page, qType, qWord, qOrder]);
 
   const changePage = ({ selected }) => {
     getFaq(selected + 1, qType, qWord, qOrder);

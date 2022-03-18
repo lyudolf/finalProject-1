@@ -1,75 +1,81 @@
 import "./MenuBar.css";
 import React, { useState } from "react";
+import {
+  Link,
+  useNavigate,
+  useLocation,
+  useSearchParams,
+} from "react-router-dom";
 
 function MenuBar() {
   return (
     <div className="menu">
       <ul>
         <li>
-          <a href="/together/study">스터디모집</a>
+          <Link to="/together/study">스터디모집</Link>
           <ul>
             <li>
-              <a href="#">간이테스트</a>
+              <Link to="#">간이테스트</Link>
             </li>
             <li>
-              <a href="#">지역별 검색</a>
+              <Link to="#">지역별 검색</Link>
             </li>
             <li>
-              <a href="#">맞춤형 검색</a>
+              <Link to="#">맞춤형 검색</Link>
             </li>
           </ul>
         </li>
 
         <li>
-          <a href="/reviewmain">국비교육</a>
+          <Link to="/reviewmain">국비교육</Link>
           <ul>
             <li>
-              <a href="/reviewmain">기관검색</a>
+              <Link to="/reviewmain">기관검색</Link>
             </li>
           </ul>
         </li>
 
         <li>
-          <a href="/mainboard">게시판</a>
+          <Link to="/mainboard">게시판</Link>
           <ul>
             <li>
-              <a href="#">리뷰게시판</a>
+              <Link to="/reviewmain">리뷰게시판</Link>
             </li>
             <li>
-              <a href="#">고민상담게시판</a>
+              <Link to="#">고민상담게시판</Link>
             </li>
             <li>
-              <a href="/mainboard/career">최업준비게시판</a>
+              <Link to="/mainboard/career">취업준비게시판</Link>
             </li>
             <li>
-              <a href="/mainboard/technews">IT게시판</a>
+              <Link to="/mainboard/technews">IT게시판</Link>
             </li>
           </ul>
         </li>
 
         <li>
-          <a href="#">이벤트</a>
+          <Link to="#">이벤트</Link>
           <ul>
             <li>
-              <a href="#">코딩대회 일정</a>
+              <Link to="#">코딩대회 일정</Link>
             </li>
             <li>
-              <a href="#">취업박람회 일정</a>
+              <Link to="#">취업박람회 일정</Link>
             </li>
             <li>
-              <a href="#">심리테스트</a>
+              <Link to="#">심리테스트</Link>
             </li>
           </ul>
         </li>
 
         <li>
-          <a href="/customer/faq">고객센터</a>
+          <Link to="/customer/faq">고객센터</Link>
           <ul>
             <li>
-              <a href="/customer/faq">공지사항</a>
+              <Link to="/customer/notice">공지사항</Link>
             </li>
             <li>
-              <a href="#">자주하는 질문</a>
+              <Link to="/customer/faq">자주하는 질문</Link>
             </li>
           </ul>
         </li>

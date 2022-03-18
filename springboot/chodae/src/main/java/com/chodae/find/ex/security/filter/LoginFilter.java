@@ -2,6 +2,8 @@ package com.chodae.find.ex.security.filter;
 
 import java.awt.PageAttributes.MediaType;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -16,6 +18,7 @@ import org.springframework.security.web.authentication.AbstractAuthenticationPro
 
 import com.chodae.find.ex.security.dto.MemberAuthDTO;
 import com.chodae.find.ex.security.jwtutil.JWTUtil;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.extern.java.Log;
 
@@ -64,22 +67,31 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter {
 		log.info("authResult.getPrincipal():"+authResult.getPrincipal());
 		
 		MemberAuthDTO userDTO = (MemberAuthDTO)authResult.getPrincipal();
-		String id = userDTO.getUsername();
+		String userName = userDTO.getUsername();
 		Object info = authResult.getPrincipal();
 		
 		log.info("info => "+info);
 		log.info("MemberAuthDTO => "+userDTO);
-		log.info("getUsername() => "+id);
+		log.info("getUsername() => "+userName);
 		
-		String token = null;
+		String accessToken = null;
+		String refreshToken = null;
+		
 		try {
 			
-//			token = jwtUtil.generateToken(id);
-			token = jwtUtil.generateToken(userDTO);
-			response.setContentType("aplication/json;charset=utf-8");
-			response.getOutputStream().write(token.getBytes());
+			accessToken = jwtUtil.generateAccessToken(userDTO);
+			refreshToken = jwtUtil.generateRefreshToken(userDTO);
 			
-			log.info("token => "+token);
+			 Map<String, String> tokens = new HashMap<>();
+		        tokens.put("accessToken",accessToken);
+		        tokens.put("refreshToken",refreshToken);
+			
+			response.setContentType("aplication/json;charset=utf-8");
+//			response.getOutputStream().write(accessToken.getBytes());
+			new ObjectMapper().writeValue(response.getOutputStream(), tokens);
+			
+			
+			log.info("token => "+accessToken);
 			
 		} catch(Exception e ) {
 			e.printStackTrace();

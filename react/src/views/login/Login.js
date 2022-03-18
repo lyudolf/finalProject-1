@@ -20,10 +20,6 @@ function Login() {
 
   const login = () => {
 
-    // store.login(loginId, password);
-    // console.log(useStore.getState().member);
-
-
     const formData = new FormData();
     formData.append("loginId", loginId);
     formData.append("password", password);
@@ -32,12 +28,15 @@ function Login() {
     axios.post("/api/login", formData)
       .then((response) => {
         console.log(response.data);
-        const token = response.data;
-        const dt = jwt_decode(token);
+        const accessToken = response.data.accessToken;
+        const refreshToken = response.data.refreshToken;
+        const dt = jwt_decode(accessToken);
+
 
         store.setMemberInfo(dt.member);
 
-        localStorage.setItem("accessToken", response.data);
+        localStorage.setItem("accessToken", accessToken);
+        localStorage.setItem("refreshToken", refreshToken);
         localStorage.setItem("username", useStore.getState().member.nickname); //임시
 
         console.log("useStore.getState().member.nickname", useStore.getState().member.nickname);

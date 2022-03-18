@@ -12,7 +12,6 @@ function Header(props) {
 
   const logout = () => {
     localStorage.removeItem("username");
-    // axios.post("/logout");
     store.logout();
 
     navigate("/");
@@ -36,8 +35,8 @@ function Header(props) {
             placeholder="검색어를 입력해주세요"
           ></input>
         </div>
-        {/* 추후 수정 필요 */}
-        {localStorage.getItem("accessToken") ? (
+
+        {useStore.getState().member !== null ? (
           <nav className="headerItems">
             <Link className="headerLink" to="/mypage">
               마이페이지
