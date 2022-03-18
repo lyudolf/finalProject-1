@@ -31,7 +31,6 @@ import TechNews from "./views/board/itnews/TechNews"; //it뉴스게시판
 
 import CustomerFaq from "./views/forget/Faq"; // 고객센터 자주하는질문게시판
 import FaqPost from "./views/forget/FaqPost"; //글 보기
-import CareerBoardcopy from "./views/board/CareerBoardcopy";
 import UpdatePost from "./views/board/UpdatePost";
 
 //---------------------------------------------------
@@ -85,7 +84,16 @@ function App() {
           <Route path="career/:postno" element={<FaqPost />} />
           <Route path="career/create" element={<CreatePost />} />
           <Route path="career/:postno/update" element={<UpdatePost />} />
-          <Route path="careerboardcopy" element={<CareerBoardcopy />} />
+
+          <Route path="book" element={<CustomerFaq title="리뷰" />} />
+          <Route path="book/:postno" element={<FaqPost />} />
+          <Route path="book/create" element={<CreatePost />} />
+          <Route path="book/:postno/update" element={<UpdatePost />} />
+
+          <Route path="worry" element={<CustomerFaq title="고민상담" />} />
+          <Route path="worry/:postno" element={<FaqPost />} />
+          <Route path="worry/create" element={<CreatePost />} />
+          <Route path="worry/:postno/update" element={<UpdatePost />} />
         </Route>
 
         <Route
@@ -101,7 +109,7 @@ function App() {
 
         <Route
           path="/customer/faq"
-          element={<CustomerFaq title="고객센터" />}
+          element={<CustomerFaq title="자주묻는 질문" />}
         />
         <Route path="/customer/faq/:postno" element={<FaqPost />} />
         <Route path="/customer/faq/create" element={<CreatePost />} />
