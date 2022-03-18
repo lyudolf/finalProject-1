@@ -6,13 +6,11 @@ import searchIcon from "../assets/search.png";
 import axios from "../plugins/axios";
 import useStore from "../plugins/store";
 
-function Header(props) {
+function Header() {
   const store = useStore();
   let navigate = useNavigate();
 
   const logout = () => {
-    localStorage.removeItem("username");
-    // axios.post("/logout");
     store.logout();
 
     navigate("/");
@@ -36,7 +34,6 @@ function Header(props) {
             placeholder="검색어를 입력해주세요"
           ></input>
         </div>
-        {/* 추후 수정 필요 */}
         {localStorage.getItem("accessToken") ? (
           <nav className="headerItems">
             <Link className="headerLink" to="/mypage">
