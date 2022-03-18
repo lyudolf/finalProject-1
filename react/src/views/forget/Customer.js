@@ -1,17 +1,17 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
 import SideNavbar from "../../component/SideNavbar";
-import { ForgetData } from "../../component/ForgetData";
+import { CustomerData } from "../../component/CustomerData";
 
-function Find() {
+function Customer() {
   return (
     <div>
       <div>
-        <SideNavbar data={ForgetData} title="아이디/비번찾기" />
+        <SideNavbar data={CustomerData} title="공지사항" />
         <Outlet />
       </div>
     </div>
   );
 }
 
-export default Find;
+export default Customer;

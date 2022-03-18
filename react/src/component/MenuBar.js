@@ -36,7 +36,7 @@ function MenuBar() {
         </li>
 
         <li>
-          <Link to="/mainboard">게시판</Link>
+          <Link to="/mainboard/career">게시판</Link>
           <ul>
             <li>
               <Link to="/mainboard/book">리뷰게시판</Link>
