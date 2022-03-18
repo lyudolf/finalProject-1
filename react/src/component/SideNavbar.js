@@ -1,19 +1,16 @@
 // Routing
 import { NavLink } from "react-router-dom";
 
-// Data File
-import { MainboardData } from "./MainboardData";
-
 //style
 import "./SideNavbar.css";
 
-function SideNavbar() {
+function SideNavbar({ data, title }) {
   return (
     <div className="sidebarWrapper">
-      <div className="sideBarTitle">게시판</div>
+      <div className="sideBarTitle">{title}</div>
       <div className="navMenuItems">
         <ul>
-          {MainboardData.map((item, index) => {
+          {data.map((item, index) => {
             return (
               <li key={index} className="sideBarLiTag">
                 <NavLink
