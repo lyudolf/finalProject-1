@@ -1,11 +1,16 @@
 import { useState } from "react";
-import { Link, useNavigate, useLocation, useParams, useSearchParams } from 'react-router-dom';
+import {
+  Link,
+  useNavigate,
+  useLocation,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
 import React from "react";
-import "../board/SearchBar.css";
-import axios from '../../plugins/axios';
+import "./SearchBar.css";
+import axios from "../../plugins/axios";
 
 function SearchBar({ getData }) {
-
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -23,25 +28,32 @@ function SearchBar({ getData }) {
     console.log("자식컴포넌트 ", searchBy, searchTerm);
 
     searchList(searchBy, searchTerm);
-
-
-  }
+  };
 
   const searchList = async function (searchBy, searchTerm) {
-
     let url = `/${boardName}`;
 
-
-    await axios.get(url, { params: { page: 1, searchType: searchBy, keyword: searchTerm } })
-      .then((response) => {
-
-        console.log("검색결과 1페이지(기본) 결과 검색")
-        getData(response.data.content, response.data.totalPages, searchBy, searchTerm);
-
-        navigate(`/${boardGroup}/${boardName}?page=${1}&searchType=${searchBy}&keyword=${searchTerm}`);
+    await axios
+      .get(url, {
+        params: { page: 1, searchType: searchBy, keyword: searchTerm },
       })
-      .catch((error) => { console.log(error) });
-  }
+      .then((response) => {
+        console.log("검색결과 1페이지(기본) 결과 검색");
+        getData(
+          response.data.content,
+          response.data.totalPages,
+          searchBy,
+          searchTerm
+        );
+
+        navigate(
+          `/${boardGroup}/${boardName}?page=${1}&searchType=${searchBy}&keyword=${searchTerm}`
+        );
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   return (
     <div className="searchBarContainer">
@@ -65,8 +77,9 @@ function SearchBar({ getData }) {
           setSearchTerm(event.target.value);
         }}
       ></input>
-      <button className="searchBarInputBtn" onClick={onClick}>검색</button>
-
+      <button className="searchBarInputBtn" onClick={onClick}>
+        검색
+      </button>
     </div>
   );
 }

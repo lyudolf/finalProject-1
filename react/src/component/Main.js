@@ -14,7 +14,7 @@ function Main() {
   console.log("getMemberRole() =>", store.getMemberRole());
 
   const [scrollY, setScrollY] = useState(0);
-  // const { user } = useContext(AuthContext);
+
   const monitor = () => {
     setScrollY(window.pageYOffset);
   };
@@ -66,18 +66,20 @@ function Main() {
       <div className="boardBg">
         <div className="boardLeft">
           <img
-            className={`${scrollY > 480
-              ? "boardImg animate__animated animate__slideInLeft animate__slow"
-              : "boardImg"
-              }`}
+            className={`${
+              scrollY > 480
+                ? "boardImg animate__animated animate__slideInLeft animate__slow"
+                : "boardImg"
+            }`}
             src={boardImg}
           ></img>
         </div>
         <div
-          className={`${scrollY > 480
-            ? "boardRight animate__animated animate__slideInRight animate__slow"
-            : "boardRight"
-            }`}
+          className={`${
+            scrollY > 480
+              ? "boardRight animate__animated animate__slideInRight animate__slow"
+              : "boardRight"
+          }`}
         >
           <div className="boardText">
             <h1 className="studyTitle">게시판</h1>

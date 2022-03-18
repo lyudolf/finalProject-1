@@ -6,11 +6,12 @@ import searchIcon from "../assets/search.png";
 import axios from "../plugins/axios";
 import useStore from "../plugins/store";
 
-function Header(props) {
+function Header() {
   const store = useStore();
   let navigate = useNavigate();
 
   const logout = () => {
+
     localStorage.removeItem("username");
     store.logout();
 
@@ -36,7 +37,9 @@ function Header(props) {
           ></input>
         </div>
 
+
         {useStore.getState().member !== null ? (
+
           <nav className="headerItems">
             <Link className="headerLink" to="/mypage">
               마이페이지
