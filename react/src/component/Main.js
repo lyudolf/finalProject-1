@@ -9,8 +9,9 @@ import useStore from "../plugins/store";
 
 function Main() {
   const store = useStore();
-
   console.log(useStore.getState().member);
+  console.log("getMemberInfo() =>", store.getMemberInfo());
+  console.log("getMemberRole() =>", store.getMemberRole());
 
   const [scrollY, setScrollY] = useState(0);
 

@@ -47,6 +47,7 @@ public class RegService {
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		user.addMemberRole(MemberRole.USER);//추후
 		user.setSocial(false);
+		
 		User registeredMember = regRepo.save(user);
 		
 		return registeredMember; 

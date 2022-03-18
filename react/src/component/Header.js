@@ -11,6 +11,8 @@ function Header() {
   let navigate = useNavigate();
 
   const logout = () => {
+
+    localStorage.removeItem("username");
     store.logout();
 
     navigate("/");
@@ -34,7 +36,10 @@ function Header() {
             placeholder="검색어를 입력해주세요"
           ></input>
         </div>
-        {localStorage.getItem("accessToken") ? (
+
+
+        {useStore.getState().member !== null ? (
+
           <nav className="headerItems">
             <Link className="headerLink" to="/mypage">
               마이페이지
