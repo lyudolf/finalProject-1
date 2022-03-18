@@ -3,7 +3,7 @@ import Header from "../src/component/Header";
 import Footer from "../src/component/Footer";
 import Main from "../src/component/Main";
 import MenuBar from "../src/component/MenuBar";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 import { Route, Routes } from "react-router-dom"; //리액트 라우터
 
@@ -24,17 +24,13 @@ import Registercopy from "./views/signup/Registercopy"; //회원가입폼
 
 //게시판---------------------------------------------------------
 import MainBoard from "./views/board/MainBoard"; //메인게시판
-import CareerBoard from "./views/board/CareerBoard"; //취업상담게시판
 
-import SideNavbar from "./component/SideNavbar"; //사이드 네비바
 import CreatePost from "./views/board/CreatePost"; //게시판 글쓰기
-import Post from "./views/board/Post"; //글 보기
+
 import TechNews from "./views/board/itnews/TechNews"; //it뉴스게시판
 
-import CustomerNotice from "./views/forget/CustomerNotice"; // 고객센터 공지사항게시판
 import CustomerFaq from "./views/forget/Faq"; // 고객센터 자주하는질문게시판
 import FaqPost from "./views/forget/FaqPost"; //글 보기
-import Front from "./views/board/Front";
 import CareerBoardcopy from "./views/board/CareerBoardcopy";
 import UpdatePost from "./views/board/UpdatePost";
 
@@ -55,14 +51,11 @@ import StudyPost from "./views/Study/StudyPost";
 
 //----------------------------------------------------------------------------
 
-
 function App() {
   let [shoes, shoes1] = useState(data);
 
-
   return (
     <div className="App">
-      {/* 로그인 정보 저장한거 provider 안에 있는거에 다 적용할 예정 */}
       <Header />
       <MenuBar />
 

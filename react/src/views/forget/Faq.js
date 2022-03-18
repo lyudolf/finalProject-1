@@ -185,16 +185,18 @@ function Faq(props) {
 
       <div>
         <SearchBar getData={getData} />
-        <div className="writePostBtnWrapper">
-          <button
-            onClick={() => {
-              navigate(`/${boardGroup}/${boardName}/create`);
-            }}
-            className="writePostBtn"
-          >
-            글쓰기
-          </button>
-        </div>
+        {localStorage.getItem("accesstoken") ? (
+          <div className="writePostBtnWrapper">
+            <button
+              onClick={() => {
+                navigate(`/${boardGroup}/${boardName}/create`);
+              }}
+              className="writePostBtn"
+            >
+              글쓰기
+            </button>
+          </div>
+        ) : null}
       </div>
 
       {/* <img src={"http://localhost:8000/get/image/springboot-oauth.jpg"} width="100%" alt="이미지" /> */}

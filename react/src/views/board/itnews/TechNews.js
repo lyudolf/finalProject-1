@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 //searchBar 새로 만들어야함
-import SearchBar from "../SearchBar";
+// import SearchBar from "../SearchBar";
 import moment from "moment";
 import "./TechNews.css";
 import ReactPaginate from "react-paginate";
@@ -80,7 +80,7 @@ function TechNews() {
           activeClassName={"paginationActive"}
         />
       </div>
-      <SearchBar />
+
       <div style={{ margin: "20px" }}></div>
     </div>
   );

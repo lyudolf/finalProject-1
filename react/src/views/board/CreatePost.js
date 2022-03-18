@@ -11,14 +11,6 @@ import Preview from "./Preview";
 function CreatePost() {
   let navigate = useNavigate();
 
-  //왜 username 정보가 없는데... 로그인 페이지로 넘어가지 않는 것인가....
-  useEffect(() => {
-    if (!localStorage.getItem("username")) {
-      alert("로그인 해주세요");
-      navigate("/login");
-    }
-  }, []);
-
   //글 수정시 글 수정페이지로 넘어오면서 기존 글 정보로 initialValues를 초기화 해줘야되나?
   const initialValues = {
     boardName: "",
