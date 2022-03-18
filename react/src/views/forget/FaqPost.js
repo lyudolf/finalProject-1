@@ -9,8 +9,8 @@ import {
 import axios from "../../plugins/axios";
 import "./Post.css";
 import CareerBoardTable from "../../component/CareerBoardTable";
-import moment from "moment"; //날짜 수정하기 위해 모멘트 설치
-import CommentList from "../../component/CommentList"; //댓글 수정하면 나오는 입력창
+import moment from "moment";
+import CommentList from "../../component/CommentList";
 
 import { FaThumbsUp } from "react-icons/fa";
 import { FaThumbsDown } from "react-icons/fa";
@@ -18,11 +18,11 @@ import { FaThumbsDown } from "react-icons/fa";
 import useStore from "../../plugins/store";
 
 function FaqPost() {
-
   const store = useStore();
-  const nickname = (useStore.getState().member !== null) ? useStore.getState().member.nickname : null;
-
-
+  const nickname =
+    useStore.getState().member !== null
+      ? useStore.getState().member.nickname
+      : null;
 
   const params = useParams();
   const postNo = params.postno;
@@ -91,13 +91,12 @@ function FaqPost() {
 
   // 게시글 삭제
   const deletePost = (postNo) => {
-
     axios.delete(`/${boardName}/${postNo}/${nickname}`).then(() => {
       navigate(-1);
     });
   };
 
-
+  // 댓글 추가
   const addComment = async function () {
     const formData = new FormData();
 
@@ -118,6 +117,7 @@ function FaqPost() {
         console.log(error);
       });
   };
+
   //댓글 삭제
   const deleteReply = async function (replyNo) {
     await axios({
@@ -151,8 +151,6 @@ function FaqPost() {
       });
   };
 
-  // const nickname = "닉네임51";
-
   //추천 버튼 함수   //게시글 추천 //댓글 추천
   const addLike = async (type, targetNo, nickname) => {
     const formData = new FormData();
@@ -166,24 +164,27 @@ function FaqPost() {
       })
       .then((response) => {
         console.log(response.data);
+        alert("추천하셨습니다");
+        window.location.reload();
       })
       .catch((error) => {
         console.log(error);
       });
   };
 
+  //추천 삭제
   const deleteLike = async (type, targetNo, nickname) => {
     await axios
       .delete(`/${boardName}/recomm/${type}/${targetNo}/${nickname}`)
       .then((response) => {
         console.log(response.data);
+        alert("추천을 취소하셨습니다");
+        window.location.reload();
       })
       .catch((error) => {
         console.log(error);
       });
   };
-
-  //추천 추가 ---- 추천 취소 토글 버튼
 
   return (
     <div className="postContainer">
@@ -212,21 +213,33 @@ function FaqPost() {
               </div>
             )}
           </div>
+
           {/* 로그인한 닉네임의 유저가 게시글을 추천한경우 / 아직 안한경우  */}
-          {postObject !== null && !postRecommendOrNot ? (
+          {postObject !== null && nickname !== null ? (
+            <div>
+              {!postRecommendOrNot ? (
+                <FaThumbsUp
+                  className="recommend"
+                  onClick={() => {
+                    addLike("post", postObject.postNo, nickname);
+                    setPostRecommentOrNot(!postRecommendOrNot);
+                  }}
+                />
+              ) : (
+                <FaThumbsUp
+                  className="notRecommend"
+                  onClick={() => {
+                    deleteLike("post", postObject.postNo, nickname);
+                    setPostRecommentOrNot(!postRecommendOrNot);
+                  }}
+                />
+              )}
+            </div>
+          ) : (
             <FaThumbsUp
               className="recommend"
               onClick={() => {
-                addLike("post", postObject.postNo, nickname);
-                setPostRecommentOrNot(!postRecommendOrNot);
-              }}
-            />
-          ) : (
-            <FaThumbsDown
-              className="notRecommend"
-              onClick={() => {
-                deleteLike("post", postObject.postNo, nickname);
-                setPostRecommentOrNot(!postRecommendOrNot);
+                alert("로그인한 유저만 추천할 수 있습니다.");
               }}
             />
           )}
@@ -309,31 +322,33 @@ function FaqPost() {
               })}
           </div>
 
-          <div className="commentSection">
-            <div className="commentNickname">{nickname}</div>
-            <div className="commentInputWrapper">
-              <input
-                className="commentInputBox"
-                type="text"
-                placeholder="댓글을 남겨보세요"
-                autoComplete="off"
-                value={newComment}
-                onChange={(event) => {
-                  setNewComment(event.target.value);
-                }}
-              ></input>
-              <div className="commentAddBtnWrapper">
-                <button
-                  className="commentAddBtn"
-                  onClick={() => {
-                    addComment();
+          {nickname !== null ? (
+            <div className="commentSection">
+              <div className="commentNickname">{nickname}</div>
+              <div className="commentInputWrapper">
+                <input
+                  className="commentInputBox"
+                  type="text"
+                  placeholder="댓글을 남겨보세요"
+                  autoComplete="off"
+                  value={newComment}
+                  onChange={(event) => {
+                    setNewComment(event.target.value);
                   }}
-                >
-                  등록
-                </button>
+                ></input>
+                <div className="commentAddBtnWrapper">
+                  <button
+                    className="commentAddBtn"
+                    onClick={() => {
+                      addComment();
+                    }}
+                  >
+                    등록
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
+          ) : null}
         </div>
       )}
     </div>

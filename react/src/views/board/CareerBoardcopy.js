@@ -4,7 +4,7 @@ import ReactPaginate from "react-paginate";
 import "./CareerBoardcopy.css";
 import { useNavigate } from "react-router-dom";
 import axios from "../../plugins/axios";
-import SearchBar from "./SearchBar";
+import SearchBar from "../forget/SearchBar";
 import moment from "moment";
 function CareerBoard() {
   let navigate = useNavigate();

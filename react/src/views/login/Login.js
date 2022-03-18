@@ -56,86 +56,6 @@ function Login() {
       });
   };
 
-
-  // const data = { loginId: loginId, password: password };
-  // console.log(data);
-
-  // const formData = new FormData();
-  // formData.append("loginId", loginId);
-  // formData.append("password", password);
-
-  // axios.post("/api/login", formData)
-  //   .then((response) => {
-
-  //     //console.log(response.headers.get('Authorization'))
-  //     console.log(response.data)
-  //     const token = response.data;
-
-  //     // localStorage.setItem("username", data.username);
-
-  //     // const please = token.split('.')[1]
-  //     // const payload = Buffer.from(please, 'base64');
-  //     // const result = JSON.parse(payload.toString());
-  //     // localStorage.setItem('result2', JSON.stringify(result));
-  //     // console.log(result);
-
-
-
-  //     // token이 필요한 API 요청 시 header Authorization에 token 담아서 보내기
-  //     // axios.defaults.headers.common['Authorization'] = `Bearer ${response.data}`;
-
-  //     // console.log(localStorage.getItem("hi"))
-
-  //   }).catch((error) => {
-  //     console.log(error);
-  //   });
-
-
-  // const login = () => {
-  //   const data = { username: username, password: password };
-  //   console.log(data);
-  //   // navigate(-1);
-  // };
-
-  // let navigate = useNavigate();
-  // const { Kakao } = window;
-
-
-
-        // token이 필요한 API 요청 시 header Authorization에 token 담아서 보내기
-  //       axios.defaults.headers.common['Authorization'] = `Bearer ${response.data}`;
-  //       console.log(localStorage.getItem("hi"))
-  //     }).catch((error) => {
-  //       console.log(error);
-  //     });
-  // };
-  // const kakaoLogin = () => {
-  //   Kakao.Auth.login({
-  //     success: function (authObj) {
-  //       //https://kauth.kakao.com/oauth/authorize?client_id=b57361b0269da06ba5b8bf17e32058f5&redirect_uri=http://localhost:8000/kakaologin&response_type=code
-  //       fetch("https://kauth.kakao.com/oauth/authorize?client_id=b57361b0269da06ba5b8bf17e32058f5&redirect_uri=http://localhost:8000/kakaologin&response_type=code",
-  //         {
-  //           method: "POST",
-  //           body: JSON.stringify({
-  //             access_token: authObj.access_token,
-  //           }),
-  //         }
-  //       )
-  //         .then((res) => res.json())
-  //         .then((res) => {
-  //           localStorage.setItem("Kakao_token", res.access_token);
-  //           if (res.access_token) {
-  //             alert("환영합니다.");
-  //             navigate("/");
-  //           }
-  //         });
-  //     },
-  //     fail: function (err) {
-  //       alert(JSON.stringify(err));
-  //     },
-  //   });
-  // };
-
   return (
     <div className="loginContainer">
       <label>아이디: </label>
@@ -166,11 +86,11 @@ function Login() {
         <img src={kakao} alt="kakao_button" />
       </button> */}
 
-      <Routes>
+      {/* <Routes>
           <Route path="/" exact element={KAKAO_AUTH_URL}></Route>
             <h1><a href={KAKAO_AUTH_URL}>Kakao Login</a></h1>
           <Route path="/oauth/kakao/callback" exact element={<Auth/>}></Route>
-      </Routes>
+      </Routes> */}
       </div>
   );
 }
