@@ -39,10 +39,10 @@ function MenuBar() {
           <Link to="/mainboard">게시판</Link>
           <ul>
             <li>
-              <Link to="/reviewmain">리뷰게시판</Link>
+              <Link to="/mainboard/book">리뷰게시판</Link>
             </li>
             <li>
-              <Link to="#">고민상담게시판</Link>
+              <Link to="/mainboard/worry">고민상담게시판</Link>
             </li>
             <li>
               <Link to="/mainboard/career">취업준비게시판</Link>

@@ -37,7 +37,7 @@ instance.interceptors.response.use(
 
         console.log(error);
         console.log(error.response);
-        if (error.response.data.code === "403" && error.response.data.message === "PLEASE CHECK TOKEN") {
+        if (error.response.status === 403) {
             console.log(error.response);
 
             // 리프레쉬토큰으로 엑세스 토큰 재발급 요청?

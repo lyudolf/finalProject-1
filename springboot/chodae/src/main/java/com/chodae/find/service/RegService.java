@@ -10,6 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.chodae.find.category.MemberRole;
 import com.chodae.find.domain.User;
+import com.chodae.find.ex.security.dto.MemberAuthDTO;
+import com.chodae.find.ex.security.jwtutil.JWTUtil;
 import com.chodae.find5.repository.RegRepo;
 import com.chodae.find5.repository.UserRepo;
 
@@ -24,6 +26,9 @@ public class RegService {
 	private final RegRepo regRepo;
 	private final UserRepo userRepo;
 	private final PasswordEncoder passwordEncoder;
+	private final JWTUtil jwtutil;
+	
+	// 로그인 할때 발급되는 리프레쉬 토큰은 유저테이블에 저장.
 	
 	
 	//일반회원 가입시

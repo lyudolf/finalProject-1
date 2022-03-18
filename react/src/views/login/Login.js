@@ -12,8 +12,8 @@ import { BrowserRouter as Routes, Route } from "react-router-dom";
 function Login() {
 
   const REST_API_KEY = "[본인 REST API KEY 값]";
-    const REDIRECT_URI = "http://localhost:3000/oauth/kakao/callback";
-    const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=b57361b0269da06ba5b8bf17e32058f5&redirect_uri=http://localhost:8000/kakaologin&response_type=code`;
+  const REDIRECT_URI = "http://localhost:3000/oauth/kakao/callback";
+  const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=b57361b0269da06ba5b8bf17e32058f5&redirect_uri=http://localhost:8000/kakaologin&response_type=code`;
   const store = useStore();
 
 
@@ -78,7 +78,7 @@ function Login() {
       <button className="loginBtn" onClick={login}>
         로그인
       </button>
-      <Link to="/login/find/id">
+      <Link to="/find/id">
         <button className="loginBtn">ID/PW 찾기</button>
       </Link>
       {/* <button onClick={kakaoLogin}>
@@ -90,7 +90,7 @@ function Login() {
             <h1><a href={KAKAO_AUTH_URL}>Kakao Login</a></h1>
           <Route path="/oauth/kakao/callback" exact element={<Auth/>}></Route>
       </Routes> */}
-      </div>
+    </div>
   );
 }
 export default Login;
