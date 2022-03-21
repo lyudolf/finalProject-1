@@ -9,11 +9,11 @@
 .toscontent {
   margin: 50px 50px;
 }
-.tos h2,
-h4 {
+.tosH2H4 {
   text-align: center;
   margin: 15px 0;
 }
+
 .tos li {
   list-style: none;
   margin-top: 5px;

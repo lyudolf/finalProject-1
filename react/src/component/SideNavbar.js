@@ -1,24 +1,21 @@
 // Routing
 import { NavLink } from "react-router-dom";
 
-// Data File
-import { MainboardData } from "./MainboardData";
-
 //style
-import "./SideNavbar.css";
+import styles from "./SideNavbar.module.css";
 
-function SideNavbar() {
+function SideNavbar({ data, title }) {
   return (
-    <div className="sidebarWrapper">
-      <div className="sideBarTitle">게시판</div>
-      <div className="navMenuItems">
+    <div className={styles.sidebarWrapper}>
+      <div className={styles.sideBarTitle}>{title}</div>
+      <div className={styles.navMenuItems}>
         <ul>
-          {MainboardData.map((item, index) => {
+          {data.map((item, index) => {
             return (
-              <li key={index} className="sideBarLiTag">
+              <li key={index} className={styles.sideBarLiTag}>
                 <NavLink
                   className={({ isActive }) =>
-                    isActive ? "activeClass" : "notActiveClass"
+                    isActive ? styles.activeClass : styles.notActiveClass
                   }
                   to={item.path}
                 >

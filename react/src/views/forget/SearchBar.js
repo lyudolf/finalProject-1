@@ -1,13 +1,7 @@
 import { useState } from "react";
-import {
-  Link,
-  useNavigate,
-  useLocation,
-  useParams,
-  useSearchParams,
-} from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import React from "react";
-import "./SearchBar.css";
+import styles from "./SearchBar.module.css";
 import axios from "../../plugins/axios";
 
 function SearchBar({ getData }) {
@@ -56,10 +50,9 @@ function SearchBar({ getData }) {
   };
 
   return (
-    <div className="searchBarContainer">
-      {/* option의 value는 서버에 보내질 값 */}
+    <div className={styles.searchBarContainer}>
       <select
-        className="searchBarDrowdown"
+        className={styles.searchBarDrowdown}
         value={searchBy}
         onChange={(event) => setSearchBy(event.target.value)}
       >
@@ -70,14 +63,14 @@ function SearchBar({ getData }) {
         <option value="location">장소</option>
       </select>
       <input
-        className="searchBarInput"
+        className={styles.searchBarInput}
         type="text"
         placeholder="검색어를 입력해주세요"
         onChange={(event) => {
           setSearchTerm(event.target.value);
         }}
       ></input>
-      <button className="searchBarInputBtn" onClick={onClick}>
+      <button className={styles.searchBarInputBtn} onClick={onClick}>
         검색
       </button>
     </div>

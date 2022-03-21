@@ -1,0 +1,48 @@
+.newsContainer {
+  max-width: 1200px;
+  flex: 1;
+  margin: auto;
+  width: 60%;
+}
+
+.techImg {
+  width: 100px;
+}
+
+.techNewsHeading {
+  font-weight: bold;
+  font-size: 30px;
+  margin-bottom: 20px;
+  color: #a6b1e1;
+}
+
+.paginateContainer {
+  height: 40px;
+  margin-top: 15px;
+  list-style: none;
+  text-decoration: none;
+  display: flex;
+  justify-content: center;
+}
+
+.paginationBttns {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+}
+
+.paginationBttns a {
+  padding: 5px 10px;
+  margin: 4px;
+  cursor: pointer;
+}
+
+.paginationBttns a:hover {
+  border-bottom: 1px solid black;
+}
+
+.paginationActive a {
+  color: #a6b1e1;
+  background-color: white;
+  font-weight: 500;
+}

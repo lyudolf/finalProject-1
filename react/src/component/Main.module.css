@@ -1,5 +1,10 @@
+.mainContainer {
+  max-width: 1200px;
+  margin: auto;
+}
+
 .studyBg {
-  background: linear-gradient(#dcd6f7, #a6b1e1);
+  /* background: linear-gradient(#dcd6f7, #a6b1e1); */
   height: 500px;
   display: flex;
   justify-content: center;
@@ -7,7 +12,7 @@
 }
 
 .studyLeft {
-  color: #eee;
+  color: #a6b1e1;
   font-size: 28px;
   display: flex;
   justify-content: center;
@@ -56,12 +61,7 @@
 }
 
 .bootCampWrapper {
-  position: relative;
-  display: flex;
-  justify-content: center;
-
   height: 100%;
-  z-index: -1;
 }
 .bootCampBg {
   height: 100vh;
@@ -70,24 +70,26 @@
 
 .bootCampImg {
   position: absolute;
-  height: 100%;
   width: 100%;
   object-fit: cover;
-  z-index: -1;
+  border-radius: 10px;
 }
 
 .bootCampText {
-  text-shadow: 0 0 5px;
-  color: gray;
+  color: #a6b1e1;
   font-size: 30px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
 }
 
 .boardBg {
-  background: linear-gradient(#a6b1e1, #dcd6f7);
+  /* background: linear-gradient(#a6b1e1, #dcd6f7); */
   height: 400px;
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: 50px;
 }
 
 .boardImg {
@@ -97,12 +99,15 @@
 }
 
 .boardText {
-  animation: slideRight ease 0.4s forwards;
-  color: #eee;
+  color: #a6b1e1;
   font-size: 25px;
   align-items: center;
 }
 .forumLink {
   text-decoration: none;
   color: white;
+}
+
+.boardImg {
+  width: 500px;
 }

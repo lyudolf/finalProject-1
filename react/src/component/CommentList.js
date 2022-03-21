@@ -15,7 +15,6 @@ function CommentList({ updateReply, reply, sendComment }) {
         className="commentInputBox"
         type="text"
         autoComplete="off"
-        autofocus
         value={updatedComment}
         onChange={(event) => {
           setUpdatedComment(event.target.value);

@@ -64,6 +64,8 @@ public interface BoardService {
 				.postContent(entity.getPostContent())
 				.id(entity.getId())
 				.nickname(entity.getNickname())
+				.finduser(entity.getFinduser())
+				.finduser2(entity.getFinduser2())
 				.replyCount(entity.getReplyCount())
 				.replies(entity.getReplies())
 				.postViews(entity.getPostViews())

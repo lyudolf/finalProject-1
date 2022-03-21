@@ -1,30 +1,7 @@
-/* 레이아웃 틀 */
-/* html {
-  height: 100%;
-}
-
-body {
-  margin: 0;
-  height: 100%;
-  background: #f5f6f7;
-  font-family: Dotum, "돋움", Helvetica, sans-serif;
-} */
-
 .formContainer {
   width: 100%;
 }
 
-#logo {
-  width: 240px;
-  height: 44px;
-  cursor: pointer;
-}
-
-#header {
-  padding-top: 62px;
-  padding-bottom: 20px;
-  text-align: center;
-}
 #wrapper {
   display: flex;
   justify-content: center;
@@ -39,7 +16,7 @@ body {
 
 /* 입력폼 */
 
-h3 {
+.formContainer > h3 {
   margin: 19px 0 8px;
   font-size: 14px;
   font-weight: 700;
@@ -54,7 +31,6 @@ h3 {
   box-sizing: border-box;
   background: #fff;
   border-radius: 5px;
-
   position: relative;
 }
 
@@ -70,27 +46,6 @@ h3 {
 
 input {
   font-family: Dotum, "돋움", Helvetica, sans-serif;
-}
-
-.box.int_id {
-  padding-right: 110px;
-}
-
-.box.int_pass {
-  padding-right: 40px;
-}
-
-.box.int_pass_check {
-  padding-right: 40px;
-}
-
-.step_url {
-  /*@naver.com*/
-  position: absolute;
-  top: 16px;
-  right: 13px;
-  font-size: 15px;
-  color: #8e8e8e;
 }
 
 .pswdImg {
@@ -120,11 +75,11 @@ select {
 
 /* 버튼 */
 
-.btn_area {
+.btnArea {
   margin: 30px 0 91px;
 }
 
-.text-error {
+.textError {
   color: red;
   font-size: 12px;
   position: absolute;
@@ -135,11 +90,25 @@ select {
   justify-content: center;
   margin-bottom: 30px;
 }
+.checkb {
+  margin-top: 20px;
+}
 
-.registerWidth {
+.loginBtn {
+  width: 400px;
+  height: 50px;
+  border-radius: 8px;
+  border: none;
+  margin: 10px;
+  background-color: #dcd6f7;
+  color: #424874;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 15px;
   width: 100%;
   margin: 0;
 }
-.checkb {
-  margin-top: 20px;
+
+.loginBtn:hover {
+  background: #a6b1e1;
 }

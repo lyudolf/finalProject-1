@@ -24,11 +24,12 @@ import Registercopy from "./views/signup/Registercopy"; //회원가입폼
 
 //게시판---------------------------------------------------------
 import MainBoard from "./views/board/MainBoard"; //메인게시판
-
+import FourTables from "./views/board/FourTables";
 import CreatePost from "./views/board/CreatePost"; //게시판 글쓰기
 
 import TechNews from "./views/board/itnews/TechNews"; //it뉴스게시판
 
+import Customer from "./views/forget/Customer";
 import CustomerFaq from "./views/forget/Faq"; // 고객센터 자주하는질문게시판
 import FaqPost from "./views/forget/FaqPost"; //글 보기
 import UpdatePost from "./views/board/UpdatePost";
@@ -78,6 +79,7 @@ function App() {
         <Route path="/register" element={<Registercopy />} />
 
         {/* 게시판 메인화면 */}
+        <Route path="/latestposts" element={<FourTables />} />
         <Route path="/mainboard" element={<MainBoard />}>
           <Route path="technews" element={<TechNews />} />
           <Route path="career" element={<CustomerFaq title="취업준비" />} />
@@ -96,24 +98,18 @@ function App() {
           <Route path="worry/:postno/update" element={<UpdatePost />} />
         </Route>
 
-        <Route
-          path="/customer/notice"
-          element={<CustomerFaq title="공지사항" />}
-        />
-        <Route path="/customer/notice/:postno" element={<FaqPost />} />
-        <Route path="/customer/notice/create" element={<CreatePost />} />
-        <Route
-          path="/customer/notice/:postno/update"
-          element={<UpdatePost />}
-        />
+        {/* 공지사항 */}
+        <Route path="/customer" element={<Customer />}>
+          <Route path="notice" element={<CustomerFaq title="공지사항" />} />
+          <Route path="notice/:postno" element={<FaqPost />} />
+          <Route path="notice/create" element={<CreatePost />} />
+          <Route path="notice/:postno/update" element={<UpdatePost />} />
 
-        <Route
-          path="/customer/faq"
-          element={<CustomerFaq title="자주묻는 질문" />}
-        />
-        <Route path="/customer/faq/:postno" element={<FaqPost />} />
-        <Route path="/customer/faq/create" element={<CreatePost />} />
-        <Route path="/customer/faq/:postno/update" element={<UpdatePost />} />
+          <Route path="faq" element={<CustomerFaq title="자주 묻는 질문" />} />
+          <Route path="faq/:postno" element={<FaqPost />} />
+          <Route path="faq/create" element={<CreatePost />} />
+          <Route path="faq/:postno/update" element={<UpdatePost />} />
+        </Route>
 
         {/* 국비교육 */}
         <Route

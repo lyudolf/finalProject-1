@@ -16,6 +16,7 @@ const instance = axios.create({
     // withCredentials: true
 });
 
+
 instance.interceptors.request.use(
     async function (config) {
 
@@ -55,6 +56,7 @@ instance.interceptors.request.use(
             formData.append("nickname", nickname);
             formData.append("refreshToken", refreshToken);
 
+
             try {
                 const response = await axios.post(`${baseURL}/api/refresh`, formData);
                 // console.log(response.data);
@@ -69,6 +71,7 @@ instance.interceptors.request.use(
             }
 
 
+
         }
 
 
@@ -78,12 +81,13 @@ instance.interceptors.request.use(
     function (error) {
 
         return Promise.reject(error);
-    }
-);
+     }
+ );
 
 
-instance.interceptors.response.use(
-    function (response) {
+ instance.interceptors.response.use(
+     function (response) {
+
 
         return response;
     },
@@ -92,6 +96,7 @@ instance.interceptors.response.use(
         return Promise.reject(error);
     }
 );
+
 
 export default instance;
 

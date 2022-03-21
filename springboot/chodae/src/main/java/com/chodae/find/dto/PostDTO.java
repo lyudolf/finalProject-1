@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.chodae.find.domain.Board;
 import com.chodae.find.domain.Category;
+import com.chodae.find.domain.Post;
 import com.chodae.find.domain.PostContent;
 import com.chodae.find.domain.Reply;
 import com.chodae.image.Image;
@@ -41,6 +42,8 @@ public class PostDTO {
 	private String postComment;//댓글사항 여부 
 	private String postDisplay;// 게시 여부
 	private List<Reply> replies;
+	private List finduser;
+	private List finduser2;
 	private List<Category> category;
 	
 }

@@ -1,9 +1,19 @@
 .postContainer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  max-width: 1200px;
+  margin: auto;
 }
 
+.postSection {
+  width: 90%;
+  border-radius: 5px;
+  border: 1px solid #eee;
+  padding: 30px;
+  margin: auto;
+}
+
+.postCommentWrapper {
+  width: 90%;
+}
 .postBody {
   display: flex;
   flex-direction: column;
@@ -40,7 +50,6 @@
 .postTitle {
   font-weight: bold;
   font-size: 24px;
-  padding: 8px;
 }
 
 .eachReply {
@@ -77,7 +86,6 @@
 }
 
 .comment {
-  width: 100%;
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 5px;
   margin: 5px 0;
@@ -136,7 +144,7 @@
   color: #424874;
 }
 
-.replyRecommentContainer {
+.replyRecommendContainer {
   display: flex;
   justify-content: end;
   padding-right: 10px;
@@ -152,4 +160,7 @@
   cursor: pointer;
   font-size: 20px;
   color: #424874;
+}
+.tempo {
+  margin-bottom: 178px;
 }
