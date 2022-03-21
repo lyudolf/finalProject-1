@@ -1,37 +1,26 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
+// import JsonData from "./MOCK_DATA.json";
 import ReactPaginate from "react-paginate";
+import "./CareerBoard.css";
 import {
   Link,
   useNavigate,
   useLocation,
+  useParams,
   useSearchParams,
 } from "react-router-dom";
 import axios from "../../plugins/axios";
-import "../board/CareerBoard.css";
 import SearchBar from "./SearchBar";
-import useStore from "../../plugins/store";
+// import moment from "moment";
 
-function Faq(props) {
-  const store = useStore();
-
-  console.log(useStore.getState().member);
-
+function CareerBoard() {
   const navigate = useNavigate();
   const location = useLocation();
-
-  console.log(location);
-  const idx = location.pathname.indexOf("/", 1);
-  console.log(idx);
-  const boardGroup = location.pathname.slice(1, idx);
-  const boardName = location.pathname.slice(idx + 1);
-
-  let currentUrl = "";
 
   const [searchParams, setSearchParams] = useSearchParams();
   let page = searchParams.get("page");
   let qType = searchParams.get("searchType");
   let qWord = searchParams.get("keyword");
-  let qOrder = searchParams.get("order");
 
   const [postInfo, setPostInfo] = useState({});
   const [posts, setPosts] = useState([]);
@@ -40,43 +29,28 @@ function Faq(props) {
   const [searchType, setSearchType] = useState("");
   const [keyword, setKeyword] = useState("");
 
-  const [paginationNumber, setPaginationNumber] = useState(0);
-
   useEffect(() => {
     page = page === null ? 1 : page;
     qType = qType === null ? "" : qType;
     qWord = qWord === null ? "" : qWord;
-    qOrder = qOrder === null ? "" : qOrder;
 
-    getFaq(page, qType, qWord, qOrder);
-
-    setPaginationNumber(parseInt(page));
-  }, [props, page, qType, qWord, qOrder]);
+    getFaq(page, qType, qWord);
+  }, [page, qType, qWord]);
 
   const changePage = ({ selected }) => {
-    getFaq(selected + 1, qType, qWord, qOrder);
+    getFaq(selected + 1, qType, qWord);
   };
 
-  const addOrder = (e) => {
-    console.log(e.target.value);
-    getFaq(page, qType, qWord, e.target.value);
-  };
-
-  //리액트화면에서 검색결과 창에서 x버튼 누르면 타입과 검색처 초기화?
-  async function getFaq(page, searchType, keyword, order = "postRegdate") {
-    let url = `/${boardName}`;
+  async function getFaq(page, searchType, keyword) {
+    let url = "/career";
 
     await axios
       .get(url, {
-        params: {
-          page: page,
-          searchType: searchType,
-          keyword: keyword,
-          order: order,
-        },
+        params: { page: page, searchType: searchType, keyword: keyword },
       })
       .then((response) => {
         const postList = response.data.content;
+
         for (const post of postList) {
           //작성시간 변환
           const date = new Date(post.postRegdate);
@@ -85,19 +59,28 @@ function Faq(props) {
         //업데이트
         setPostInfo(response.data);
         setPosts(postList);
-        console.log(postList);
         setPageCount(response.data.totalPages);
 
-        currentUrl = `/${boardGroup}/${boardName}?page=${page}&searchType=${searchType}&keyword=${keyword}&order=${order}`;
-
         navigate(
-          `/${boardGroup}/${boardName}?page=${page}&searchType=${searchType}&keyword=${keyword}&order=${order}`
+          `${url}?page=${page}&searchType=${searchType}&keyword=${keyword}`
         );
       })
       .catch((error) => {
         console.log(error);
       });
   }
+
+  // const getPost = async function () {
+  //   await axios
+  //     .get("/career/{postno}") // 50번글 조회
+  //     .then((response) => {
+  //       console.log(response.data);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // };
+
   function dateFormat(date) {
     let month = date.getMonth() + 1;
     let day = date.getDate();
@@ -114,6 +97,44 @@ function Faq(props) {
     return `${date.getFullYear()}-${month}-${day} ${hour}:${minute}:${second}`;
   }
 
+  //현재 페이지 정보
+  // const [pageNumber, setPageNumber] = useState(0);
+
+  // const postsPerPage = 10;
+
+  //현재 몇개 포스트를 봤는지 그 시작점을 알려줌. (나중에 슬라이스 할때 사용)
+  // const pagesVisited = pageNumber * postsPerPage;
+
+  // const pageCount = Math.ceil(posts.length / postsPerPage);
+
+  // const changePage = ({ selected }) => {
+  //   setPageNumber(selected);
+  // };
+
+  // const handleSearch = (searchType, keyword) => {
+  //   axios
+  //     .get("/career/list/search", {
+  //       params: { searchType, keyword },
+  //     })
+  //     .then((response) => setPosts(response.data || []))
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // };
+
+  // useEffect(() => {
+  //   axios
+  //     .get("/career/list")
+  //     .then((response) => {
+  //       setPosts(response.data);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // }, []);
+
+  // useEffect(() => setReversedPosts(posts.reverse()), [posts]);
+
   const getData = (posts, pageCount, searchType, keyword) => {
     //검색버튼 누르면 검색결과 1페이지 리스트랑 페이지정보 넘어옴.
     console.log(posts, pageCount, searchType, keyword);
@@ -125,19 +146,7 @@ function Faq(props) {
 
   return (
     <div className="boardContainer">
-      <h1 className="heading">{props.title}</h1>
-      <div className="orderButtons">
-        <button value="postViews" onClick={addOrder}>
-          조회순
-        </button>
-        <button value="postLike" onClick={addOrder}>
-          추천순
-        </button>
-        <button value="replyCount" onClick={addOrder}>
-          댓글순
-        </button>
-      </div>
-
+      <div className="careerBoardTitle">취업상담게시판</div>
       <table>
         <thead>
           <tr>
@@ -149,12 +158,13 @@ function Faq(props) {
             <th>작성일</th>
           </tr>
         </thead>
-        <tbody>
+
+        <tbody className="nice">
           {posts.map((post) => (
             <tr>
               <td>{post.postNo}</td>
               <td className="table-title">
-                <Link to={`${post.postNo}`} className="postTableTitle">
+                <Link to={`/career/post/${post.postNo}`}>
                   {post.postTitle}
                 </Link>
                 {post.replyCount > 0 && <span>[{post.replyCount}]</span>}
@@ -167,13 +177,11 @@ function Faq(props) {
           ))}
         </tbody>
       </table>
-
-      <div className="paginateContainer">
+      <div className="paginationContainer">
         <ReactPaginate
           previousLabel={"이전"}
           nextLabel={"다음"}
           pageCount={pageCount}
-          forcePage={paginationNumber - 1}
           onPageChange={changePage}
           containerClassName={"paginationBttns"}
           previousLinkClassName={"previousBttn"}
@@ -181,27 +189,27 @@ function Faq(props) {
           disabledClassName={"paginationDisabled"}
           activeClassName={"paginationActive"}
         />
+        <div className="careerBoardSearchWrapper">
+          <SearchBar getData={getData} />
+          <button
+            onClick={() => {
+              if (
+                //벡엔드 연결되면 필요한 부분 수정
+                localStorage.getItem("user")
+              ) {
+                window.location.href = "/mainboard/createpost";
+              } else {
+                alert("로그인해주세요");
+              }
+            }}
+            className="createPostBtn"
+          >
+            글쓰기
+          </button>
+        </div>
       </div>
-
-      <div>
-        <SearchBar getData={getData} />
-        {localStorage.getItem("username") ? (
-          <div className="writePostBtnWrapper">
-            <button
-              onClick={() => {
-                navigate(`/${boardGroup}/${boardName}/create`);
-              }}
-              className="writePostBtn"
-            >
-              글쓰기
-            </button>
-          </div>
-        ) : null}
-      </div>
-
-      {/* <img src={"http://localhost:8000/get/image/springboot-oauth.jpg"} width="100%" alt="이미지" /> */}
-      {/* ??????????????????????????????????????????????????????? */}
     </div>
   );
 }
-export default Faq;
+
+export default CareerBoard;

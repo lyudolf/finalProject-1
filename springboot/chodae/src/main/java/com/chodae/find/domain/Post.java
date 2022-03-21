@@ -100,4 +100,9 @@ public class Post {
 	@JsonManagedReference
 	@OneToMany(mappedBy ="post", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<Image> image = new ArrayList<Image>();
+
+	@Transient
+	private List finduser;
+	@Transient
+	private List finduser2;
 }

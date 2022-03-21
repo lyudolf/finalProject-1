@@ -23,7 +23,10 @@ function FaqPost() {
     useStore.getState().member !== null
       ? useStore.getState().member.nickname
       : null;
-
+  const loginId =
+    useStore.getState().member !== null
+      ? useStore.getState().member.loginId
+      : null;
   const params = useParams();
   const postNo = params.postno;
   const location = useLocation();
@@ -58,13 +61,49 @@ function FaqPost() {
       .get(`/${boardName}/${postNo}`)
       .then((response) => {
         console.log(response.data);
-
         const post = response.data;
+        // if ((post.finduser2.find(element => element === nickname) === null)) {
+        //   setPostRecommentOrNot(true)
+        // } else if ((post.finduser2.find(element => element === nickname) === 1)) {
+        //   (setPostRecommentOrNot(false))
+        // }
+        // if ((post.finduser.find(element => element === nickname) === undefined)) {
+        //   setReplyRecommentOrNot(true)
+        // } else if ((post.finduser.find(element => element === nickname) === 1)) {
+        //   (setReplyRecommentOrNot(false))
+        // }
+        console.log(nickname)
+
+        if (post.finduser === null) {
+          console.log("sorry")
+        } else if (post.finduser !== null) {
+          console.log(post.finduser)
+          post.finduser.map((like) => {
+            if (like === nickname) {
+
+              setReplyRecommentOrNot(true);
+            }
+          })
+
+        }
+
+        post.finduser2.map((like2) => {
+          console.log(post.finduser2)
+          if (like2 === nickname) {
+
+            setPostRecommentOrNot(true);
+          }
+        })
+
         post.postRegdate = dateFormat(new Date(post.postRegdate));
+
 
         for (const reply of post.replies) {
           reply.replyRegdate = dateFormat(new Date(reply.replyRegdate));
         }
+
+
+
 
         setPostObject(post);
         setComments(post.replies);
@@ -163,8 +202,10 @@ function FaqPost() {
         },
       })
       .then((response) => {
+
         console.log(response.data);
         alert("추천하셨습니다");
+
         window.location.reload();
       })
       .catch((error) => {
@@ -191,7 +232,7 @@ function FaqPost() {
       {postObject && (
         <div className="postSection">
           <CareerBoardTable moment={moment} tableData={postObject} />
-          <div>
+          <div className="tempo">
             {postObject !== null && nickname === postObject.nickname && (
               <div className="commentAddBtnWrapper">
                 <button
@@ -222,15 +263,15 @@ function FaqPost() {
                   className="recommend"
                   onClick={() => {
                     addLike("post", postObject.postNo, nickname);
-                    setPostRecommentOrNot(!postRecommendOrNot);
+                    setPostRecommentOrNot(true);
                   }}
                 />
               ) : (
-                <FaThumbsUp
+                < FaThumbsUp
                   className="notRecommend"
                   onClick={() => {
                     deleteLike("post", postObject.postNo, nickname);
-                    setPostRecommentOrNot(!postRecommendOrNot);
+                    setPostRecommentOrNot(false);
                   }}
                 />
               )}
@@ -297,23 +338,24 @@ function FaqPost() {
                       {/* db에서 회원 댓글 추천 유무 확인 */}
                       {nickname !== reply.nickname && (
                         <div className="replyRecommentContainer">
-                          {!replyRecommendOrNot ? (
-                            <FaThumbsUp
-                              className="replyRecommend"
-                              onClick={() => {
-                                addLike("reply", reply.replyNo, nickname);
-                                setReplyRecommentOrNot(!replyRecommendOrNot);
-                              }}
-                            />
-                          ) : (
-                            <FaThumbsDown
-                              className="replyNotRecommend"
-                              onClick={() => {
-                                deleteLike("reply", reply.replyNo, nickname);
-                                setReplyRecommentOrNot(!replyRecommendOrNot);
-                              }}
-                            />
-                          )}
+
+                          <FaThumbsUp
+                            className="replyRecommend"
+                            onClick={() => {
+                              addLike("reply", reply.replyNo, nickname);
+                              setReplyRecommentOrNot(true);
+                            }}
+                          />
+
+                          <FaThumbsDown
+                            className="replyNotRecommend"
+                            onClick={() => {
+
+                              deleteLike("reply", reply.replyNo, nickname);
+                              setReplyRecommentOrNot(false);
+                            }}
+                          />
+
                         </div>
                       )}
                     </span>
