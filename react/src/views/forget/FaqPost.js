@@ -17,7 +17,10 @@ function FaqPost() {
     useStore.getState().member !== null
       ? useStore.getState().member.nickname
       : null;
-
+  const loginId =
+    useStore.getState().member !== null
+      ? useStore.getState().member.loginId
+      : null;
   const params = useParams();
   const postNo = params.postno;
   const location = useLocation();
@@ -51,13 +54,49 @@ function FaqPost() {
       .get(`/${boardName}/${postNo}`)
       .then((response) => {
         console.log(response.data);
-
         const post = response.data;
+        // if ((post.finduser2.find(element => element === nickname) === null)) {
+        //   setPostRecommentOrNot(true)
+        // } else if ((post.finduser2.find(element => element === nickname) === 1)) {
+        //   (setPostRecommentOrNot(false))
+        // }
+        // if ((post.finduser.find(element => element === nickname) === undefined)) {
+        //   setReplyRecommentOrNot(true)
+        // } else if ((post.finduser.find(element => element === nickname) === 1)) {
+        //   (setReplyRecommentOrNot(false))
+        // }
+        console.log(nickname)
+
+        if (post.finduser === null) {
+          console.log("sorry")
+        } else if (post.finduser !== null) {
+          console.log(post.finduser)
+          post.finduser.map((like) => {
+            if (like === nickname) {
+
+              setReplyRecommentOrNot(true);
+            }
+          })
+
+        }
+
+        post.finduser2.map((like2) => {
+          console.log(post.finduser2)
+          if (like2 === nickname) {
+
+            setPostRecommentOrNot(true);
+          }
+        })
+
         post.postRegdate = dateFormat(new Date(post.postRegdate));
+
 
         for (const reply of post.replies) {
           reply.replyRegdate = dateFormat(new Date(reply.replyRegdate));
         }
+
+
+
 
         setPostObject(post);
         setComments(post.replies);
@@ -156,8 +195,10 @@ function FaqPost() {
         },
       })
       .then((response) => {
+
         console.log(response.data);
         alert("추천하셨습니다");
+
         window.location.reload();
       })
       .catch((error) => {
@@ -191,7 +232,7 @@ function FaqPost() {
         <div className={styles.postSection}>
           <div className={styles.postCommentWrapper}></div>
           <CareerBoardTable moment={moment} tableData={postObject} />
-          <div>
+          <div className="tempo">
             {postObject !== null && nickname === postObject.nickname && (
               <div className={styles.commentAddBtnWrapper}>
                 <button
@@ -297,6 +338,7 @@ function FaqPost() {
                         </div>
                       )}
                       {/* db에서 회원 댓글 추천 유무 확인 */}
+<<<<<<< HEAD
                       {nickname !== null ? (
                         <Comment props={props} reply={reply} />
                       ) : (
@@ -306,6 +348,29 @@ function FaqPost() {
                             alert("로그인한 유저만 추천할 수 있습니다.");
                           }}
                         />
+=======
+                      {nickname !== reply.nickname && (
+                        <div className="replyRecommentContainer">
+
+                          <FaThumbsUp
+                            className="replyRecommend"
+                            onClick={() => {
+                              addLike("reply", reply.replyNo, nickname);
+                              setReplyRecommentOrNot(true);
+                            }}
+                          />
+
+                          <FaThumbsDown
+                            className="replyNotRecommend"
+                            onClick={() => {
+
+                              deleteLike("reply", reply.replyNo, nickname);
+                              setReplyRecommentOrNot(false);
+                            }}
+                          />
+
+                        </div>
+>>>>>>> c9355b7e2ad9d522b4b4a697821e8345671a25ba
                       )}
                     </span>
                   </div>
