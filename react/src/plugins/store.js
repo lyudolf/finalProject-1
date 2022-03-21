@@ -4,11 +4,40 @@ import jwt_decode from 'jwt-decode'
 import { Link, useNavigate } from "react-router-dom";
 import { persist } from "zustand/middleware"
 
+const baseURL = 'http://localhost:8000';
+
 //로컬스토리지 저장. 리프레쉬토큰 , 액세스 토큰
 const useStore = create(persist(
     (set, get) => ({
         member: null,
         isLogin: false,
+        continueLogin: async (accessToken, refreshToken) => {
+
+            const dt = jwt_decode(accessToken);
+            const nickname = dt.member.nickname;
+
+            try {
+
+                const formData = new FormData();
+                formData.append("nickname", nickname);
+                formData.append("refreshToken", refreshToken);
+
+                const response = await axios.post(`${baseURL}/api/refresh`, formData);
+
+                localStorage.setItem("accessToken", response.data);
+
+                const newToken = response.data;
+                const de = jwt_decode(newToken);
+
+                get().setMemberInfo(de.member);
+
+            } catch (err) {
+                console.log(err);
+                get().logout();
+
+            }
+
+        },
         setMemberInfo: (member) => {
             set({ member: member, isLogin: true });
             console.log("after login => member:", get().member, get().member.nickname);

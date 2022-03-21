@@ -81,7 +81,7 @@ function ForgetId() {
     await axios
       .get("/api/find/id", { params: { name: name, email: email } })
       .then((response) => {
-        console.log(response.data);
+        // console.log(response.data);
         //성공시 아이디 결과화면 페이지로 이동
         navigate(`/find/id/result/${response.data}`);
       })

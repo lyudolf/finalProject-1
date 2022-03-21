@@ -22,12 +22,12 @@ function Login() {
 
   let navigate = useNavigate();
 
-  const login = () => {
+  const login = async () => {
     const formData = new FormData();
     formData.append("loginId", loginId);
     formData.append("password", password);
 
-    axios
+    await axios
       .post("/api/login", formData)
       .then((response) => {
         console.log(response.data);
@@ -39,10 +39,6 @@ function Login() {
 
         localStorage.setItem("accessToken", accessToken);
         localStorage.setItem("refreshToken", refreshToken);
-
-
-        // localStorage.setItem("hasRefreshToken", "true");
-
 
         localStorage.setItem("username", useStore.getState().member.nickname); //임시
 

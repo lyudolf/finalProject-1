@@ -83,7 +83,7 @@ function ForgetPs() {
       .get("/api/find/user", { params: { loginId: id, email: email } })
       .then((response) => {
         const data = response.data;
-        console.log(response.data);
+        // console.log(response.data);
         if (data.length === 1) {
           console.log("비밀번호존재 비밀번호 재설정 페이지로 이동");
           navigate(`/find/ps/reset/${data[0].loginId}`);

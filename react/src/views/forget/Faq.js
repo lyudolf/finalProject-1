@@ -14,13 +14,13 @@ import useStore from "../../plugins/store";
 function Faq(props) {
   const store = useStore();
 
-  console.log(useStore.getState().member);
+  // console.log(useStore.getState().member);
 
   const navigate = useNavigate();
   const location = useLocation();
 
   const idx = location.pathname.indexOf("/", 1);
-  console.log(idx);
+  // console.log(idx);
   const boardGroup = location.pathname.slice(1, idx);
   const boardName = location.pathname.slice(idx + 1);
 
@@ -57,7 +57,7 @@ function Faq(props) {
   };
 
   const addOrder = (e) => {
-    console.log(e.target.value);
+    // console.log(e.target.value);
     getFaq(page, qType, qWord, e.target.value);
   };
 
@@ -84,7 +84,7 @@ function Faq(props) {
         //업데이트
         setPostInfo(response.data);
         setPosts(postList);
-        console.log(postList);
+        // console.log(postList);
         setPageCount(response.data.totalPages);
 
         currentUrl = `/${boardGroup}/${boardName}?page=${page}&searchType=${searchType}&keyword=${keyword}&order=${order}`;
@@ -115,7 +115,7 @@ function Faq(props) {
 
   const getData = (posts, pageCount, searchType, keyword) => {
     //검색버튼 누르면 검색결과 1페이지 리스트랑 페이지정보 넘어옴.
-    console.log(posts, pageCount, searchType, keyword);
+    // console.log(posts, pageCount, searchType, keyword);
     setPosts(posts);
     setPageCount(pageCount);
     setSearchType(searchType);

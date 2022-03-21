@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./Header.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import chodaeLogo from "../assets/Chodae-logo.png";
@@ -9,6 +9,18 @@ import useStore from "../plugins/store";
 function Header() {
   const store = useStore();
   let navigate = useNavigate();
+
+  useEffect(() => {
+    if (localStorage.hasOwnProperty("accessToken") && localStorage.hasOwnProperty("refreshToken")) {
+      console.log("리프레쉬토큰으로 토큰을 새로 받아서 자동로그인")
+      const accessToken = localStorage.getItem("accessToken");
+      const refreshToken = localStorage.getItem("refreshToken");
+      store.continueLogin(accessToken, refreshToken);
+
+    } else {
+      store.logout();
+    }
+  }, []);
 
   const logout = () => {
     localStorage.removeItem("username");
