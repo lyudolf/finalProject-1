@@ -9,8 +9,6 @@ const useStore = create(persist(
     (set, get) => ({
         member: null,
         isLogin: false,
-        accessToken: '',
-        refreshToken: '',
         setMemberInfo: (member) => {
             set({ member: member, isLogin: true });
             console.log("after login => member:", get().member, get().member.nickname);
@@ -30,8 +28,6 @@ const useStore = create(persist(
             set({
                 member: null,
                 isLogin: false,
-                accessToken: '',
-                refreshToken: '',
             });
             console.log("after logout => member:", get().member);
         },

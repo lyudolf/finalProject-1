@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useCallback } from "react";
 import "./Main.css";
 import { Link } from "react-router-dom";
 import studyImg from "../assets/main/studyBeige.jpg";
@@ -9,9 +9,11 @@ import useStore from "../plugins/store";
 
 function Main() {
   const store = useStore();
+  const member = useStore(state => state.member);
   console.log(useStore.getState().member);
   console.log("getMemberInfo() =>", store.getMemberInfo());
   console.log("getMemberRole() =>", store.getMemberRole());
+  console.log("useStore(state => state.member)", member);
 
   const [scrollY, setScrollY] = useState(0);
 
@@ -66,20 +68,18 @@ function Main() {
       <div className="boardBg">
         <div className="boardLeft">
           <img
-            className={`${
-              scrollY > 480
-                ? "boardImg animate__animated animate__slideInLeft animate__slow"
-                : "boardImg"
-            }`}
+            className={`${scrollY > 480
+              ? "boardImg animate__animated animate__slideInLeft animate__slow"
+              : "boardImg"
+              }`}
             src={boardImg}
           ></img>
         </div>
         <div
-          className={`${
-            scrollY > 480
-              ? "boardRight animate__animated animate__slideInRight animate__slow"
-              : "boardRight"
-          }`}
+          className={`${scrollY > 480
+            ? "boardRight animate__animated animate__slideInRight animate__slow"
+            : "boardRight"
+            }`}
         >
           <div className="boardText">
             <h1 className="studyTitle">게시판</h1>

@@ -5,8 +5,10 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,6 +29,24 @@ public class FindController {
 	@Autowired
 	public FindController(UserFindService userFindService) {
 		this.userFindService = userFindService;
+	}
+	
+	@PostMapping("/refresh")
+	public ResponseEntity<String> getTokenByRefreshToken(@RequestParam String nickname, @RequestParam String refreshToken ) {
+		
+		String accessToken = "no";
+		log.info(nickname+"::::"+refreshToken);
+		//로그인시 발급하여 저장한 리프레시 토큰을 전달받은 리프레시토큰과  비교 
+		User user = userFindService.checkRefreshToken(nickname, refreshToken);
+		
+		if(user == null) 
+			return new ResponseEntity<String>(accessToken, HttpStatus.FORBIDDEN);
+		
+		log.info(accessToken);
+		accessToken = userFindService.getAccessToken(nickname);
+		
+		return new ResponseEntity<String>(accessToken, HttpStatus.OK);
+		
 	}
 	
 	//성함+메일로 [로그인용 아이디] 찾기

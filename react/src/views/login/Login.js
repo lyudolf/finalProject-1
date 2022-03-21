@@ -9,11 +9,13 @@ import kakao from "../../assets/kakao.png";
 import Auth from "./Auth";
 import { BrowserRouter as Routes, Route } from "react-router-dom";
 
+
 function Login() {
 
   const REST_API_KEY = "[본인 REST API KEY 값]";
   const REDIRECT_URI = "http://localhost:3000/oauth/kakao/callback";
   const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=b57361b0269da06ba5b8bf17e32058f5&redirect_uri=http://localhost:8000/kakaologin&response_type=code`;
+
   const store = useStore();
 
 
@@ -41,6 +43,11 @@ function Login() {
 
         localStorage.setItem("accessToken", accessToken);
         localStorage.setItem("refreshToken", refreshToken);
+
+
+        // localStorage.setItem("hasRefreshToken", "true");
+
+
         localStorage.setItem("username", useStore.getState().member.nickname); //임시
 
         console.log("useStore.getState().member.nickname", useStore.getState().member.nickname);

@@ -1,26 +1,80 @@
 import axios from 'axios'
 import useStore from "../plugins/store";
+import jwt_decode from 'jwt-decode';
+
+
+
+const baseURL = 'http://localhost:8000';
+let accessToken = (localStorage.hasOwnProperty("accessToken")) ? localStorage.getItem("accessToken") : null;
+let refreshToken = (localStorage.hasOwnProperty("refreshToken")) ? localStorage.getItem("refreshToken") : null;
+
 
 // axios 인스턴스를 생성, 설정 정보 저장
 const instance = axios.create({
-    baseURL: 'http://localhost:8000/', //기본  루트 url 
+    baseURL, //기본  루트 url
     timeout: 15000,
     // withCredentials: true
 });
 
-
 instance.interceptors.request.use(
-    function (config) {
+    async function (config) {
+
+        if (accessToken === null) {
+            console.log("토큰없이");
+            return config;
+        }
+
+        const info = jwt_decode(accessToken);
+        console.log(info);
+
+        const currentTime = Math.floor(new Date().getTime() / 1000.0);
+        const expTime = info.exp;
+        const isExpired = expTime - currentTime <= 0;  //만료됨.
+        console.log(isExpired);
+        console.log(expTime - currentTime);
+        console.log(currentTime);
+        console.log(expTime);
 
 
-        if (localStorage.hasOwnProperty("accessToken")) {
+        const nickname = info.member.nickname;
 
-            config.headers.Authorization = 'Bearer ' + localStorage.getItem("accessToken");
+        if (!isExpired) {
+            console.log("아직 만료안됨");
+            if (localStorage.hasOwnProperty("accessToken")) {
+
+                config.headers.Authorization = 'Bearer ' + accessToken;
+            }
+            return config;
+
+        } else {
+            console.log('accessToken 만료됨');
+            //토큰 만료시 리프레시 토큰을 전달하여로그인시 발급한 리프레쉬토큰(DB에 저장)과 비교하여 일치하면 액세스토큰 발급
+            //새로 발급 받은 액세스 토큰을 헤더로 설정후 요청.
+
+            const formData = new FormData();
+            formData.append("nickname", nickname);
+            formData.append("refreshToken", refreshToken);
+
+            try {
+                const response = await axios.post(`${baseURL}/api/refresh`, formData);
+                // console.log(response.data);
+                localStorage.setItem("accessToken", response.data);
+
+                config.headers.Authorization = 'Bearer ' + response.data;
+                // console.log(config);
+                return config;
+
+            } catch (err) {
+                console.log(err);
+            }
+
+
         }
 
 
-        return config;
     },
+
+
     function (error) {
 
         return Promise.reject(error);
@@ -34,25 +88,7 @@ instance.interceptors.response.use(
         return response;
     },
     async function (error) {
-
         console.log(error);
-        console.log(error.response);
-        if (error.response.status === 403) {
-            console.log(error.response);
-
-            // 리프레쉬토큰으로 엑세스 토큰 재발급 요청?
-
-        }
-
-        //요청과 함께 보낸 엑세스 토큰에 문제가 있을시 (만료,인증불가) 발생하는 '유효성오류'에러를 받으면
-
-        //리프레쉬 토큰과 지난 액세스토큰을 보내서 조작여부확인 후 액세스토큰 재발행 요청 보내기. 
-
-        //서버에서 db에 저장된 리프레쉬 토큰과 비교 확인후 기간이 지나지않았으면 액세스 토큰 발급
-
-        //
-
-
         return Promise.reject(error);
     }
 );
