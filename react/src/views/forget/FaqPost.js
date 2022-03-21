@@ -338,7 +338,6 @@ function FaqPost() {
                         </div>
                       )}
                       {/* db에서 회원 댓글 추천 유무 확인 */}
-<<<<<<< HEAD
                       {nickname !== null ? (
                         <Comment props={props} reply={reply} />
                       ) : (
@@ -348,29 +347,6 @@ function FaqPost() {
                             alert("로그인한 유저만 추천할 수 있습니다.");
                           }}
                         />
-=======
-                      {nickname !== reply.nickname && (
-                        <div className="replyRecommentContainer">
-
-                          <FaThumbsUp
-                            className="replyRecommend"
-                            onClick={() => {
-                              addLike("reply", reply.replyNo, nickname);
-                              setReplyRecommentOrNot(true);
-                            }}
-                          />
-
-                          <FaThumbsDown
-                            className="replyNotRecommend"
-                            onClick={() => {
-
-                              deleteLike("reply", reply.replyNo, nickname);
-                              setReplyRecommentOrNot(false);
-                            }}
-                          />
-
-                        </div>
->>>>>>> c9355b7e2ad9d522b4b4a697821e8345671a25ba
                       )}
                     </span>
                   </div>
