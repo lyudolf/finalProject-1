@@ -44,6 +44,7 @@ function FaqPost() {
   const [updateClicked, setUpdateClicked] = useState(false);
   const [sendComment, setSendComment] = useState(false);
   const [postRecommendOrNot, setPostRecommendOrNot] = useState(false);
+  const [replyRecommendOrNot, setReplyRecommendOrNot] = useState(false);
 
   useEffect(() => {
     getPost(postNo);
@@ -74,7 +75,7 @@ function FaqPost() {
           post.finduser.map((like) => {
             if (like === nickname) {
 
-              setReplyRecommentOrNot(true);
+              setReplyRecommendOrNot(true);
             }
           })
 
@@ -84,7 +85,7 @@ function FaqPost() {
           console.log(post.finduser2)
           if (like2 === nickname) {
 
-            setPostRecommentOrNot(true);
+            setPostRecommendOrNot(true);
           }
         })
 

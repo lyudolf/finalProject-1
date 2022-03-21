@@ -50,9 +50,9 @@
 }
 
 .headerLink {
-  /* display: flex;
+  display: flex;
   background-color: #9162b1;
-  background-color: #6e39cf;
+  /* background-color: #6e39cf; */
   border-radius: 10px;
   padding: 10px;
   justify-content: center;
@@ -63,10 +63,10 @@
   border: none;
   font-weight: bold;
   cursor: pointer;
-  text-decoration: none; */
-
   text-decoration: none;
-  color: #555555;
+
+  /* text-decoration: none;
+  color: #555555; */
 }
 
 .line {
