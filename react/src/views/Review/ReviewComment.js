@@ -23,7 +23,7 @@ function ReviewComment(id) {
     axios
       .get(`/review/index/${idindex}`)
       .then((response) => {
-        console.log(response.data);
+        // console.log(response.data);
 
         const post = response.data;
         post.postRegdate = dateFormat(new Date(post.postRegdate));
@@ -72,7 +72,7 @@ function ReviewComment(id) {
         },
       })
       .then((response) => {
-        console.log(response.data);
+        // console.log(response.data);
         window.location.reload();
       })
       .catch((error) => {

@@ -19,7 +19,7 @@ function ResetCompleted() {
           <hr />
           <form className={styles.searchForm}>
             <div className={styles.psGoBackBtnWrapper}>
-              <Link to="/">
+              <Link to="/login">
                 <button type="button" className={styles.loginBtn}>
                   로그인 화면으로 돌아가기
                 </button>

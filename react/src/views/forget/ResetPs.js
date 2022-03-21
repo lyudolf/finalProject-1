@@ -89,14 +89,14 @@ function ResetPs() {
       setIsSamePs(false);
       setPsMsg("비밀번호가 일치하지 않습니다.");
       setPsMsg2("비밀번호가 일치하지 않습니다.");
-      console.log(ps);
-      console.log(ps2);
-      console.log(isValidPs);
-      console.log(isValidPs2);
+      // console.log(ps);
+      // console.log(ps2);
+      // console.log(isValidPs);
+      // console.log(isValidPs2);
       return;
     } else {
-      console.log(userId);
-      console.log(ps);
+      // console.log(userId);
+      // console.log(ps);
       // 비밀번호 업데이트 호출로 수정해야함
       const formData = new FormData();
       formData.append("id", userId);
@@ -109,7 +109,7 @@ function ResetPs() {
           },
         })
         .then((response) => {
-          console.log(response.data);
+          // console.log(response.data);
           //성공시 재설정 결과화면 페이지로 이동, 업데이트 성공시 숫자1 반환
           if (response.data === 1) {
             navigate(`/find/ps/done`);

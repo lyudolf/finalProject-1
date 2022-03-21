@@ -26,17 +26,17 @@ function FaqPost() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  console.log(location);
+  // console.log(location);
   const idx = location.pathname.indexOf("/", 1);
-  console.log(idx);
+  // console.log(idx);
   const boardGroup = location.pathname.slice(1, idx);
-  console.log(boardGroup);
+  // console.log(boardGroup);
 
   const idx2 = location.pathname.indexOf("/", idx + 1);
-  console.log(idx2);
+  // console.log(idx2);
 
   const boardName = location.pathname.slice(idx + 1, idx2);
-  console.log(boardName);
+  // console.log(boardName);
 
   const [postObject, setPostObject] = useState(null);
   const [comments, setComments] = useState(null);
@@ -143,7 +143,7 @@ function FaqPost() {
         },
       })
       .then((response) => {
-        console.log(response.data);
+        // console.log(response.data);
         window.location.reload();
       })
       .catch((error) => {
@@ -179,7 +179,7 @@ function FaqPost() {
         },
       })
       .then((response) => {
-        console.log(response.data);
+        // console.log(response.data);
         window.location.reload();
       });
   };
@@ -212,7 +212,7 @@ function FaqPost() {
     await axios
       .delete(`/${boardName}/recomm/${type}/${targetNo}/${nickname}`)
       .then((response) => {
-        console.log(response.data);
+        // console.log(response.data);
         alert("추천을 취소하셨습니다");
         window.location.reload();
       })
