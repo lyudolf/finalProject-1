@@ -185,7 +185,7 @@ function Faq(props) {
 
       <div>
         <SearchBar getData={getData} />
-        {localStorage.getItem("accesstoken") ? (
+        {localStorage.getItem("username") ? (
           <div className="writePostBtnWrapper">
             <button
               onClick={() => {

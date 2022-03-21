@@ -138,13 +138,38 @@ public class BoardServiceImpl implements BoardService {
 		User user = userRepo.findById(post.getId()).get();
 		post.setNickname(user.getNickname());
 		
+		List finduser2 = recommRepo.existPostRecomm2(post.getPostNo());
+		System.out.println("파인드 게시글 유저"+ finduser2);
+		post.setFinduser2(finduser2);
+
+		List finduser = recommRepo.existReplyRecomm2(post.getPostNo());
+		System.out.println("여기가 목표");
+		System.out.println("파인드 댓글 유저"+ finduser);
+
+		System.out.println("다 더한거??" + finduser);
+		
+		post.setFinduser(finduser);
+		
 		List<Reply> replies = post.getReplies();
+		System.out.println("여기가 존재해야 밑에 실행됨"+	replies);
+		
 		replies.forEach(reply -> {
+			System.out.println(reply + "@@@@@@@@@@@@@@@@@@@@@@@@");
 			User replyUser = userRepo.findById(reply.getId()).get();
 			reply.setNickname(replyUser.getNickname());
+			
+			
+	
 		});
-		post.setReplies(replies);
+
 		
+
+	
+		
+		
+		System.out.println("아니야?"+replies);
+		post.setReplies(replies);
+		System.out.println(post);
 		return post;
 	}
 	
@@ -210,7 +235,7 @@ public class BoardServiceImpl implements BoardService {
 		
 		post.setPostRegdate(LocalDateTime.now());
 		post.setPostModdate(LocalDateTime.now());
-		
+	
 		post.setPostTitle(title);
 		post.setReplyCount(0);
 		post.setPostViews(0);
