@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "../../plugins/axios";
-import "./ForgetId.css";
+import styles from "./Forget.module.css";
 import useStore from "../../plugins/store";
-
 
 function ForgetPs() {
   const navigate = useNavigate();
@@ -96,44 +95,50 @@ function ForgetPs() {
   };
 
   return (
-    <div className="mainBody">
-      <div className="container">
-        <div className="heading">비밀번호 찾기</div>
+    <div className={styles.mainBody}>
+      <div className={styles.container}>
+        <div className={styles.heading}>비밀번호 찾기</div>
         <hr></hr>
-        <div className="content">
-          <div className="contentHeader">비밀번호를 잊어버리셨나요?</div>
-          <div className="contentHeader">
+        <div className={styles.content}>
+          <div className={styles.contentHeader}>비밀번호를 잊어버리셨나요?</div>
+          <div className={styles.contentHeader}>
             비밀번호는 가입시 입력하신 <br />
             아이디와 이메일을 통해 찾을 수 있습니다.
           </div>
           <hr />
-          <form className="searchForm">
-            <div className="nameInput">
+          <form className={styles.searchForm}>
+            <div className={styles.nameInput}>
               <input
                 name="userName"
-                className="inputBox"
+                className={styles.inputBox}
                 onChange={onChangeId}
                 placeholder="아이디를 입력해주세요"
               />
-              {!isValidId && <div className="errorMessage">{idMsg}</div>}
+              {!isValidId && <div className={styles.errorMessage}>{idMsg}</div>}
             </div>
-            <div className="emailInput">
+            <div className={styles.emailInput}>
               <input
                 name="email"
-                className="inputBox"
+                className={styles.inputBox}
                 onChange={onChangeEmail}
                 placeholder="이메일을 입력해주세요"
               />
-              {!isValidEmail && <div className="errorMessage">{emailMsg}</div>}
+              {!isValidEmail && (
+                <div className={styles.errorMessage}>{emailMsg}</div>
+              )}
             </div>
             <div>
-              <button type="submit" className="loginBtn" onClick={submitForm}>
+              <button
+                type="submit"
+                className={styles.loginBtn}
+                onClick={submitForm}
+              >
                 찾기
               </button>
             </div>
             <div>
               <Link to="/">
-                <button type="button" className="loginBtn">
+                <button type="button" className={styles.loginBtn}>
                   로그인 화면으로 돌아가기
                 </button>
               </Link>

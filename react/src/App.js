@@ -24,7 +24,7 @@ import Registercopy from "./views/signup/Registercopy"; //회원가입폼
 
 //게시판---------------------------------------------------------
 import MainBoard from "./views/board/MainBoard"; //메인게시판
-
+import FourTables from "./views/board/FourTables";
 import CreatePost from "./views/board/CreatePost"; //게시판 글쓰기
 
 import TechNews from "./views/board/itnews/TechNews"; //it뉴스게시판
@@ -79,6 +79,7 @@ function App() {
         <Route path="/register" element={<Registercopy />} />
 
         {/* 게시판 메인화면 */}
+        <Route path="/latestposts" element={<FourTables />} />
         <Route path="/mainboard" element={<MainBoard />}>
           <Route path="technews" element={<TechNews />} />
           <Route path="career" element={<CustomerFaq title="취업준비" />} />

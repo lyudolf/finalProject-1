@@ -1,21 +1,15 @@
 import React, { useEffect, useState } from "react";
-import {
-  Link,
-  useNavigate,
-  useLocation,
-  useParams,
-  useSearchParams,
-} from "react-router-dom";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
 import axios from "../../plugins/axios";
-import "./Post.css";
+import styles from "./FaqPost.module.css";
 import CareerBoardTable from "../../component/CareerBoardTable";
 import moment from "moment";
 import CommentList from "../../component/CommentList";
-
-import { FaThumbsUp } from "react-icons/fa";
-import { FaThumbsDown } from "react-icons/fa";
+import Comment from "../../component/Comment";
 
 import useStore from "../../plugins/store";
+import { FaThumbsUp } from "react-icons/fa";
+// import { FaThumbsDown } from "react-icons/fa";
 
 function FaqPost() {
   const store = useStore();
@@ -46,8 +40,7 @@ function FaqPost() {
   const [newComment, setNewComment] = useState("");
   const [updateClicked, setUpdateClicked] = useState(false);
   const [sendComment, setSendComment] = useState(false);
-  const [postRecommendOrNot, setPostRecommentOrNot] = useState(false);
-  const [replyRecommendOrNot, setReplyRecommentOrNot] = useState(false);
+  const [postRecommendOrNot, setPostRecommendOrNot] = useState(false);
 
   useEffect(() => {
     getPost(postNo);
@@ -186,16 +179,23 @@ function FaqPost() {
       });
   };
 
+  const props = {
+    nickname: nickname,
+    addLike: addLike,
+    deleteLike: deleteLike,
+  };
+
   return (
-    <div className="postContainer">
+    <div className={styles.postContainer}>
       {postObject && (
-        <div className="postSection">
+        <div className={styles.postSection}>
+          <div className={styles.postCommentWrapper}></div>
           <CareerBoardTable moment={moment} tableData={postObject} />
           <div>
             {postObject !== null && nickname === postObject.nickname && (
-              <div className="commentAddBtnWrapper">
+              <div className={styles.commentAddBtnWrapper}>
                 <button
-                  className="commentAddBtn"
+                  className={styles.commentAddBtn}
                   onClick={() => {
                     deletePost(postObject.postNo);
                   }}
@@ -203,7 +203,7 @@ function FaqPost() {
                   삭제
                 </button>
                 <button
-                  className="commentAddBtn"
+                  className={styles.commentAddBtn}
                   onClick={() => {
                     navigate("update");
                   }}
@@ -219,37 +219,39 @@ function FaqPost() {
             <div>
               {!postRecommendOrNot ? (
                 <FaThumbsUp
-                  className="recommend"
+                  className={styles.recommend}
                   onClick={() => {
                     addLike("post", postObject.postNo, nickname);
-                    setPostRecommentOrNot(!postRecommendOrNot);
+                    setPostRecommendOrNot(!postRecommendOrNot);
                   }}
                 />
               ) : (
                 <FaThumbsUp
-                  className="notRecommend"
+                  className={styles.notRecommend}
                   onClick={() => {
                     deleteLike("post", postObject.postNo, nickname);
-                    setPostRecommentOrNot(!postRecommendOrNot);
+                    setPostRecommendOrNot(!postRecommendOrNot);
                   }}
                 />
               )}
             </div>
           ) : (
             <FaThumbsUp
-              className="recommend"
+              className={styles.recommend}
               onClick={() => {
                 alert("로그인한 유저만 추천할 수 있습니다.");
               }}
             />
           )}
 
-          <div className="listOfComments">
+          <div className={styles.listOfComments}>
             {postObject != null &&
               postObject.replies.map((reply, index) => {
                 return (
-                  <div className="comment" key={index}>
-                    <div className="commentNickname">{reply.nickname}</div>
+                  <div className={styles.comment} key={index}>
+                    <div className={styles.commentNickname}>
+                      {reply.nickname}
+                    </div>
                     {updateClicked === true ? (
                       <CommentList
                         sendComment={sendComment}
@@ -259,14 +261,14 @@ function FaqPost() {
                     ) : (
                       <div>{reply.replyContent}</div>
                     )}
-                    <span className="commentTime">
+                    <span className={styles.commentTime}>
                       {moment(reply.replyRegdate).format("LLL")}
                     </span>
                     <span>
                       {nickname === reply.nickname && (
-                        <div className="commentAddBtnWrapper">
+                        <div className={styles.commentAddBtnWrapper}>
                           <button
-                            className="commentAddBtn"
+                            className={styles.commentAddBtn}
                             onClick={() => {
                               setUpdateClicked(!updateClicked);
                             }}
@@ -275,7 +277,7 @@ function FaqPost() {
                           </button>
                           {updateClicked ? (
                             <button
-                              className="commentAddBtn"
+                              className={styles.commentAddBtn}
                               onClick={() => {
                                 setSendComment(true);
                               }}
@@ -284,7 +286,7 @@ function FaqPost() {
                             </button>
                           ) : (
                             <button
-                              className="commentAddBtn"
+                              className={styles.commentAddBtn}
                               onClick={() => {
                                 deleteReply(reply.replyNo);
                               }}
@@ -295,26 +297,15 @@ function FaqPost() {
                         </div>
                       )}
                       {/* db에서 회원 댓글 추천 유무 확인 */}
-                      {nickname !== reply.nickname && (
-                        <div className="replyRecommentContainer">
-                          {!replyRecommendOrNot ? (
-                            <FaThumbsUp
-                              className="replyRecommend"
-                              onClick={() => {
-                                addLike("reply", reply.replyNo, nickname);
-                                setReplyRecommentOrNot(!replyRecommendOrNot);
-                              }}
-                            />
-                          ) : (
-                            <FaThumbsDown
-                              className="replyNotRecommend"
-                              onClick={() => {
-                                deleteLike("reply", reply.replyNo, nickname);
-                                setReplyRecommentOrNot(!replyRecommendOrNot);
-                              }}
-                            />
-                          )}
-                        </div>
+                      {nickname !== null ? (
+                        <Comment props={props} reply={reply} />
+                      ) : (
+                        <FaThumbsUp
+                          className={styles.replyRecommend}
+                          onClick={() => {
+                            alert("로그인한 유저만 추천할 수 있습니다.");
+                          }}
+                        />
                       )}
                     </span>
                   </div>
@@ -323,11 +314,11 @@ function FaqPost() {
           </div>
 
           {nickname !== null ? (
-            <div className="commentSection">
-              <div className="commentNickname">{nickname}</div>
-              <div className="commentInputWrapper">
+            <div className={styles.commentSection}>
+              <div className={styles.commentNickname}>{nickname}</div>
+              <div className={styles.commentInputWrapper}>
                 <input
-                  className="commentInputBox"
+                  className={styles.commentInputBox}
                   type="text"
                   placeholder="댓글을 남겨보세요"
                   autoComplete="off"
@@ -336,9 +327,9 @@ function FaqPost() {
                     setNewComment(event.target.value);
                   }}
                 ></input>
-                <div className="commentAddBtnWrapper">
+                <div className={styles.commentAddBtnWrapper}>
                   <button
-                    className="commentAddBtn"
+                    className={styles.commentAddBtn}
                     onClick={() => {
                       addComment();
                     }}

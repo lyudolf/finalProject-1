@@ -1,0 +1,61 @@
+.container {
+  max-width: 70%;
+  margin: auto;
+}
+
+.heading {
+  font-weight: bold;
+  font-size: 30px;
+  margin: 30px 0 10px 0;
+  color: #a6b1e1;
+}
+
+.fourTablesContainer {
+  display: flex;
+  flex-wrap: wrap;
+  margin: auto;
+  margin-top: 50px;
+}
+
+.tableBox {
+  border: 1px solid #eee;
+  margin: 50px;
+  padding: 20px;
+  box-shadow: 10px 5px 5px #eee;
+  width: 35%;
+}
+
+/* 세부 테이블 CSS */
+
+.fourTable {
+  text-align: center;
+  margin-top: 20px;
+  border-collapse: collapse;
+  width: 100%;
+  border-top: 2px solid black;
+}
+
+table.fourTable thead th,
+table.fourTable tbody td {
+  border: 1px solid #eee;
+  padding: 10px 0;
+  border-right: none;
+  border-left: none;
+}
+
+.fourTableLink {
+  text-decoration: none;
+  color: black;
+}
+
+.titldWidth {
+  width: 50%;
+}
+
+.nickNameWidth {
+  width: 25%;
+}
+
+.dateWidth {
+  width: 25%;
+}

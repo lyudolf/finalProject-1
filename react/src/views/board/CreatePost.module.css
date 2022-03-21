@@ -155,3 +155,10 @@ select option[value=""][disabled] {
   margin-left: 465px;
   position: absolute;
 }
+
+.heading {
+  font-weight: bold;
+  font-size: 30px;
+  margin: 30px 0 10px 0;
+  color: #a6b1e1;
+}

@@ -1,13 +1,13 @@
 import React from "react";
+import styles from "./Tos.module.css";
 
-import "./Tos.css";
 function Tos() {
   return (
-    <div className="tos">
-      <div className="toscontent">
-        <h2>이용약관</h2>
+    <div className={styles.tos}>
+      <div className={styles.toscontent}>
+        <h2 className={styles.tosH2H4}>이용약관</h2>
         <hr></hr>
-        <h4>제 1 조 목적</h4>
+        <h4 className={styles.tosH2H4}>제 1 조 목적</h4>
         <li>
           본 약관은 주식회사 초대(이하 “회사”)가 운영하는
           대표사이트(www.chodae.com) 에서 제공되는 인터넷 관련 서비스(이하

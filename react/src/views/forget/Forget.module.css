@@ -14,6 +14,7 @@
   padding: 12px;
   font-size: 20px;
   text-align: center;
+  margin: 10px 0;
 }
 
 .searchForm {
@@ -57,6 +58,23 @@
   border: solid 3px #7e57c2;
 }
 
+.loginBtn:hover {
+  background: #a6b1e1;
+}
+
+.loginBtn {
+  width: 400px;
+  height: 50px;
+  border-radius: 8px;
+  border: none;
+  margin: 10px;
+  background-color: #dcd6f7;
+  color: #424874;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 15px;
+}
+
 /* ps/done css */
 
 .psGoBackBtnWrapper {
@@ -65,4 +83,14 @@
 
 .psContentWrapper {
   margin-bottom: 30px;
+  padding: 12px;
+  font-size: 20px;
+  text-align: center;
+}
+
+.heading {
+  font-weight: bold;
+  font-size: 30px;
+  margin: 30px 0 10px 0;
+  color: #a6b1e1;
 }
