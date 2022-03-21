@@ -2,20 +2,20 @@
 import { NavLink } from "react-router-dom";
 
 //style
-import "./SideNavbar.css";
+import styles from "./SideNavbar.module.css";
 
 function SideNavbar({ data, title }) {
   return (
-    <div className="sidebarWrapper">
-      <div className="sideBarTitle">{title}</div>
-      <div className="navMenuItems">
+    <div className={styles.sidebarWrapper}>
+      <div className={styles.sideBarTitle}>{title}</div>
+      <div className={styles.navMenuItems}>
         <ul>
           {data.map((item, index) => {
             return (
-              <li key={index} className="sideBarLiTag">
+              <li key={index} className={styles.sideBarLiTag}>
                 <NavLink
                   className={({ isActive }) =>
-                    isActive ? "activeClass" : "notActiveClass"
+                    isActive ? styles.activeClass : styles.notActiveClass
                   }
                   to={item.path}
                 >

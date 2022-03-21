@@ -3,7 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import axios from "../../plugins/axios";
 import useStore from "../../plugins/store";
 import jwt_decode from "jwt-decode";
-import "./Login.css";
+import styles from "./Login.module.css";
 import { Buffer } from "buffer";
 import kakao from "../../assets/kakao.png";
 import Auth from "./Auth";
@@ -55,11 +55,11 @@ function Login() {
   };
 
   return (
-    <div className="loginContainer">
+    <div className={styles.loginContainer}>
       <label>아이디: </label>
       <input
         autoFocus
-        className="loginInput"
+        className={styles.loginInput}
         type="text"
         name="id"
         onChange={(event) => setloginId(event.target.value)}
@@ -67,18 +67,18 @@ function Login() {
 
       <label>비밀번호: </label>
       <input
-        className="loginInput"
+        className={styles.loginInput}
         type="password"
         name="password"
         onChange={(event) => {
           setPassword(event.target.value);
         }}
       ></input>
-      <button className="loginBtn" onClick={login}>
+      <button className={styles.loginBtn} onClick={login}>
         로그인
       </button>
       <Link to="/find/id">
-        <button className="loginBtn">ID/PW 찾기</button>
+        <button className={styles.loginBtn}>ID/PW 찾기</button>
       </Link>
       {/* <button onClick={kakaoLogin}>
         <img src={kakao} alt="kakao_button" />

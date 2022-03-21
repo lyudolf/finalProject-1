@@ -7,10 +7,8 @@ import { MainboardData } from "../../component/MainboardData";
 function MainBoard() {
   return (
     <div>
-      <div>
-        <SideNavbar data={MainboardData} title="게시판" />
-        <Outlet />
-      </div>
+      <SideNavbar data={MainboardData} title="게시판" />
+      <Outlet />
     </div>
   );
 }

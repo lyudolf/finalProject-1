@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Formik, Form } from "formik";
-import "./Check.css";
+import styles from "./Check.module.css";
 import * as Yup from "yup";
 import { TextField } from "./TextField";
 
@@ -34,9 +34,9 @@ const Check = () => {
     >
       {(formik) => (
         <Form>
-          <div role="group" className="checkbox-group">
+          <div role="group" className={styles.checkboxGroup}>
             <h4>초대 이용약관 (필수)</h4>
-            <div className="scroll">
+            <div className={styles.scroll}>
               추후 수정=== 동의를 누르고 다른곳을 눌러야 알림이 뜸 n se about
               how long sentences = run-on sentences. You can have a six-word
               run-on sentence (“I went shopping I ate donuts.”), while most of
@@ -59,9 +59,9 @@ const Check = () => {
               more than 100 words is almost guaranteed to be complex,
               complicated, and enormous.
             </div>
-            <TextField type="checkbox" name="checked1" className="hq" />
+            <TextField type="checkbox" name="checked1" className={styles.hq} />
             <h4>개인정보 수집 및 이용동의 (필수)</h4>
-            <div className="scroll">
+            <div className={styles.scroll}>
               nd let’s end all this nonsense about how long sentences = run-on
               sentences. You can have a six-word run-on sentence (“I went
               shopping I ate donuts.”), while most of the sentences below are
@@ -83,9 +83,9 @@ const Check = () => {
               I think any sentence more than 100 words is almost guaranteed to
               be complex, complicated, and enormous.
             </div>
-            <TextField type="checkbox" name="checked2" className="hq" />
+            <TextField type="checkbox" name="checked2" className={styles.hq} />
             <h4>위치정보 수신동의 (선택)</h4>
-            <div className="scroll">
+            <div className={styles.scroll}>
               nd let’s end all this nonsense about how long sentences = run-on
               sentences. You can have a six-word run-on sentence (“I went
               shopping I ate donuts.”), while most of the sentences below are
@@ -107,10 +107,10 @@ const Check = () => {
               I think any sentence more than 100 words is almost guaranteed to
               be complex, complicated, and enormous.
             </div>
-            <TextField type="checkbox" name="checked3" className="hq" />
+            <TextField type="checkbox" name="checked3" className={styles.hq} />
           </div>
-          <div className="checkBtnWrapper">
-            <button className="loginBtn" type="submit">
+          <div className={styles.checkBtnWrapper}>
+            <button className={styles.loginBtn} type="submit">
               다음
             </button>
           </div>

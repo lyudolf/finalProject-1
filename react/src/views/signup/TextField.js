@@ -1,23 +1,20 @@
 import React from "react";
 import { ErrorMessage, useField } from "formik";
-import "./error.css";
+import styles from "./error.module.css";
 
 export const TextField = ({ label, ...props }) => {
   const [field, meta] = useField(props);
 
   return (
-    <div className="mb-2">
+    <div>
       <label htmlFor={field.name}>{label}</label>
-      <input
-        className={`form-control shadow-none ${
-          meta.touched && meta.error && "is-invalid"
-        }`}
-        {...field}
-        {...props}
-        autoComplete="off"
-      />
+      <input {...field} {...props} autoComplete="off" />
       동의
-      <ErrorMessage component="div" name={field.name} className="error" />
+      <ErrorMessage
+        component="div"
+        name={field.name}
+        className={styles.error}
+      />
     </div>
   );
 };

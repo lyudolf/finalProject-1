@@ -1,5 +1,7 @@
 .headerContainer {
   background-color: #dcd6f7;
+  /* background-color: #ecd3fa; */
+  /* background-color: #f6f5ef; */
 }
 
 .header {
@@ -28,6 +30,7 @@
   border-radius: 50px;
   align-items: center;
   width: 50%;
+  border: 1px solid #eee;
 }
 
 .searchIconContainer {
@@ -47,8 +50,9 @@
 }
 
 .headerLink {
-  display: flex;
+  /* display: flex;
   background-color: #9162b1;
+  background-color: #6e39cf;
   border-radius: 10px;
   padding: 10px;
   justify-content: center;
@@ -59,9 +63,26 @@
   border: none;
   font-weight: bold;
   cursor: pointer;
+  text-decoration: none; */
+
   text-decoration: none;
+  color: #555555;
+}
+
+.line {
+  color: #555555;
+  padding: 0 10px;
 }
 
 .headerLink:hover {
   background: #a6b1e1;
+}
+
+/* menubar CSS */
+
+.menu {
+  max-width: 1200px;
+  display: flex;
+  text-align: center;
+  justify-content: center;
 }

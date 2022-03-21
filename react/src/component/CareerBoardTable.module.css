@@ -4,12 +4,44 @@
   width: 100%;
 }
 .postTitle {
-  font-weight: bold;
-  font-size: 20px;
+  font-size: 35px;
+  padding: 20px 0;
 }
 
 .postContent {
-  min-height: 400px;
+  height: 500px;
+}
+
+.boardTableContainer {
+  width: 100%;
+}
+
+.boardTable {
+  width: 100%;
+}
+
+table.boardTable tr td {
+  border-bottom: 1px solid #eee;
+  padding-bottom: 20px;
+}
+
+.wSubTitle {
+  text-align: center;
+}
+.wAuthor {
+  width: 25%;
+}
+
+.wView {
+  width: 25%;
+}
+
+.wLike {
+  width: 25%;
+}
+
+.wDate {
+  width: 25%;
 }
 
 /* 카테고리 */

@@ -19,6 +19,7 @@
 
 .navMenuItem {
   border: 1px solid black;
+  text-decoration: none;
 }
 .notActiveClass {
   display: flex;
@@ -27,6 +28,7 @@
   list-style: none;
   height: 50px;
   color: #424874;
+  text-decoration: none;
 }
 
 .activeClass {
@@ -35,7 +37,7 @@
   align-items: center;
   list-style: none;
   height: 50px;
-  text-decoration: none;
+  text-decoration: underline;
   color: #9162b1;
   font-weight: bold;
 }
@@ -43,8 +45,10 @@
 .sideBarLiTag:hover {
   font-weight: bold;
   color: black;
+  text-decoration: underline;
 }
 
 .sideBarLiTag {
   color: #424874;
+  list-style: none;
 }

@@ -22,16 +22,38 @@
   color: red;
 }
 
-.checkbox-group {
+.checkboxGroup {
   width: 60%;
   margin: auto;
   padding-top: 3%;
   text-align: right;
 }
-h4 {
+.checkboxGroup > h4 {
   text-align: left;
 }
 .error {
   position: absolute;
   left: 73%;
+}
+
+.loginBtn {
+  width: 400px;
+  height: 50px;
+  border-radius: 8px;
+  border: none;
+  margin: 10px;
+  background-color: #dcd6f7;
+  color: #424874;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 15px;
+}
+
+.loginBtn:hover {
+  background: #a6b1e1;
+}
+.checkBtnWrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
 }
