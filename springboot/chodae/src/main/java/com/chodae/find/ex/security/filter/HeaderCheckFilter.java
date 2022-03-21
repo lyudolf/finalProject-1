@@ -113,7 +113,7 @@ public class HeaderCheckFilter extends OncePerRequestFilter {
 					
 				}else {
 					log.info("@@@@@@@@@@@@@@@@토큰 검사 필요한데 Authorization 헤더 없는 경우 @@@@@@@@@@@@@@@@@@");
-//					filterChain.doFilter(request, response);
+					filterChain.doFilter(request, response);
 					
 				}	
 				
