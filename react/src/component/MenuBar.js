@@ -43,6 +43,7 @@ function MenuBar() {
         </li>
 
         <li>
+
           <Link className={styles.menuLink} to="/latestposts">
             게시판
           </Link>

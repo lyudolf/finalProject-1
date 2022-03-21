@@ -28,9 +28,6 @@ public class RegService {
 	private final PasswordEncoder passwordEncoder;
 	private final JWTUtil jwtutil;
 	
-	// 로그인 할때 발급되는 리프레쉬 토큰은 유저테이블에 저장.
-	
-	
 	//일반회원 가입시
 	@Transactional //서비스 함수가 종료 될떄 commit 할지 rollback 할지 관리
 	public User regSave(User user) {
@@ -42,6 +39,7 @@ public class RegService {
 		}
 		
 		String loginId = user.getLoginId();
+		String nickname = user.getNickname();
 		
 		if(userRepo.existsByLoginId(loginId)) {
 			log.warn("아이디가 이미 존재합니다. {}", loginId);
@@ -50,7 +48,7 @@ public class RegService {
 		
 		
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
-		user.addMemberRole(MemberRole.USER);//추후
+		user.addMemberRole(MemberRole.USER);
 		user.setSocial(false);
 		
 		User registeredMember = regRepo.save(user);
@@ -58,28 +56,6 @@ public class RegService {
 		return registeredMember; 
 
 	}
-	
-	//로그인시 아이디 비밀번호 일치여부 확인할떄
-	public User getByCredentials(String loginId, String password, PasswordEncoder passwordEncoder) {
-		
-		Optional<User> result = userRepo.findByLoginId(loginId, false);
-		
-		User member = null;
-		
-		if(result.isPresent()) {
-			member = result.get();
-			if(passwordEncoder.matches(password, member.getPassword())) {
-				return member;
-			}
-			
-		}
-		
-		
-		return null;
-		
-	}
-	
-	
 	
 @Transactional(readOnly=true)
 	public User getOneReg(Long id) {

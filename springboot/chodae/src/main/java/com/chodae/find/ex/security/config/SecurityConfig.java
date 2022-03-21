@@ -18,12 +18,18 @@ import com.chodae.find.ex.security.filter.HeaderCheckFilter;
 import com.chodae.find.ex.security.filter.LoginFilter;
 import com.chodae.find.ex.security.handler.LoginFailHandler;
 import com.chodae.find.ex.security.jwtutil.JWTUtil;
+import com.chodae.find.service.UserFindService;
+import com.chodae.find.service.UserFindServiceImpl;
+import com.chodae.find5.repository.UserRepo;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
 @Log4j2
-@Configuration @EnableWebSecurity
+@Configuration @EnableWebSecurity @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
+	private final UserRepo userRepo;
+	
 	
 	
 	@Override
@@ -85,11 +91,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     	return checkFilter;
     }
     
+    @Bean
+    public UserFindService userFindService() {
+    	
+    	return new UserFindServiceImpl(userRepo, passwordEncoder(), jwtUtil());
+    }
+    
     
     @Bean
     public LoginFilter loginFilter() throws Exception {
-    	
-    	LoginFilter loginFilter = new LoginFilter("/api/login", jwtUtil());
+
+    	LoginFilter loginFilter = new LoginFilter("/api/login", jwtUtil(), userFindService());
     	
     	loginFilter.setAuthenticationManager(authenticationManager());
     	

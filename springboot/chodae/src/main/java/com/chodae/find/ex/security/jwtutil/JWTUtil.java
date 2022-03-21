@@ -30,24 +30,26 @@ import lombok.extern.java.Log;
 public class JWTUtil {
 	
 	//signature
-	private String SECRET_KEY = "qpalxksjzFNJIDNJIkfjvjdhfurtsnclop23mdi5fDNJIhdudifndjd8f73w4u4fnui"; 
+	private final String SECRET_KEY = "qpalxksjzFNJIDNJIkfjvjdhfurtsnclop23mdi5fDNJIhdudifndjd8f73w4u4fnui"; 
+	private final String REFRESH_KEY = "refjsdkfjk2fjkessfjf34rjjkfwnjkfnwjknqjiwncuwicnuDNDFKLFNASfjsdfjsdfjsoifhiosfjsdkl";
 	
-	Key key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
-	
+	Key akey = Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
+	Key reKey = Keys.hmacShaKeyFor(REFRESH_KEY.getBytes(StandardCharsets.UTF_8));
 
-	private long accessExpire = 60*5; //유효기간: 2시간! 
+	private long accessExpire = 60*1; //유효기간: 1시간! 60*1
 	private long refreshExpire = 60*24*14; //유효기간 : 2주 
 	
 	public String generateAccessToken(MemberAuthDTO memberDTO) throws InvalidKeyException, UnsupportedEncodingException {
 		
+
 		return Jwts.builder()
 				.setIssuedAt(new Date())
 				.setExpiration(Date.from(ZonedDateTime.now().plusMinutes(accessExpire).toInstant()))
-//				.setExpiration(Date.from(ZonedDateTime.now().plusSeconds(2).toInstant()))
-				.setSubject(memberDTO.getUsername())
+//				.setExpiration(Date.from(ZonedDateTime.now().plusSeconds(1).toInstant()))
+				.setSubject(memberDTO.getNickname())
 				.claim("iss", "chodae")
 				.claim("member", memberDTO)
-				.signWith(key, SignatureAlgorithm.HS256)
+				.signWith(akey, SignatureAlgorithm.HS256)
 				.compact();
 	}
 	public String generateRefreshToken(MemberAuthDTO memberDTO) throws InvalidKeyException, UnsupportedEncodingException {
@@ -56,57 +58,37 @@ public class JWTUtil {
 		return Jwts.builder()
 				.setIssuedAt(new Date())
 				.setExpiration(Date.from(ZonedDateTime.now().plusMinutes(refreshExpire).toInstant()))
-				.setSubject(memberDTO.getUsername())
+				.setSubject(memberDTO.getNickname())
 				.claim("iss", "chodae")
-				.signWith(key, SignatureAlgorithm.HS256)
+				.signWith(reKey, SignatureAlgorithm.HS256)
 				.compact();
 	}
 	
-	public Claims validateExtract(String tokenString) {
+	public Claims validateAccessTokenExtract(String tokenString) {
 		
 		String contentValue = null;
 		
 		 Jws<Claims> jws = Jwts.parserBuilder()
-				.setSigningKey(key)
+				.setSigningKey(akey)
 				.build()
 				.parseClaimsJws(tokenString);
-		 
-		 log.info("@@@@@@@@@@@@토큰해체결과"+jws);
-		 
-		 
+
 		 Claims claim =  jws.getBody();
-		 
-		 
-		 
-//		 JSONObject jo = new JSONObject(claim);
-//		 
-//		 String username = (String) jo.get("sub");
-//		 
-//		 JSONObject member = jo.getJSONObject("member");
-//		 JSONArray authorities = member.getJSONArray("authorities");
-//		 JSONObject role2 = authorities.getJSONObject(0);
-//		 String role =  role2.getString("authority");
-//		 Collection<SimpleGrantedAuthority> authoritiesList = new ArrayList<>();
-//		 authoritiesList.add(new SimpleGrantedAuthority(role));
-		 
-		 
-		 
-//			 authorities.add(new SimpleGrantedAuthority(role));
-		 
-//		
-//		 log.info("@@@@@@@@@@@@@@@@해체한 토큰 claim"+claim);
-//		 log.info("@@@@@@@@@@@@@@@@해체한 토큰 username"+username);
-//		 log.info("@@@@@@@@@@@@@@@@해체한 토큰 member"+member);
-//		 log.info("@@@@@@@@@@@@@@@@해체한 토큰 authorities"+authorities);
-//		 log.info("@@@@@@@@@@@@@@@@해체한 토큰 authorities"+authoritiesList);
-//		 
-	
 		
-//		 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(username, null, authoritiesList);
-		// 권환확인
-		// 들어오는 jwt 토큰 만료시간 확인
-		 
-		 
+		return claim;
+		
+		
+	}
+	public Claims validateRefreshTokenExtract(String tokenString) {
+		
+		String contentValue = null;
+		
+		Jws<Claims> jws = Jwts.parserBuilder()
+				.setSigningKey(reKey)
+				.build()
+				.parseClaimsJws(tokenString);
+		
+		Claims claim =  jws.getBody();
 		
 		return claim;
 		

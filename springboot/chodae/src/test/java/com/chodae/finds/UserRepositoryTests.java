@@ -121,12 +121,12 @@ public class UserRepositoryTests {
 			user.setLoginId(login_id+i);
 			user.setSocial(false);
 			
-//			user.addMemberRole(MemberRole.USER);
+			user.addMemberRole(MemberRole.USER);
 			
-			if( i > 95) {
+//			if( i > 95) {
 				//95번 이상 멤버는 추가로 관리자 권한 부여
 //				user.addMemberRole(MemberRole.ADMIN);
-			}
+//			}
 			
 			userRepo.save(user);
 		}

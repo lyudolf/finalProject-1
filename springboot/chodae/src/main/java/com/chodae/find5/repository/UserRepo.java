@@ -38,6 +38,11 @@ public interface UserRepo extends JpaRepository<User, Long> {
 	
 	User findByLoginIdAndPassword(String loginId,String password);
 	
+	@Transactional
+	@Modifying(clearAutomatically = true)
+	@Query("UPDATE FROM User u set u.refreshToken = :token WHERE u.social = :social AND u.nickname = :nickname")
+	int updateRefreshToken(String token, String nickname, boolean social);
+	
 	
 	
 

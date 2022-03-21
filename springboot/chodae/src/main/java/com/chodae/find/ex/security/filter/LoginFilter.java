@@ -2,6 +2,7 @@ package com.chodae.find.ex.security.filter;
 
 import java.awt.PageAttributes.MediaType;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,6 +11,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -18,18 +20,21 @@ import org.springframework.security.web.authentication.AbstractAuthenticationPro
 
 import com.chodae.find.ex.security.dto.MemberAuthDTO;
 import com.chodae.find.ex.security.jwtutil.JWTUtil;
+import com.chodae.find.service.UserFindService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.extern.java.Log;
 
-@Log
+@Log // authentication 
 public class LoginFilter extends AbstractAuthenticationProcessingFilter {
 	
-	private JWTUtil jwtUtil;
-
-	public LoginFilter(String defaultFilterProcessesUrl, JWTUtil jwtUtil) {
+	private final JWTUtil jwtUtil;
+	private final UserFindService userFindService;
+	
+	public LoginFilter(String defaultFilterProcessesUrl, JWTUtil jwtUtil, UserFindService userFindService) {
 		super(defaultFilterProcessesUrl);
 		this.jwtUtil = jwtUtil;
+		this.userFindService = userFindService;
 	}
 
 	@Override
@@ -40,7 +45,7 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter {
 		log.info("@@@@@@@@@@loginFilter@@@@@@@@@@@@@");
 		log.info("@@@@@@@@@attemptAuthentication@@@@@@@@@");
 		
-		
+		 
 		String loginId = request.getParameter("loginId");
 		String pw = request.getParameter("password");
 		log.info(loginId+" ::::::" + pw);
@@ -52,19 +57,27 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter {
 			throw new BadCredentialsException("아이디가 null입니다. ");
 		}
 		
-		UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(loginId, pw);
+//		UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(loginId, pw);
+//		log.info(":::@@@authToken:@@@::" + authToken);
+		
 		//직접인증처리함. => 다음단계는 인증후 성공 , 실패에 대한 후속 작업
 		
-		return getAuthenticationManager().authenticate(authToken);
+		UsernamePasswordAuthenticationToken authToken2 = new UsernamePasswordAuthenticationToken(loginId, pw, new ArrayList<>());
+		
+//		Authentication authentication = getAuthenticationManager().authenticate(authToken);
+		Authentication authentication = getAuthenticationManager().authenticate(authToken2);
+		
+		return authentication;
 	}
 	
 	@Override  //인증 성공시 
-	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
+	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain,
 			Authentication authResult) throws IOException, ServletException {
 		
 		log.info("@@@@@@@@@@@@@@apilogin=> success@@@@@@@@@@@@@@@@@");
 		log.info("authResult:"+authResult);
-		log.info("authResult.getPrincipal():"+authResult.getPrincipal());
+		log.info("authResult.getPrincipal(): "+authResult.getPrincipal());
+		log.info("authResult.getCredentials(): "+authResult.getCredentials());
 		
 		MemberAuthDTO userDTO = (MemberAuthDTO)authResult.getPrincipal();
 		String userName = userDTO.getUsername();
@@ -90,8 +103,7 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter {
 //			response.getOutputStream().write(accessToken.getBytes());
 			new ObjectMapper().writeValue(response.getOutputStream(), tokens);
 			
-			
-			log.info("token => "+accessToken);
+			userFindService.updateRefreshToken(userDTO.getNickname(), refreshToken);//발급받은 새로운 리프레시토큰으로 업데이트.
 			
 		} catch(Exception e ) {
 			e.printStackTrace();
