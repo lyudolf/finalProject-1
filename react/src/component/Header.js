@@ -42,7 +42,7 @@ function Header() {
               <Link className={styles.headerLink} to="/mypage">
                 마이페이지
               </Link>
-              <span>|</span>
+              {/* <span>|</span> */}
               <button className={styles.headerLink} onClick={logout}>
                 로그아웃
               </button>
@@ -52,7 +52,7 @@ function Header() {
               <Link className={styles.headerLink} to="/login">
                 로그인
               </Link>
-              <span className={styles.line}>|</span>
+              {/* <span className={styles.line}>|</span> */}
               <Link className={styles.headerLink} to="/signup">
                 회원가입
               </Link>
