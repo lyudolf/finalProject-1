@@ -66,38 +66,31 @@ function FaqPost() {
         // } else if ((post.finduser.find(element => element === nickname) === 1)) {
         //   (setReplyRecommentOrNot(false))
         // }
-        console.log(nickname)
+        console.log(nickname);
 
         if (post.finduser === null) {
-          console.log("sorry")
+          console.log("sorry");
         } else if (post.finduser !== null) {
-          console.log(post.finduser)
+          console.log(post.finduser);
           post.finduser.map((like) => {
             if (like === nickname) {
-
               setReplyRecommendOrNot(true);
             }
-          })
-
+          });
         }
 
         post.finduser2.map((like2) => {
-          console.log(post.finduser2)
+          console.log(post.finduser2);
           if (like2 === nickname) {
-
             setPostRecommendOrNot(true);
           }
-        })
+        });
 
         post.postRegdate = dateFormat(new Date(post.postRegdate));
-
 
         for (const reply of post.replies) {
           reply.replyRegdate = dateFormat(new Date(reply.replyRegdate));
         }
-
-
-
 
         setPostObject(post);
         setComments(post.replies);
@@ -196,7 +189,6 @@ function FaqPost() {
         },
       })
       .then((response) => {
-
         console.log(response.data);
         alert("추천하셨습니다");
 
@@ -264,7 +256,7 @@ function FaqPost() {
                   className={styles.recommend}
                   onClick={() => {
                     addLike("post", postObject.postNo, nickname);
-                    setPostRecommendOrNot(!postRecommendOrNot);
+                    setPostRecommendOrNot(true);
                   }}
                 />
               ) : (
@@ -272,7 +264,7 @@ function FaqPost() {
                   className={styles.notRecommend}
                   onClick={() => {
                     deleteLike("post", postObject.postNo, nickname);
-                    setPostRecommendOrNot(!postRecommendOrNot);
+                    setPostRecommendOrNot(false);
                   }}
                 />
               )}
@@ -339,7 +331,7 @@ function FaqPost() {
                         </div>
                       )}
                       {/* db에서 회원 댓글 추천 유무 확인 */}
-                      {nickname !== null ? (
+                      {nickname !== null && nickname !== reply.nickname ? (
                         <Comment props={props} reply={reply} />
                       ) : (
                         <FaThumbsUp
