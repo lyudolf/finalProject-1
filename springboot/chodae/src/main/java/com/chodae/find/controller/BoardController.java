@@ -48,11 +48,38 @@ public class BoardController {
 		log.info(""+pageVo+":::"+searchType+"::::"+keyword);
 		log.info(""+pageVo.makePageable(0, order)); 
 		
-		// 카테고리 분류 검색? 
-		//평점 분류 검색? 
-		
-		
 		Page<Post> result = boardService.searchPost(boardName, searchType, keyword,pageVo.makePageable(0, order));
+		
+		return result;	
+	}
+	
+	//내가쓴 게시글 조회 (닉네임)
+	@Transactional
+	@GetMapping("/mypage/post/{nickname}")
+	Page<Post> getMyPost(@PathVariable String nickname, PageVO pageVo,
+			@RequestParam String searchType,
+			@RequestParam String keyword,
+			@RequestParam(required = false, defaultValue = "postRegdate") String order){
+		
+		log.info(""+pageVo+":::"+searchType+"::::"+keyword);
+		log.info(""+pageVo.makePageable(0, order)); 
+		
+		Page<Post> result = boardService.findMyPost(nickname, searchType, keyword,pageVo.makePageable(0, order));
+		
+		return result;	
+	}
+	//내가쓴 댓글 조회 (닉네임)
+	@Transactional
+	@GetMapping("/mypage/reply/{nickname}")
+	Page<Post> getMyReply(@PathVariable String nickname, PageVO pageVo,
+			@RequestParam String searchType,
+			@RequestParam String keyword,
+			@RequestParam(required = false, defaultValue = "postRegdate") String order){
+		
+		log.info(""+pageVo+":::"+searchType+"::::"+keyword);
+		log.info(""+pageVo.makePageable(0, order)); 
+		
+		Page<Post> result = boardService.findMyReply(nickname, searchType, keyword,pageVo.makePageable(0, order));
 		
 		return result;	
 	}
