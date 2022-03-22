@@ -7,7 +7,9 @@ export const TextField = ({ label, ...props }) => {
 
   return (
     <div>
-      <label htmlFor={field.name}>{label}</label>
+      <label className={styles.errorLabel} htmlFor={field.name}>
+        {label}
+      </label>
       <input {...field} {...props} autoComplete="off" />
       동의
       <ErrorMessage

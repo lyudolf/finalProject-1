@@ -8,7 +8,7 @@ import useStore from "../plugins/store";
 
 function Main() {
   const store = useStore();
-  const member = useStore(state => state.member);
+  const member = useStore((state) => state.member);
   console.log(useStore.getState().member);
   console.log("getMemberInfo() =>", store.getMemberInfo());
   console.log("getMemberRole() =>", store.getMemberRole());
@@ -56,7 +56,6 @@ function Main() {
         </div>
       </div>
 
-
       <div className={styles.boardBg}>
         <div className={styles.boardLeft}>
           <img className={styles.boardImg} src={boardImg} alt="boardImg"></img>
@@ -69,7 +68,7 @@ function Main() {
               <br />
               아래버튼을 누르시면 됩니다.
             </p>
-            <Link to="/mainboard/career">
+            <Link to="/latestposts">
               <button className={styles.mainBtn}>입장하기</button>
             </Link>
           </div>
