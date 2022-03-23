@@ -54,6 +54,11 @@ public interface BoardService {
 	
 	long deleteImg(Long postNo);
 	
+	//내가 쓴 글
+	Page<Post> findMyPost(String nickname, String searchType, String keyword, Pageable pageable);
+	
+	//내가 쓴 댓글
+	Page<Post> findMyReply(String nickname, String searchType, String keyword, Pageable pageable);
 	
 	default PostDTO entityToDto(Post entity) {
 		PostDTO dto = PostDTO.builder()
@@ -82,6 +87,8 @@ public interface BoardService {
 		
 		return dto;
 	}
+
+
 
 
 	

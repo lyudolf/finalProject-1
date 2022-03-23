@@ -61,6 +61,30 @@ public interface PostRepo  extends JpaRepository<Post, Long>{
 	Optional<Post> findCateKindAndName(String Kind, String Name);
 	
 	
+	//나의 게시글
+	@Query("SELECT p FROM Post p WHERE p.id = ?1")
+	Page<Post> findMyPostById(Long id, Pageable paging);
+	
+	@Query("SELECT p FROM Post p WHERE p.id = ?1 and p.postTitle Like %?2% ")
+	Page<Post> getMyPostLikeTitle(Long id, String keyword, Pageable paging);
+	
+	@Query("SELECT p FROM Post p WHERE p.id = ?1 and p.postContent.content Like %?2% ")
+	Page<Post> getMyPostLikeContent(Long id, String keyword, Pageable paging);
+	
+	@Query("SELECT p FROM Post p WHERE p.id = ?1 and (p.postTitle Like %?2% OR p.postContent.content Like %?2% ) ")
+	Page<Post> getMyPostLikeTitleOrContent(Long id, String keyword, Pageable paging);
+	
+	@Query("SELECT p FROM Post p left join p.category c where c.categoryName= ?2 and p.id = ?1")
+	Page<Post> getMyPostLikeLocation(Long id, String keyword, Pageable paging);
+	
+	// 나의 댓글(닉네임 + 댓글내용 + 게시글제목 + 댓글번호 + 게시판번호 + 게시글 번호+ 작성날짜 + 추천수) 
+//	@Query("SELECT r, p.postTitle, p.board.boardNo, p.postNo FROM Reply r left join r.post p WHERE r.id = ?1 and r.replyContent Like %?2% ")
+//	@Query("SELECT r FROM Reply r left join r.post p WHERE r.id = ?1 and r.replyContent Like %?2% ")
+	@Query("SELECT r FROM Reply r WHERE r.id = ?1 and r.replyContent Like %?2% ")
+	Page<Post> getMyReplyLikeContent(Long id, String keyword, Pageable paging);
+	
+	@Query("SELECT r FROM Reply r WHERE r.id = ?1")
+	Page<Post> getMyReplyById(Long id, Pageable paging);
 	
 	
 }

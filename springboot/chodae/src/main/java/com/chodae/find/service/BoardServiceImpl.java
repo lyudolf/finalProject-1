@@ -183,8 +183,6 @@ public class BoardServiceImpl implements BoardService {
 		
 		Page<Post> list = null;
 		
-		
-		
 		// 타입에 맞춰서 메소드 호출
 		if(searchType.equals("titleOrContent")) {
 			list = postRepo.getPostLikeTitleOrContent(boardNo, keyword, pageable);
@@ -209,6 +207,66 @@ public class BoardServiceImpl implements BoardService {
 		list.forEach(post -> {
 			User user = userRepo.findById(post.getId()).get();
 			post.setNickname(user.getNickname());
+		});
+		
+		return list;
+	}
+	
+	@Override  //내가 쓴 게시글 검색
+	public Page<Post> findMyPost(String nickname, String searchType, String keyword, Pageable pageable) {
+		// type : 제목 title, 내용 content ,제목+내용 titleOrContent
+		
+		
+		User user = userRepo.findUserByNickname(nickname);//닉네임으로 id조회
+		
+		Page<Post> list = null;
+		
+		// 타입에 맞춰서 메소드 호출
+		if(searchType.equals("titleOrContent")) {
+			list = postRepo.getMyPostLikeTitleOrContent(user.getId(), keyword, pageable);
+			
+		} else if (searchType.equals("title")) {
+			list = postRepo.getMyPostLikeTitle(user.getId(), keyword,pageable);
+			
+		} else if (searchType.equals("content")) {
+			list = postRepo.getMyPostLikeContent(user.getId(), keyword,pageable);
+			
+		} else if(searchType.equals("location")) {
+			list = postRepo.getMyPostLikeLocation(user.getId(), keyword, pageable);
+			
+		} else {
+			// 검색조건 없이 조회시
+			list = postRepo.findMyPostById(user.getId(), pageable);
+		}
+		
+		list.forEach(post -> {
+			
+			post.setNickname(nickname);
+		});
+		
+		return list;
+	}
+	@Override  //내가 쓴 댓글 검색
+	public Page<Post> findMyReply(String nickname, String searchType, String keyword, Pageable pageable) {
+		// type : 내용 content
+		 
+		
+		User user = userRepo.findUserByNickname(nickname);//닉네임으로 id조회
+		
+		Page<Post> list = null;
+		
+		// 타입에 맞춰서 메소드 호출
+		if(searchType.equals("content")) {
+			list = postRepo.getMyReplyLikeContent(user.getId(), keyword, pageable);
+			
+		} else {
+			// 검색조건 없이 조회시
+			list = postRepo.getMyReplyById(user.getId(), pageable);
+		}
+		
+		list.forEach(reply -> {
+			
+			reply.setNickname(nickname);
 		});
 		
 		return list;
