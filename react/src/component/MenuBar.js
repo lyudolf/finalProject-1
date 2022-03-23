@@ -39,7 +39,7 @@ function MenuBar() {
               <a href="#">고민상담게시판</a>
             </li>
             <li>
-              <a href="/mainboard/career">최업준비게시판</a>
+              <a href="/mainboard/career">취업준비게시판</a>
             </li>
             <li>
               <a href="/mainboard/technews">IT게시판</a>
@@ -57,7 +57,7 @@ function MenuBar() {
               <a href="#">취업박람회 일정</a>
             </li>
             <li>
-              <a href="#">심리테스트</a>
+              <a href="/Start">심리테스트</a>
             </li>
           </ul>
         </li>
@@ -69,7 +69,7 @@ function MenuBar() {
               <a href="/customer/faq">공지사항</a>
             </li>
             <li>
-              <a href="#">자주하는 질문</a>
+              <a href="/FAQ">자주하는 질문</a>
             </li>
           </ul>
         </li>

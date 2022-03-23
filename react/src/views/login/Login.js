@@ -4,16 +4,17 @@ import axios from "../../plugins/axios";
 import useStore from "../../plugins/store";
 import jwt_decode from 'jwt-decode'
 import "./Login.css";
+import Profile from "./Profile";
 import { Buffer } from 'buffer';
 import kakao from "../../assets/kakao.png";
-import Auth from "./Auth";
+import Auth from "../../views/login/Auth"
 import { BrowserRouter as Routes, Route } from "react-router-dom";
 
 function Login() {
 
-  const REST_API_KEY = "[본인 REST API KEY 값]";
-    const REDIRECT_URI = "http://localhost:3000/oauth/kakao/callback";
-    const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=b57361b0269da06ba5b8bf17e32058f5&redirect_uri=http://localhost:8000/kakaologin&response_type=code`;
+  const REST_API_KEY = "e9fdc52e3d35e33eb4ba5a732d2942ed";
+  const REDIRECT_URI = "http://localhost:3000/oauth/kakao/callback";
+  const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=b57361b0269da06ba5b8bf17e32058f5&redirect_uri=http://localhost:3000/oauth/kakao/callback&response_type=code`;
   const store = useStore();
 
 
@@ -109,32 +110,7 @@ function Login() {
   //       console.log(error);
   //     });
   // };
-  // const kakaoLogin = () => {
-  //   Kakao.Auth.login({
-  //     success: function (authObj) {
-  //       //https://kauth.kakao.com/oauth/authorize?client_id=b57361b0269da06ba5b8bf17e32058f5&redirect_uri=http://localhost:8000/kakaologin&response_type=code
-  //       fetch("https://kauth.kakao.com/oauth/authorize?client_id=b57361b0269da06ba5b8bf17e32058f5&redirect_uri=http://localhost:8000/kakaologin&response_type=code",
-  //         {
-  //           method: "POST",
-  //           body: JSON.stringify({
-  //             access_token: authObj.access_token,
-  //           }),
-  //         }
-  //       )
-  //         .then((res) => res.json())
-  //         .then((res) => {
-  //           localStorage.setItem("Kakao_token", res.access_token);
-  //           if (res.access_token) {
-  //             alert("환영합니다.");
-  //             navigate("/");
-  //           }
-  //         });
-  //     },
-  //     fail: function (err) {
-  //       alert(JSON.stringify(err));
-  //     },
-  //   });
-  // };
+  // 
 
   return (
     <div className="loginContainer">
@@ -162,15 +138,12 @@ function Login() {
       <Link to="/login/find/id">
         <button className="loginBtn">ID/PW 찾기</button>
       </Link>
-      {/* <button onClick={kakaoLogin}>
+      <h1><a href={KAKAO_AUTH_URL}>Kakao Login</a></h1>
+        {/* { <button onClick={{KAKAO_AUTH_URL}}>
         <img src={kakao} alt="kakao_button" />
-      </button> */}
+      </button>}   */}
 
-      <Routes>
-          <Route path="/" exact element={KAKAO_AUTH_URL}></Route>
-            <h1><a href={KAKAO_AUTH_URL}>Kakao Login</a></h1>
-          <Route path="/oauth/kakao/callback" exact element={<Auth/>}></Route>
-      </Routes>
+
       </div>
   );
 }

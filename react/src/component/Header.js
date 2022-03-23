@@ -6,6 +6,7 @@ import searchIcon from "../assets/search.png";
 import axios from "../plugins/axios";
 import useStore from "../plugins/store";
 
+
 function Header(props) {
   const store = useStore();
   let navigate = useNavigate();

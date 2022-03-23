@@ -27,9 +27,10 @@ const Auth = () => {
       
       // Kakao Javascript SDK 초기화
       window.Kakao.init(REST_API_KEY);
+      console.log("초기화됐다")
       // access token 설정
       window.Kakao.Auth.setAccessToken(res.data.access_token);
-      navigate("/profile");
+      navigate("/Profile");
     } catch (err) {
       console.log(err);
     }
