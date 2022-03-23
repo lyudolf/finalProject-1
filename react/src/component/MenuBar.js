@@ -1,6 +1,5 @@
 import styles from "./MenuBar.module.css";
 import { Link } from "react-router-dom";
-// import styles from "./Header.module.css";
 
 function MenuBar() {
   return (
@@ -43,7 +42,6 @@ function MenuBar() {
         </li>
 
         <li>
-
           <Link className={styles.menuLink} to="/latestposts">
             게시판
           </Link>
@@ -72,7 +70,7 @@ function MenuBar() {
         </li>
 
         <li>
-          <Link className={styles.menuLink} to="#">
+          <Link className={styles.menuLink} to="/jobfair">
             이벤트
           </Link>
           <ul>
@@ -82,7 +80,7 @@ function MenuBar() {
               </Link>
             </li>
             <li>
-              <Link className={styles.menuLink} to="#">
+              <Link className={styles.menuLink} to="jobfair">
                 취업박람회 일정
               </Link>
             </li>

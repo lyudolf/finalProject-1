@@ -1,0 +1,108 @@
+.eventContainer {
+  max-width: 1200px;
+  width: 100%;
+  margin: auto;
+}
+
+.eventImageContainer {
+  width: 100%;
+  height: 500px;
+}
+
+.eventInner {
+  width: 100%;
+  height: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+}
+
+.eventInner .left {
+  flex: 5%;
+  height: 100%;
+  background-color: rgb(0, 0, 0, 0.6);
+  display: grid;
+  place-items: center;
+  color: white;
+  cursor: pointer;
+  font-size: 50px;
+  font-weight: bold;
+}
+
+.eventInner .center {
+  flex: 80%;
+  height: 100%;
+  font-family: Arial, Helvetica, sans-serif;
+  display: flex;
+  align-items: flex-end;
+}
+
+.eventInner .right {
+  flex: 5%;
+  height: 100%;
+  background-color: rgb(0, 0, 0, 0.6);
+  display: grid;
+  place-items: center;
+  color: white;
+  cursor: pointer;
+  font-size: 50px;
+  font-weight: bold;
+}
+
+.eventH1Tag {
+  font-size: 3rem;
+}
+
+.eventPTag {
+  font-size: 1.5rem;
+}
+
+.eventTextWrapper {
+  color: black;
+  text-align: center;
+  background-color: rgb(255, 255, 255, 0.8);
+  /* background-color: #dcd6f7; */
+  opacity: 0.9;
+  flex: 100%;
+  padding: 5px 0;
+}
+
+/* 테이블 CSS */
+
+.eventTableContainer {
+  margin-top: 50px;
+}
+
+.heading {
+  font-weight: bold;
+  font-size: 30px;
+  margin: 30px 0 30px 0;
+  color: #a6b1e1;
+}
+
+.eventTableDetails {
+  width: 100%;
+  border: 2px solid #eee;
+  border-collapse: collapse;
+  text-align: center;
+}
+
+.eventImageSize {
+  width: 100%;
+  height: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.firstRowStyle {
+  font-size: 20px;
+  border-bottom: 2px solid black;
+}
+
+table.eventTableDetails th,
+table.eventTableDetails td {
+  padding: 20px 10px;
+  border: 1px solid #eee;
+}
