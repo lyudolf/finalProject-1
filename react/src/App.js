@@ -50,6 +50,9 @@ import CreatePostCust from "./views/Study/CreatePostCust";
 import StudyPost from "./views/Study/StudyPost";
 
 //----------------------------------------------------------------------------
+import JobFair from "./views/event/Event"; //이벤트
+
+//----------------------------------------------------------------------------
 
 function App() {
   let [shoes, shoes1] = useState(data);
@@ -124,6 +127,10 @@ function App() {
         {/* 푸터 */}
         <Route path="/Company" element={<Company />} />
         <Route path="/tos" element={<Tos />} />
+
+        {/* 이벤트 */}
+        <Route path="/jobfair" element={<JobFair />} />
+
         <Route path="*" element={<NotFound />} />
       </Routes>
 
