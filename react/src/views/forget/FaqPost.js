@@ -54,20 +54,6 @@ function FaqPost() {
         console.log(response.data);
         const post = response.data;
 
-        console.log(nickname);
-
-        if (post.finduser === null) {
-          console.log("sorry");
-        } else if (post.finduser !== null) {
-          console.log(post.finduser);
-          post.finduser.map((like) => {
-            if (like === nickname) {
-              // setIsReplyRecommended(true);
-              console.log(like);
-            }
-          });
-        }
-
         post.finduser2.map((like2) => {
           console.log(post.finduser2);
           if (like2 === nickname) {

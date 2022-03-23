@@ -27,28 +27,17 @@ function PostReply({ reply }) {
       ? useStore.getState().member.nickname
       : null;
 
-  const getPost = function (postNo) {
-    axios
-      .get(`/${boardName}/${postNo}`)
-      .then((response) => {
-        console.log(response.data);
-        const post = response.data;
+  useEffect(() => {
+    getReply(reply);
+  }, [reply]);
 
-        if (post.finduser === null) {
-          console.log("sorry");
-        } else if (post.finduser !== null) {
-          console.log(post.finduser);
-          post.finduser.map((like) => {
-            if (like === nickname) {
-              // setIsReplyRecommended(true);
-              console.log(like);
-            }
-          });
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  const getReply = function (reply) {
+    reply.finduser3.map((like) => {
+      console.log("finduser3", reply.finduser3);
+      if (like === nickname) {
+        setReplyRecommendOrNot(true);
+      }
+    });
   };
 
   //댓글 수정
