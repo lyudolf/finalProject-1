@@ -1,0 +1,59 @@
+.scroll {
+  width: 100%;
+  height: 140px;
+  overflow: auto;
+  border: 0.5px solid gray;
+}
+.scroll::-webkit-scrollbar {
+  width: 10px;
+}
+.scroll::-webkit-scrollbar-thumb {
+  background-color: #2f3542;
+  border-radius: 10px;
+  background-clip: padding-box;
+  border: 2px solid transparent;
+}
+.scroll::-webkit-scrollbar-track {
+  background-color: grey;
+  border-radius: 10px;
+  box-shadow: inset 0px 0px 5px white;
+}
+.error {
+  color: red;
+}
+
+.checkboxGroup {
+  width: 60%;
+  margin: auto;
+  padding-top: 3%;
+  text-align: right;
+}
+.checkboxGroup > h4 {
+  text-align: left;
+}
+.error {
+  position: absolute;
+  left: 73%;
+}
+
+.loginBtn {
+  width: 400px;
+  height: 50px;
+  border-radius: 8px;
+  border: none;
+  margin: 10px;
+  background-color: #dcd6f7;
+  color: #424874;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 15px;
+}
+
+.loginBtn:hover {
+  background: #a6b1e1;
+}
+.checkBtnWrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+}

@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import javax.transaction.Transactional;
 
@@ -63,8 +64,18 @@ public class BoardServiceImpl implements BoardService {
 		//새로운 이미지 저장
 		System.out.println(file);
 		try {
+	    	
+			
+		    String fileName = file.getOriginalFilename();
+		    String saveFileName= uuidFileName(fileName);
+		    System.out.println(saveFileName);
+		   
+	    	
+			
+			
+			
 			imageRepo.save(Image.builder()
-			        .name(file.getOriginalFilename())
+			        .name(saveFileName)
 			        .type(file.getContentType())
 			        .post(post)
 			        .image(ImageUtility.compressImage(file.getBytes())).build());
@@ -97,7 +108,10 @@ public class BoardServiceImpl implements BoardService {
         
 		return post.getPostNo();
 	}
-	
+	   private String uuidFileName(String originalFileName) {
+		    UUID uuid = UUID.randomUUID();
+		    return uuid.toString()+"_"+ originalFileName;
+		    }   
 	
 	@Override
 	public long deleteImg(Long postNo) {
@@ -124,13 +138,40 @@ public class BoardServiceImpl implements BoardService {
 		User user = userRepo.findById(post.getId()).get();
 		post.setNickname(user.getNickname());
 		
+		List finduser2 = recommRepo.existPostRecomm2(post.getPostNo());
+		System.out.println("파인드 게시글 유저"+ finduser2);
+		post.setFinduser2(finduser2);
+
+		List finduser = recommRepo.existReplyRecomm2(post.getPostNo());
+		System.out.println("여기가 목표");
+		System.out.println("파인드 댓글 유저"+ finduser);
+
+		System.out.println("다 더한거??" + finduser);
+		
+		post.setFinduser(finduser);
+		
 		List<Reply> replies = post.getReplies();
+		System.out.println("여기가 존재해야 밑에 실행됨"+	replies);
+		
 		replies.forEach(reply -> {
+			System.out.println(reply + "@@@@@@@@@@@@@@@@@@@@@@@@");
 			User replyUser = userRepo.findById(reply.getId()).get();
 			reply.setNickname(replyUser.getNickname());
+			List finduser3 = recommRepo.existReplyRecomm3(reply.getReplyNo());
+	        System.out.println("각 댓글 추천"+finduser3);
+	        reply.setFinduser3(finduser3); 
+						
+	
 		});
-		post.setReplies(replies);
+
 		
+
+	
+		
+		
+		System.out.println("아니야?"+replies);
+		post.setReplies(replies);
+		System.out.println(post);
 		return post;
 	}
 	
@@ -143,8 +184,6 @@ public class BoardServiceImpl implements BoardService {
 		int boardNo = BoardGroup.valueOf(boardName).getValue();//게시판 번호 조회
 		
 		Page<Post> list = null;
-		
-		
 		
 		// 타입에 맞춰서 메소드 호출
 		if(searchType.equals("titleOrContent")) {
@@ -175,6 +214,66 @@ public class BoardServiceImpl implements BoardService {
 		return list;
 	}
 	
+	@Override  //내가 쓴 게시글 검색
+	public Page<Post> findMyPost(String nickname, String searchType, String keyword, Pageable pageable) {
+		// type : 제목 title, 내용 content ,제목+내용 titleOrContent
+		
+		
+		User user = userRepo.findUserByNickname(nickname);//닉네임으로 id조회
+		
+		Page<Post> list = null;
+		
+		// 타입에 맞춰서 메소드 호출
+		if(searchType.equals("titleOrContent")) {
+			list = postRepo.getMyPostLikeTitleOrContent(user.getId(), keyword, pageable);
+			
+		} else if (searchType.equals("title")) {
+			list = postRepo.getMyPostLikeTitle(user.getId(), keyword,pageable);
+			
+		} else if (searchType.equals("content")) {
+			list = postRepo.getMyPostLikeContent(user.getId(), keyword,pageable);
+			
+		} else if(searchType.equals("location")) {
+			list = postRepo.getMyPostLikeLocation(user.getId(), keyword, pageable);
+			
+		} else {
+			// 검색조건 없이 조회시
+			list = postRepo.findMyPostById(user.getId(), pageable);
+		}
+		
+		list.forEach(post -> {
+			
+			post.setNickname(nickname);
+		});
+		
+		return list;
+	}
+	@Override  //내가 쓴 댓글 검색
+	public Page<Post> findMyReply(String nickname, String searchType, String keyword, Pageable pageable) {
+		// type : 내용 content
+		 
+		
+		User user = userRepo.findUserByNickname(nickname);//닉네임으로 id조회
+		
+		Page<Post> list = null;
+		
+		// 타입에 맞춰서 메소드 호출
+		if(searchType.equals("content")) {
+			list = postRepo.getMyReplyLikeContent(user.getId(), keyword, pageable);
+			
+		} else {
+			// 검색조건 없이 조회시
+			list = postRepo.getMyReplyById(user.getId(), pageable);
+		}
+		
+		list.forEach(reply -> {
+			
+			reply.setNickname(nickname);
+		});
+		
+		return list;
+	}
+	
 
 	@Override
 	public Post insertPost(String boardName,String title, String content, String nickname,String category) {
@@ -196,7 +295,7 @@ public class BoardServiceImpl implements BoardService {
 		
 		post.setPostRegdate(LocalDateTime.now());
 		post.setPostModdate(LocalDateTime.now());
-		
+	
 		post.setPostTitle(title);
 		post.setReplyCount(0);
 		post.setPostViews(0);

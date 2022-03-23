@@ -1,21 +1,15 @@
 import React from "react";
 
-import {
-  Link,
-  useNavigate,
-  useLocation,
-  useSearchParams,
-} from "react-router-dom";
-
+import { useNavigate } from "react-router-dom";
 
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 // import axios from "axios";
 import axios from "../../plugins/axios";
-import "./Register.css";
+import styles from "./Register.module.css";
 
 const Registercopy = () => {
-  const navigate = useNavigate() 
+  const navigate = useNavigate();
 
   const phoneRegExp = /^[0-9]{11}$/;
   //const emailRegExp = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
@@ -168,22 +162,21 @@ const Registercopy = () => {
             console.log(response);
             console.log("넘어감");
 
-            navigate("/")
+            navigate("/");
 
-           navigate("/");
-
+            navigate("/");
           })
           .catch(function (error) {
             console.log(error.response);
           });
       }}
-    // formik.setFieldTouched('email')
+      // formik.setFieldTouched('email')
     >
       {(formik) => {
         const renderErrorMessage = (field) => {
           return (
             formik.touched[field] && (
-              <div className="text-error">{formik.errors[field]}</div>
+              <div className={styles.textError}>{formik.errors[field]}</div>
             )
           );
         };
@@ -191,16 +184,16 @@ const Registercopy = () => {
         return (
           <div>
             <Form>
-              <div id="wrapper">
-                <div id="content">
+              <div id={styles.wrapper}>
+                <div id={styles.content}>
                   <div>
-                    <h3 className="join_title">
+                    <h3 className={styles.joinTitle}>
                       <label>이메일</label>
                     </h3>
-                    <span className="box int_name">
+                    <span className={styles.box}>
                       <input
                         type="text"
-                        className="int"
+                        className={styles.int}
                         placeholder="example@naver.com"
                         {...formik.getFieldProps("email")}
                       />
@@ -209,12 +202,12 @@ const Registercopy = () => {
                   </div>
 
                   <div>
-                    <h3 className="join_title">
+                    <h3 className={styles.joinTitle}>
                       <label>아이디</label>
                     </h3>
-                    <span className="box int_email">
+                    <span className={styles.box}>
                       <input
-                        className="int"
+                        className={styles.int}
                         placeholder="아이디"
                         type="text"
                         {...formik.getFieldProps("loginId")}
@@ -224,13 +217,13 @@ const Registercopy = () => {
                   </div>
 
                   <div>
-                    <h3 className="join_title">
+                    <h3 className={styles.joinTitle}>
                       <label>비밀번호</label>
                     </h3>
-                    <span className="box int_pass">
+                    <span className={styles.box}>
                       <input
                         type="password"
-                        className="int"
+                        className={styles.int}
                         {...formik.getFieldProps("password")}
                         placeholder="8~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요."
                       />
@@ -239,13 +232,13 @@ const Registercopy = () => {
                   </div>
 
                   <div>
-                    <h3 className="join_title">
+                    <h3 className={styles.joinTitle}>
                       <label>비밀번호 확인</label>
                     </h3>
-                    <span className="box int_pass_check">
+                    <span className={styles.box}>
                       <input
                         type="password"
-                        className="int"
+                        className={styles.int}
                         {...formik.getFieldProps("confirmPassword")}
                         placeholder="비밀번호확인"
                       />
@@ -254,13 +247,13 @@ const Registercopy = () => {
                   </div>
 
                   <div>
-                    <h3 className="join_title">
+                    <h3 className={styles.joinTitle}>
                       <label>닉네임</label>
                     </h3>
-                    <span className="box int_mobile">
+                    <span className={styles.box}>
                       <input
                         type="text"
-                        className="int"
+                        className={styles.int}
                         placeholder="닉네임"
                         {...formik.getFieldProps("nickname")}
                       />
@@ -268,14 +261,14 @@ const Registercopy = () => {
                     {renderErrorMessage("nickname")}
                   </div>
                   <div>
-                    <h3 className="join_title">
+                    <h3 className={styles.joinTitle}>
                       <label>이름</label>
                     </h3>
-                    <span className="box int_mobile">
+                    <span className={styles.box}>
                       <input
                         type="tel"
                         id="mobile"
-                        className="int"
+                        className={styles.int}
                         placeholder="이름"
                         {...formik.getFieldProps("name")}
                       />
@@ -284,13 +277,13 @@ const Registercopy = () => {
                   </div>
 
                   <div>
-                    <h3 className="join_title">
+                    <h3 className={styles.joinTitle}>
                       <label>교육기관</label>
                     </h3>
-                    <span className="box int_mobile">
+                    <span className={styles.box}>
                       <input
                         type="text"
-                        className="int"
+                        className={styles.int}
                         placeholder="교육기관"
                         {...formik.getFieldProps("campus")}
                       />
@@ -299,13 +292,13 @@ const Registercopy = () => {
                   </div>
 
                   <div>
-                    <h3 className="join_title">
+                    <h3 className={styles.joinTitle}>
                       <label>언어</label>
                     </h3>
-                    <span className="box int_mobile">
+                    <span className={styles.box}>
                       <input
                         type="text"
-                        className="int"
+                        className={styles.int}
                         placeholder="언어"
                         {...formik.getFieldProps("language")}
                       />
@@ -313,20 +306,20 @@ const Registercopy = () => {
                     {renderErrorMessage("language")}
                   </div>
                   <div>
-                    <h3 className="join_title">
+                    <h3 className={styles.joinTitle}>
                       <label>전화번호</label>
                     </h3>
-                    <span className="box int_mobile">
+                    <span className={styles.box}>
                       <input
                         type="text"
-                        className="int"
+                        className={styles.int}
                         placeholder="(-)숫자만 입력해주세요"
                         {...formik.getFieldProps("phone")}
                       />
                     </span>
                     {renderErrorMessage("phone")}
                   </div>
-                  <div className="checkb">
+                  <div className={styles.checkb}>
                     <input
                       type="checkbox"
                       {...formik.getFieldProps("mailAds")}
@@ -334,26 +327,14 @@ const Registercopy = () => {
                     메일 수신(이벤트 및 새로운 소식을 알려드립니다.)
                   </div>
 
-                  <div className="btn_area">
-
-                                          <button
-                        className="loginBtn registerWidth"
-                        type="submit"
-                        id="btnJoin"
-                      >
-                        <span>가입하기</span>
-                      </button>
-                  
-
+                  <div className={styles.btnArea}>
                     <button
-                      className="loginBtn registerWidth"
+                      className={styles.loginBtn}
                       type="submit"
                       id="btnJoin"
                     >
                       <span>가입하기</span>
                     </button>
-
-
                   </div>
                 </div>
               </div>

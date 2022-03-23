@@ -1,53 +1,58 @@
 import { useState } from "react";
-import { Link, useNavigate, useLocation, useParams, useSearchParams } from 'react-router-dom';
+import { useNavigate, useLocation } from "react-router-dom";
 import React from "react";
-import "../board/SearchBar.css";
-import axios from '../../plugins/axios';
+import styles from "./SearchBar.module.css";
+import axios from "../../plugins/axios";
 
 function SearchBar({ getData }) {
-
   const navigate = useNavigate();
   const location = useLocation();
 
-  console.log(location);
+  // console.log(location);
   const idx = location.pathname.indexOf("/", 1);
-  console.log(idx);
+  // console.log(idx);
   const boardGroup = location.pathname.slice(1, idx);
   const boardName = location.pathname.slice(idx + 1);
-  console.log(boardName);
+  // console.log(boardName);
 
   const [searchBy, setSearchBy] = useState("titleOrContent"); //초기값은 드롭박스 처음 값으로 설정.
   const [searchTerm, setSearchTerm] = useState("");
 
   const onClick = () => {
-    console.log("자식컴포넌트 ", searchBy, searchTerm);
+    // console.log("자식컴포넌트 ", searchBy, searchTerm);
 
     searchList(searchBy, searchTerm);
-
-
-  }
+  };
 
   const searchList = async function (searchBy, searchTerm) {
-
     let url = `/${boardName}`;
 
-
-    await axios.get(url, { params: { page: 1, searchType: searchBy, keyword: searchTerm } })
-      .then((response) => {
-
-        console.log("검색결과 1페이지(기본) 결과 검색")
-        getData(response.data.content, response.data.totalPages, searchBy, searchTerm);
-
-        navigate(`/${boardGroup}/${boardName}?page=${1}&searchType=${searchBy}&keyword=${searchTerm}`);
+    await axios
+      .get(url, {
+        params: { page: 1, searchType: searchBy, keyword: searchTerm },
       })
-      .catch((error) => { console.log(error) });
-  }
+      .then((response) => {
+        // console.log("검색결과 1페이지(기본) 결과 검색");
+        getData(
+          response.data.content,
+          response.data.totalPages,
+          searchBy,
+          searchTerm
+        );
+
+        navigate(
+          `/${boardGroup}/${boardName}?page=${1}&searchType=${searchBy}&keyword=${searchTerm}`
+        );
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   return (
-    <div className="searchBarContainer">
-      {/* option의 value는 서버에 보내질 값 */}
+    <div className={styles.searchBarContainer}>
       <select
-        className="searchBarDrowdown"
+        className={styles.searchBarDrowdown}
         value={searchBy}
         onChange={(event) => setSearchBy(event.target.value)}
       >
@@ -58,15 +63,16 @@ function SearchBar({ getData }) {
         <option value="location">장소</option>
       </select>
       <input
-        className="searchBarInput"
+        className={styles.searchBarInput}
         type="text"
         placeholder="검색어를 입력해주세요"
         onChange={(event) => {
           setSearchTerm(event.target.value);
         }}
       ></input>
-      <button className="searchBarInputBtn" onClick={onClick}>검색</button>
-
+      <button className={styles.searchBarInputBtn} onClick={onClick}>
+        검색
+      </button>
     </div>
   );
 }

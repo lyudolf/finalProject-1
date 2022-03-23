@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "../../plugins/axios";
-import "./ForgetId.css";
+import styles from "./Forget.module.css";
 
 function ResetPs() {
-
   const navigate = useNavigate();
   const params = useParams();
   const userId = params.uid;
@@ -90,14 +89,14 @@ function ResetPs() {
       setIsSamePs(false);
       setPsMsg("비밀번호가 일치하지 않습니다.");
       setPsMsg2("비밀번호가 일치하지 않습니다.");
-      console.log(ps);
-      console.log(ps2);
-      console.log(isValidPs);
-      console.log(isValidPs2);
+      // console.log(ps);
+      // console.log(ps2);
+      // console.log(isValidPs);
+      // console.log(isValidPs2);
       return;
     } else {
-      console.log(userId);
-      console.log(ps);
+      // console.log(userId);
+      // console.log(ps);
       // 비밀번호 업데이트 호출로 수정해야함
       const formData = new FormData();
       formData.append("id", userId);
@@ -110,7 +109,7 @@ function ResetPs() {
           },
         })
         .then((response) => {
-          console.log(response.data);
+          // console.log(response.data);
           //성공시 재설정 결과화면 페이지로 이동, 업데이트 성공시 숫자1 반환
           if (response.data === 1) {
             navigate(`/find/ps/done`);
@@ -123,21 +122,21 @@ function ResetPs() {
   };
 
   return (
-    <div className="mainBody">
-      <div className="container">
-        <div className="heading">비밀번호 찾기</div>
+    <div className={styles.mainBody}>
+      <div className={styles.container}>
+        <div className={styles.heading}>비밀번호 찾기</div>
         <hr></hr>
-        <div className="content">
-          <div className="contentHeader">비밀번호를 재설정하기</div>
-          <div className="contentHeader psContentWrapper">
+        <div className={styles.content}>
+          <div className={styles.contentHeader}>비밀번호를 재설정하기</div>
+          <div className={styles.psContentWrapper}>
             안전한 사용을 위해 기존 비밀번호를 바꿔주세요.
           </div>
           <hr />
-          <form className="searchForm">
-            <div className="nameInput">
+          <form className={styles.searchForm}>
+            <div className={styles.nameInput}>
               <input
                 name="userName"
-                className="inputBox"
+                className={styles.inputBox}
                 onChange={onChangePs}
                 placeholder="새로운 비밀번호를 입력해주세요."
               />
@@ -145,25 +144,29 @@ function ResetPs() {
                 <div className="errorMessage">{psMsg}</div>
               )}
             </div>
-            <div className="emailInput">
+            <div className={styles.emailInput}>
               <input
                 name="email"
-                className="inputBox"
+                className={styles.inputBox}
                 onChange={onChangePs2}
                 placeholder="새로운 비밀번호를 다시 입력해주세요."
               />
               {(!isValidPs2 || !isSamePs) && (
-                <div className="errorMessage2">{psMsg2}</div>
+                <div className={styles.errorMessage}>{psMsg2}</div>
               )}
             </div>
             <div>
-              <button type="submit" className="loginBtn" onClick={submitForm}>
+              <button
+                type="submit"
+                className={styles.loginBtn}
+                onClick={submitForm}
+              >
                 재설정하기
               </button>
             </div>
             <div>
               <Link to="/">
-                <button type="button" className="loginBtn">
+                <button type="button" className={styles.loginBtn}>
                   로그인 화면으로 돌아가기
                 </button>
               </Link>

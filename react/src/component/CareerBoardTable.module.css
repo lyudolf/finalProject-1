@@ -1,0 +1,89 @@
+.postCategory {
+  display: flex;
+  justify-content: end;
+  width: 100%;
+}
+.postTitle {
+  font-size: 35px;
+  padding: 20px 0;
+}
+
+.postContent {
+  height: 500px;
+}
+
+.boardTableContainer {
+  width: 100%;
+}
+
+.boardTable {
+  width: 100%;
+}
+
+table.boardTable tr td {
+  border-bottom: 1px solid #eee;
+  padding-bottom: 20px;
+}
+
+.wSubTitle {
+  text-align: center;
+}
+.wAuthor {
+  width: 25%;
+}
+
+.wView {
+  width: 25%;
+}
+
+.wLike {
+  width: 25%;
+}
+
+.wDate {
+  width: 25%;
+}
+
+/* 카테고리 */
+
+.cate0 {
+  padding: 2px;
+  border-radius: 5px;
+  color: white;
+  background-color: purple;
+  text-align: center;
+}
+.cate1 {
+  background-color: #424874;
+  padding: 2px;
+  border-radius: 5px;
+  color: white;
+}
+.cate2 {
+  padding: 2px;
+  border-radius: 5px;
+  color: black;
+  background-color: #d1c4e9;
+}
+.cate3 {
+  padding: 2px;
+  border-radius: 5px;
+  color: white;
+  background-color: #7e57c2;
+}
+.cate4 {
+  padding: 2px;
+  border-radius: 5px;
+  color: white;
+  background-color: #7e57c2;
+}
+.cate5 {
+  padding: 2px;
+  border-radius: 5px;
+  color: white;
+  background-color: #7e57c2;
+}
+
+.miss {
+  padding: 10px;
+}

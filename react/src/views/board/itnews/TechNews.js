@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-//searchBar 새로 만들어야함
-import SearchBar from "../SearchBar";
 import moment from "moment";
-import "./TechNews.css";
 import ReactPaginate from "react-paginate";
+import styles from "./TechNews.module.css";
+import TechTables from "./TechTable";
 
 function TechNews() {
   const [newsData, setNewsData] = useState([]);
@@ -33,8 +32,8 @@ function TechNews() {
   useEffect(() => console.log(newsData), [newsData]);
 
   return (
-    <div className="newsContainer">
-      <div className="techNewsHeading">IT News 게시판</div>
+    <div className={styles.newsContainer}>
+      <div className={styles.techNewsHeading}>IT News 게시판</div>
       {newsData && (
         <table>
           <thead>
@@ -46,41 +45,28 @@ function TechNews() {
             </tr>
           </thead>
           <tbody>
-            {newsData
-              .slice(pagesVisited, pagesVisited + newsDataPerPage)
-              .map((e) => {
-                return (
-                  <tr style={{ textAlign: "left" }}>
-                    <td style={{ width: "10%" }}>
-                      <img className="techImg" src={e.urlToImage}></img>
-                    </td>
-                    <td style={{ width: "30%" }}>{e.title.slice(0, 50)}...</td>
-                    <td style={{ width: "50%" }}>
-                      {e.description.slice(0, 80)}...
-                    </td>
-                    <td style={{ width: "10%", textAlign: "center" }}>
-                      {moment(e.publishedAt).format("l")}
-                    </td>
-                  </tr>
-                );
-              })}
+            {newsData.map((e) => {
+              return <TechTables e={e} styles={styles} moment={moment} />;
+            })}
           </tbody>
         </table>
       )}
-      <div className="paginationContainer">
+      <div className={styles.paginationContainer}>
         <ReactPaginate
           previousLabel={"이전"}
           nextLabel={"다음"}
           pageCount={pageCount}
           onPageChange={changePage}
-          containerClassName={"paginationBttns"}
-          previousLinkClassName={"previousBttn"}
-          nextLinkClassName={"nextBttn"}
-          disabledClassName={"paginationDisabled"}
-          activeClassName={"paginationActive"}
+          containerClassName={styles.paginationBttns}
+          previousLinkClassName={styles.previousBttn}
+          nextLinkClassName={styles.nextBttn}
+          disabledClassName={styles.paginationDisabled}
+          activeClassName={styles.paginationActive}
         />
       </div>
-      <SearchBar />
+
+      {/* <TechSearchBar searchText={searchText} setSearchText={setSearchText} /> */}
+
       <div style={{ margin: "20px" }}></div>
     </div>
   );

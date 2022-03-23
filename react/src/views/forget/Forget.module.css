@@ -1,0 +1,96 @@
+.mainBody {
+  display: flex;
+  justify-content: center;
+}
+
+.content {
+  border-radius: 4px;
+  border: solid 2px #eee;
+  background-color: white;
+  margin: 50px;
+  padding: 30px;
+}
+.contentHeader {
+  padding: 12px;
+  font-size: 20px;
+  text-align: center;
+  margin: 10px 0;
+}
+
+.searchForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.searchForm div {
+  text-align: center;
+  width: 100%;
+  padding: 4px;
+}
+.inputBox {
+  width: 380px;
+  height: 40px;
+  padding-left: 10px;
+}
+.nameInput {
+  margin-top: 80px;
+  height: 70px;
+}
+.emailInput {
+  height: 70px;
+}
+.errorMessage {
+  color: red;
+}
+.searchBtn {
+  width: 244px;
+  margin-top: 8px;
+  padding: 4px 68px;
+  background-color: white;
+  border: solid 3px #7e57c2;
+}
+.backBtn {
+  width: 244px;
+  padding: 4px;
+  background-color: white;
+  border: solid 3px #7e57c2;
+}
+
+.loginBtn:hover {
+  background: #a6b1e1;
+}
+
+.loginBtn {
+  width: 400px;
+  height: 50px;
+  border-radius: 8px;
+  border: none;
+  margin: 10px;
+  background-color: #dcd6f7;
+  color: #424874;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 15px;
+}
+
+/* ps/done css */
+
+.psGoBackBtnWrapper {
+  margin: 60px 0;
+}
+
+.psContentWrapper {
+  margin-bottom: 30px;
+  padding: 12px;
+  font-size: 20px;
+  text-align: center;
+}
+
+.heading {
+  font-weight: bold;
+  font-size: 30px;
+  margin: 30px 0 10px 0;
+  color: #a6b1e1;
+}

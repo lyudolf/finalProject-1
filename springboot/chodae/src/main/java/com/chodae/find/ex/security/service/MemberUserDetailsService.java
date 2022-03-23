@@ -7,6 +7,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.chodae.find.domain.User;
@@ -20,12 +21,14 @@ import lombok.extern.java.Log;
 @Service
 @RequiredArgsConstructor
 public class MemberUserDetailsService implements UserDetailsService{
-	
+	//UserDetailsService 인터페이스는 DB에서 유저 정보를 가져오는 역할
+
 	private final UserRepo userRepo;
+	private final PasswordEncoder passwordEncoder;
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		log.info("MemberUserDetail - loadUserByUsername:"+username);
+		log.info("@@@MemberUserDetailService::loadUserByUsername:"+username);
 		
 		Optional<User> result = userRepo.findByLoginId(username, false);
 		
@@ -41,10 +44,7 @@ public class MemberUserDetailsService implements UserDetailsService{
 				member.getLoginId(),
 				member.getPassword(),
 				member.isSocial(),
-				member.getRoleSet().stream()
-					.map(role -> 
-					new SimpleGrantedAuthority("ROLE_"+role.name())).collect(Collectors.toSet())
-					);
+				member.getRoleSet().stream().map(role -> new SimpleGrantedAuthority("ROLE_"+role.name())).collect(Collectors.toSet()));
 		
 		authMember.setNickname(member.getNickname());
 		authMember.setEmail(member.getEmail());

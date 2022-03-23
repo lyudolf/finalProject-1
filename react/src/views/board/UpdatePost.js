@@ -2,17 +2,9 @@ import React, { useEffect, useRef, useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import axios from "../../plugins/axios";
 import * as Yup from "yup";
-import "./CreatePost.css";
-import {
-  Link,
-  useNavigate,
-  useLocation,
-  useParams,
-  useSearchParams,
-} from "react-router-dom";
+import styles from "./UpdatePost.module.css";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
 import Preview from "./Preview";
-
-//Formik에서 필드 네임은 데이터베이스에 들어갈 이름임.
 
 function UpdatePost() {
   const params = useParams();
@@ -151,7 +143,7 @@ function UpdatePost() {
   return (
     //글 등록 게시판 카테고리 드롭박스
     // 게시글 카테고리 드롭박스
-    <div className="createPost">
+    <div className={styles.createPost}>
       <Formik
         enableReinitialize={true}
         initialValues={initialValues}
@@ -159,9 +151,13 @@ function UpdatePost() {
         validationSchema={validationSchema}
       >
         {({ setFieldValue, values }) => (
-          <Form className="createPostformContainer">
-            <label>등록할 게시판 고르기 </label>
-            <Field as="select" name="boardName" className="boardNameField">
+          <Form className={styles.createPostformContainer}>
+            <label className={styles.heading}>등록할 게시판 고르기 </label>
+            <Field
+              as="select"
+              name="boardName"
+              className={styles.boardNameField}
+            >
               <option value="study">스터디모집</option>
               <option value="edu">국비교육</option>
               <option value="review">리뷰게시판</option>
@@ -172,9 +168,9 @@ function UpdatePost() {
             </Field>
             <div>
               <label>카테고리</label>
-              <span className="clearCate">
+              <span className={styles.clearCate}>
                 <button
-                  className="postBtn"
+                  className={styles.postBtn}
                   onClick={() => {
                     setFieldValue("location", "", false);
                     setFieldValue("interest", "", false);
@@ -184,11 +180,11 @@ function UpdatePost() {
                   카테고리 초기화
                 </button>
               </span>
-              <div className="categorySelect">
+              <div className={styles.categorySelect}>
                 <Field
                   as="select"
                   name="location"
-                  className="categoryField"
+                  className={styles.categoryField}
                   defaultValue={""}
                 >
                   <option value="" disabled>
@@ -216,7 +212,7 @@ function UpdatePost() {
                 <Field
                   as="select"
                   name="interest"
-                  className="categoryField"
+                  className={styles.categoryField}
                   defaultValue={""}
                 >
                   <option value="" disabled>
@@ -229,7 +225,7 @@ function UpdatePost() {
                 <Field
                   as="select"
                   name="level"
-                  className="categoryField"
+                  className={styles.categoryField}
                   defaultValue={""}
                 >
                   <option value="" disabled>
@@ -260,21 +256,21 @@ function UpdatePost() {
             <ErrorMessage
               name="title"
               component="span"
-              className="createPostErr"
+              className={styles.createPostErr}
             />
             <Field autocomplete="off" className="titleField" name="title" />
             <label>본문: </label>
             <ErrorMessage
               name="content"
               component="span"
-              className="createPostErr"
+              className={styles.createPostErr}
             />
             <Field
               autocomplete="off"
               name="content"
               component="textarea"
               placeholder="글 내용과 주로 사용하는 언어 및 기타 내용을 적어주세요"
-              className="bodyField"
+              className={styles.bodyField}
             />
 
             <input
@@ -286,14 +282,14 @@ function UpdatePost() {
               onChange={(event) => {
                 setFieldValue("image", event.currentTarget.files[0]);
               }}
-              className="form-control"
+              className={styles.formControl}
             />
 
             <div className="previewImg">
               {values.image && <Preview image={values.image} />}
             </div>
             <input
-              className="previewButton"
+              className={styles.previewButton}
               type="button"
               onClick={() => {
                 fileRef.current.click();
@@ -301,9 +297,9 @@ function UpdatePost() {
               value="사진"
             />
 
-            <div className="postBtnWrapper">
+            <div className={styles.postBtnWrapper}>
               <button
-                className="postBtn"
+                className={styles.postBtn}
                 type="button"
                 onClick={() => {
                   //글 작성을 취소하시겠습니까?
@@ -312,7 +308,7 @@ function UpdatePost() {
               >
                 작성취소
               </button>
-              <button className="postBtn" type="submit">
+              <button className={styles.postBtn} type="submit">
                 작성완료
               </button>
             </div>

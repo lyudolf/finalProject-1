@@ -5,7 +5,8 @@ public enum BoardGroup { //게시판명(게시판번호, 게시판 url이름) ex
 	notice(1,"공지사항"), faq(2,"자주하는질문"),
 	study(5,"스터디모집"),
 	edu(6,"국비교육"),
-	review(7,"리뷰게시판"),worry(8,"고민상담"),career(9,"취업준비"),news(10,"IT뉴스"),
+	review(7,"리뷰게시판"),
+	worry(8,"고민상담"),career(9,"취업준비"),news(10,"IT뉴스"),book(12,"책/강의리뷰게시판"),
 	event(11,"이벤트");
 	
 	private final int value;

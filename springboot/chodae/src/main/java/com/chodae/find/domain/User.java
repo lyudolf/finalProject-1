@@ -1,10 +1,7 @@
 package com.chodae.find.domain;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -87,6 +84,9 @@ public class User {
 	@ElementCollection(fetch = FetchType.LAZY)
 	@Builder.Default
 	private Set<MemberRole> roleSet = new HashSet<>();
+	
+	//리프레쉬 토큰 저장할때 추가해줄 예정 : 저장된 리프레시토큰은 access token 을 발급해주기 위한 용도로만 사용
+	private String refreshToken;
 
 	private String language;// 주로 사용하는 언어
 	private int phone; // 전화번호 

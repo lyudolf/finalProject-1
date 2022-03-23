@@ -1,6 +1,7 @@
 package com.chodae.find.domain;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -52,6 +53,7 @@ public class Reply {
 	
 	private Integer upperReply;//상위 댓글번호    = 아직 미구현으로 관계설정해주지 않음.
 	
-	
+	@Transient
+    private List Finduser3;
 	
 }

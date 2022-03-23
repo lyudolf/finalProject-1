@@ -4,7 +4,17 @@ import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import com.chodae.find.ex.security.dto.MemberAuthDTO;
 
@@ -20,41 +30,67 @@ import lombok.extern.java.Log;
 public class JWTUtil {
 	
 	//signature
-	private String SECRET_KEY = "qpalxksjzFNJIDNJIkfjvjdhfurtsnclop23mdi5fDNJIhdudifndjd8f73w4u4fnui"; 
+	private final String SECRET_KEY = "qpalxksjzFNJIDNJIkfjvjdhfurtsnclop23mdi5fDNJIhdudifndjd8f73w4u4fnui"; 
+	private final String REFRESH_KEY = "refjsdkfjk2fjkessfjf34rjjkfwnjkfnwjknqjiwncuwicnuDNDFKLFNASfjsdfjsdfjsoifhiosfjsdkl";
 	
-	Key key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
+	Key akey = Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
+	Key reKey = Keys.hmacShaKeyFor(REFRESH_KEY.getBytes(StandardCharsets.UTF_8));
+
+	private long accessExpire = 60*1; //유효기간: 1시간! 60*1
+	private long refreshExpire = 60*24*14; //유효기간 : 2주 
 	
-	private long expire = 60*24*30; //한달
-	
-	public String generateToken(MemberAuthDTO memberDTO) throws InvalidKeyException, UnsupportedEncodingException {
+	public String generateAccessToken(MemberAuthDTO memberDTO) throws InvalidKeyException, UnsupportedEncodingException {
+		
+
+		return Jwts.builder()
+				.setIssuedAt(new Date())
+				.setExpiration(Date.from(ZonedDateTime.now().plusMinutes(accessExpire).toInstant()))
+//				.setExpiration(Date.from(ZonedDateTime.now().plusSeconds(1).toInstant()))
+				.setSubject(memberDTO.getNickname())
+				.claim("iss", "chodae")
+				.claim("member", memberDTO)
+				.signWith(akey, SignatureAlgorithm.HS256)
+				.compact();
+	}
+	public String generateRefreshToken(MemberAuthDTO memberDTO) throws InvalidKeyException, UnsupportedEncodingException {
+		
 		
 		return Jwts.builder()
 				.setIssuedAt(new Date())
-				.setExpiration(Date.from(ZonedDateTime.now().plusMinutes(expire).toInstant()))
-//				.setExpiration(Date.from(ZonedDateTime.now().plusSeconds(2).toInstant()))
+				.setExpiration(Date.from(ZonedDateTime.now().plusMinutes(refreshExpire).toInstant()))
+				.setSubject(memberDTO.getNickname())
 				.claim("iss", "chodae")
-				.claim("sub", memberDTO.getUsername())
-				.claim("member", memberDTO)
-				.signWith(key, SignatureAlgorithm.HS256)
+				.signWith(reKey, SignatureAlgorithm.HS256)
 				.compact();
 	}
 	
-	public String validateExtract(String tokenString) {
+	public Claims validateAccessTokenExtract(String tokenString) {
 		
 		String contentValue = null;
 		
 		 Jws<Claims> jws = Jwts.parserBuilder()
-				.setSigningKey(key)
+				.setSigningKey(akey)
 				.build()
 				.parseClaimsJws(tokenString);
-		 
-		 log.info(""+jws);
-		 
+
 		 Claims claim =  jws.getBody();
-		 log.info(""+claim);
 		
-		contentValue = claim.getSubject();
-		return contentValue;
+		return claim;
+		
+		
+	}
+	public Claims validateRefreshTokenExtract(String tokenString) {
+		
+		String contentValue = null;
+		
+		Jws<Claims> jws = Jwts.parserBuilder()
+				.setSigningKey(reKey)
+				.build()
+				.parseClaimsJws(tokenString);
+		
+		Claims claim =  jws.getBody();
+		
+		return claim;
 		
 		
 	}

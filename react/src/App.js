@@ -3,7 +3,7 @@ import Header from "../src/component/Header";
 import Footer from "../src/component/Footer";
 import Main from "../src/component/Main";
 import MenuBar from "../src/component/MenuBar";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 import { Route, Routes } from "react-router-dom"; //리액트 라우터
 
@@ -37,18 +37,14 @@ import Registercopy from "./views/signup/Registercopy"; //회원가입폼
 
 //게시판---------------------------------------------------------
 import MainBoard from "./views/board/MainBoard"; //메인게시판
-import CareerBoard from "./views/board/CareerBoard"; //취업상담게시판
-
-import SideNavbar from "./component/SideNavbar"; //사이드 네비바
+import FourTables from "./views/board/FourTables";
 import CreatePost from "./views/board/CreatePost"; //게시판 글쓰기
-import Post from "./views/board/Post"; //글 보기
+
 import TechNews from "./views/board/itnews/TechNews"; //it뉴스게시판
 
-import CustomerNotice from "./views/forget/CustomerNotice"; // 고객센터 공지사항게시판
+import Customer from "./views/forget/Customer";
 import CustomerFaq from "./views/forget/Faq"; // 고객센터 자주하는질문게시판
 import FaqPost from "./views/forget/FaqPost"; //글 보기
-import Front from "./views/board/Front";
-import CareerBoardcopy from "./views/board/CareerBoardcopy";
 import UpdatePost from "./views/board/UpdatePost";
 
 //---------------------------------------------------
@@ -67,17 +63,21 @@ import CreatePostCust from "./views/Study/CreatePostCust";
 import StudyPost from "./views/Study/StudyPost";
 
 //----------------------------------------------------------------------------
+import JobFair from "./views/event/Event"; //이벤트
 
+//----------------------------------------------------------------------------
 
 function App() {
   let [shoes, shoes1] = useState(data);
+
   const REST_API_KEY = "e9fdc52e3d35e33eb4ba5a732d2942ed";
   const REDIRECT_URI = "http://localhost:3000/oauth/kakao/callback";
   const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=b57361b0269da06ba5b8bf17e32058f5&redirect_uri=http://localhost:3000/oauth/kakao/callback&response_type=code`;
 
+
+
   return (
     <div className="App">
-      {/* 로그인 정보 저장한거 provider 안에 있는거에 다 적용할 예정 */}
       <Header />
       <MenuBar />
 
@@ -120,33 +120,37 @@ function App() {
         <Route path="/register" element={<Registercopy />} />
 
         {/* 게시판 메인화면 */}
+        <Route path="/latestposts" element={<FourTables />} />
         <Route path="/mainboard" element={<MainBoard />}>
           <Route path="technews" element={<TechNews />} />
           <Route path="career" element={<CustomerFaq title="취업준비" />} />
           <Route path="career/:postno" element={<FaqPost />} />
           <Route path="career/create" element={<CreatePost />} />
           <Route path="career/:postno/update" element={<UpdatePost />} />
-          <Route path="careerboardcopy" element={<CareerBoardcopy />} />
+
+          <Route path="book" element={<CustomerFaq title="리뷰" />} />
+          <Route path="book/:postno" element={<FaqPost />} />
+          <Route path="book/create" element={<CreatePost />} />
+          <Route path="book/:postno/update" element={<UpdatePost />} />
+
+          <Route path="worry" element={<CustomerFaq title="고민상담" />} />
+          <Route path="worry/:postno" element={<FaqPost />} />
+          <Route path="worry/create" element={<CreatePost />} />
+          <Route path="worry/:postno/update" element={<UpdatePost />} />
         </Route>
 
-        <Route
-          path="/customer/notice"
-          element={<CustomerFaq title="공지사항" />}
-        />
-        <Route path="/customer/notice/:postno" element={<FaqPost />} />
-        <Route path="/customer/notice/create" element={<CreatePost />} />
-        <Route
-          path="/customer/notice/:postno/update"
-          element={<UpdatePost />}
-        />
+        {/* 공지사항 */}
+        <Route path="/customer" element={<Customer />}>
+          <Route path="notice" element={<CustomerFaq title="공지사항" />} />
+          <Route path="notice/:postno" element={<FaqPost />} />
+          <Route path="notice/create" element={<CreatePost />} />
+          <Route path="notice/:postno/update" element={<UpdatePost />} />
 
-        <Route
-          path="/customer/faq"
-          element={<CustomerFaq title="고객센터" />}
-        />
-        <Route path="/customer/faq/:postno" element={<FaqPost />} />
-        <Route path="/customer/faq/create" element={<CreatePost />} />
-        <Route path="/customer/faq/:postno/update" element={<UpdatePost />} />
+          <Route path="faq" element={<CustomerFaq title="자주 묻는 질문" />} />
+          <Route path="faq/:postno" element={<FaqPost />} />
+          <Route path="faq/create" element={<CreatePost />} />
+          <Route path="faq/:postno/update" element={<UpdatePost />} />
+        </Route>
 
         {/* 국비교육 */}
         <Route
@@ -161,6 +165,10 @@ function App() {
         {/* 푸터 */}
         <Route path="/Company" element={<Company />} />
         <Route path="/tos" element={<Tos />} />
+
+        {/* 이벤트 */}
+        <Route path="/jobfair" element={<JobFair />} />
+
         <Route path="*" element={<NotFound />} />
       </Routes>
 

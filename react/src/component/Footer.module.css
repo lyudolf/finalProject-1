@@ -1,0 +1,45 @@
+.footerContainer {
+  background-color: #424874;
+  color: white;
+  padding-top: 30px;
+  margin-top: 50px;
+}
+
+.footerTop {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  max-width: 1200px;
+  font-weight: 900;
+  margin: auto;
+}
+
+.footerTop p {
+  color: white;
+}
+
+.footerBottom {
+  width: 100%;
+  text-align: center;
+  max-width: 1200px;
+  margin: auto;
+  padding: 10px;
+}
+
+.footerBottom p {
+  margin: 3px;
+}
+.companyDetail {
+  display: flex;
+  justify-content: space-around;
+}
+
+.companyRights {
+  font-size: 11px;
+}
+
+.chodaeLogo {
+  width: 100px;
+  margin-top: 10px;
+}

@@ -7,21 +7,20 @@ import {
   useSearchParams,
 } from "react-router-dom";
 import axios from "../../plugins/axios";
-import "../board/CareerBoard.css";
+import styles from "./Faq.module.css";
 import SearchBar from "./SearchBar";
 import useStore from "../../plugins/store";
 
 function Faq(props) {
   const store = useStore();
 
-  console.log(useStore.getState().member);
+  // console.log(useStore.getState().member);
 
   const navigate = useNavigate();
   const location = useLocation();
 
-  console.log(location);
   const idx = location.pathname.indexOf("/", 1);
-  console.log(idx);
+  // console.log(idx);
   const boardGroup = location.pathname.slice(1, idx);
   const boardName = location.pathname.slice(idx + 1);
 
@@ -51,14 +50,14 @@ function Faq(props) {
     getFaq(page, qType, qWord, qOrder);
 
     setPaginationNumber(parseInt(page));
-  }, [page, qType, qWord, qOrder]);
+  }, [props, page, qType, qWord, qOrder]);
 
   const changePage = ({ selected }) => {
     getFaq(selected + 1, qType, qWord, qOrder);
   };
 
   const addOrder = (e) => {
-    console.log(e.target.value);
+    // console.log(e.target.value);
     getFaq(page, qType, qWord, e.target.value);
   };
 
@@ -85,7 +84,7 @@ function Faq(props) {
         //업데이트
         setPostInfo(response.data);
         setPosts(postList);
-        console.log(postList);
+        // console.log(postList);
         setPageCount(response.data.totalPages);
 
         currentUrl = `/${boardGroup}/${boardName}?page=${page}&searchType=${searchType}&keyword=${keyword}&order=${order}`;
@@ -116,7 +115,7 @@ function Faq(props) {
 
   const getData = (posts, pageCount, searchType, keyword) => {
     //검색버튼 누르면 검색결과 1페이지 리스트랑 페이지정보 넘어옴.
-    console.log(posts, pageCount, searchType, keyword);
+    // console.log(posts, pageCount, searchType, keyword);
     setPosts(posts);
     setPageCount(pageCount);
     setSearchType(searchType);
@@ -124,9 +123,9 @@ function Faq(props) {
   };
 
   return (
-    <div className="boardContainer">
-      <h1 className="heading">{props.title}</h1>
-      <div className="orderButtons">
+    <div className={styles.boardContainer}>
+      <h1 className={styles.heading}>{props.title}</h1>
+      <div className={styles.orderButtons}>
         <button value="postViews" onClick={addOrder}>
           조회순
         </button>
@@ -138,23 +137,23 @@ function Faq(props) {
         </button>
       </div>
 
-      <table>
+      <table className={styles.faqTable}>
         <thead>
           <tr>
-            <th>번호</th>
-            <th>제목</th>
-            <th>작성자</th>
-            <th>추천수</th>
-            <th>조회수</th>
-            <th>작성일</th>
+            <th className={styles.wNo}>번호</th>
+            <th className={styles.wTitle}>제목</th>
+            <th className={styles.wAuthor}>작성자</th>
+            <th className={styles.wLike}>추천수</th>
+            <th className={styles.wView}>조회수</th>
+            <th className={styles.wDate}>작성일</th>
           </tr>
         </thead>
         <tbody>
           {posts.map((post) => (
             <tr>
               <td>{post.postNo}</td>
-              <td className="table-title">
-                <Link to={`${post.postNo}`} className="postTableTitle">
+              <td className={styles.tableTitle}>
+                <Link to={`${post.postNo}`} className={styles.postTableTitle}>
                   {post.postTitle}
                 </Link>
                 {post.replyCount > 0 && <span>[{post.replyCount}]</span>}
@@ -168,33 +167,35 @@ function Faq(props) {
         </tbody>
       </table>
 
-      <div className="paginateContainer">
+      <div className={styles.paginateContainer}>
         <ReactPaginate
           previousLabel={"이전"}
           nextLabel={"다음"}
           pageCount={pageCount}
           forcePage={paginationNumber - 1}
           onPageChange={changePage}
-          containerClassName={"paginationBttns"}
-          previousLinkClassName={"previousBttn"}
-          nextLinkClassName={"nextBttn"}
-          disabledClassName={"paginationDisabled"}
-          activeClassName={"paginationActive"}
+          containerClassName={styles.paginationBttns}
+          previousLinkClassName={styles.previousBttn}
+          nextLinkClassName={styles.nextBttn}
+          disabledClassName={styles.paginationDisabled}
+          activeClassName={styles.paginationActive}
         />
       </div>
 
       <div>
         <SearchBar getData={getData} />
-        <div className="writePostBtnWrapper">
-          <button
-            onClick={() => {
-              navigate(`/${boardGroup}/${boardName}/create`);
-            }}
-            className="writePostBtn"
-          >
-            글쓰기
-          </button>
-        </div>
+        {localStorage.getItem("username") ? (
+          <div className={styles.writePostBtnWrapper}>
+            <button
+              onClick={() => {
+                navigate(`/${boardGroup}/${boardName}/create`);
+              }}
+              className={styles.writePostBtn}
+            >
+              글쓰기
+            </button>
+          </div>
+        ) : null}
       </div>
 
       {/* <img src={"http://localhost:8000/get/image/springboot-oauth.jpg"} width="100%" alt="이미지" /> */}

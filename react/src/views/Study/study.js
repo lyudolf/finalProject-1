@@ -11,8 +11,20 @@ import axios from "../../plugins/axios";
 import "../Study/Studymain.css";
 import SearchBar from "../forget/SearchBar";
 import CareerBoardTable from "../../component/CareerBoardTable";
-
+import useStore from "../../plugins/store";
 function Study(props) {
+    const store = useStore();
+    const nickname =
+        useStore.getState().member !== null
+            ? useStore.getState().member.nickname
+            : null;
+    const loginId =
+        useStore.getState().member !== null
+            ? useStore.getState().member.loginId
+            : null;
+
+
+
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -176,16 +188,18 @@ function Study(props) {
             />
             <div>
                 <SearchBar getData={getData} />
-                <div className="writePostBtnWrapper">
-                    <button
-                        onClick={() => {
-                            navigate("/together/study/create");
-                        }}
-                        className="writePostBtn"
-                    >
-                        글쓰기
-                    </button>
-                </div>
+                {localStorage.getItem("username") ? (
+                    <div className={"writePostBtnWrapper"}>
+                        <button
+                            onClick={() => {
+                                navigate(`/together/study/create`);
+                            }}
+                            className={"writePostBtn"}
+                        >
+                            글쓰기
+                        </button>
+                    </div>
+                ) : null}
             </div>
 
         </div>

@@ -1,25 +1,32 @@
 import React, { useEffect, useState } from "react";
 import {
-    Link,
-    useNavigate,
-    useLocation,
-    useParams,
-    useSearchParams,
+    useNavigate, useLocation, useParams,
 } from "react-router-dom";
 import axios from "../../plugins/axios";
-
+import styles from "../forget/FaqPost.module.css";
 import CareerBoardTable from "../../component/CareerBoardTable";
 import moment from "moment"; //날짜 수정하기 위해 모멘트 설치
 import CommentList from "../../component/CommentList"; //댓글 수정하면 나오는 입력창
-
+import Comment from "../../component/Comment";
+import useStore from "../../plugins/store";
 import { FaThumbsUp } from "react-icons/fa";
-import { FaThumbsDown } from "react-icons/fa";
 
-function FaqPost() {
+function StudyPost() {
+
+    const store = useStore();
+    const nickname =
+        useStore.getState().member !== null
+            ? useStore.getState().member.nickname
+            : null;
+    const loginId =
+        useStore.getState().member !== null
+            ? useStore.getState().member.loginId
+            : null;
     const params = useParams();
     const postNo = params.postno;
     const location = useLocation();
     const navigate = useNavigate();
+
 
     console.log(location);
     const idx = location.pathname.indexOf("/", 1);
@@ -38,7 +45,9 @@ function FaqPost() {
     const [newComment, setNewComment] = useState("");
     const [updateClicked, setUpdateClicked] = useState(false);
     const [sendComment, setSendComment] = useState(false);
-    const [pist, setPist] = useState("");
+    const [postRecommendOrNot, setPostRecommendOrNot] = useState(false);
+    const [replyRecommendOrNot, setReplyRecommendOrNot] = useState(false);
+
     useEffect(() => {
         getPost(postNo);
     }, []);
@@ -50,10 +59,30 @@ function FaqPost() {
                 console.log(response.data);
 
                 const post = response.data;
-                console.log(post.name)
-                const pist2 = post.name;
-                const pist = (pist2[0].name)
-                console.log(pist)
+
+
+                if (post.finduser === null) {
+                    console.log("sorry")
+                } else if (post.finduser !== null) {
+                    console.log(post.finduser)
+                    post.finduser.map((like) => {
+                        if (like === nickname) {
+
+                            setReplyRecommendOrNot(true);
+                        }
+                    })
+
+                }
+
+                post.finduser2.map((like2) => {
+                    console.log(post.finduser2)
+                    if (like2 === nickname) {
+
+                        setPostRecommendOrNot(true);
+                    }
+                })
+
+
                 post.postRegdate = dateFormat(new Date(post.postRegdate));
 
                 for (const reply of post.replies) {
@@ -62,8 +91,6 @@ function FaqPost() {
 
                 setPostObject(post);
                 setComments(post.replies);
-                console.log(post)
-                setPist(pist)
             })
             .catch((error) => {
                 console.log(error);
@@ -87,19 +114,18 @@ function FaqPost() {
 
     // 게시글 삭제
     const deletePost = (postNo) => {
-        axios.delete(`${location.pathname}/닉네임201`).then(() => {
-            navigate("/faq");
+        axios.delete(`/${boardName}/${postNo}/nickname`).then(() => {
+            navigate(-1);
         });
     };
 
     //댓글 추가 => 추가후 게시글 다시조회 댓글확인. 날짜 오름차순으로 출력,
-    // 댓글 추가후 추가 된 댓글 새로고침없이 확인가능?
     // 댓글도 닉네임으로 불러와야함.
     const addComment = async function () {
         const formData = new FormData();
 
         formData.append("content", newComment);
-        formData.append("nickname", "닉네임51");
+        formData.append("nickname", nickname);
 
         await axios
             .post(`/${boardName}/${postNo}/reply`, formData, {
@@ -119,7 +145,7 @@ function FaqPost() {
     const deleteReply = async function (replyNo) {
         await axios({
             method: "DELETE",
-            url: `/${boardName}/${postNo}/reply/${replyNo}/닉네임3`,
+            url: `/${boardName}/${postNo}/reply/${replyNo}/nickname`,
         }).then(() => {
             setComments(
                 comments.filter((val) => {
@@ -134,7 +160,7 @@ function FaqPost() {
     const updateReply = async function (updatedComment, replyNo) {
         const formData = new FormData();
         formData.append("content", updatedComment);
-        formData.append("nickname", "닉네임3");
+        formData.append("nickname", nickname);
 
         await axios
             .put(`/${boardName}/${postNo}/reply/${replyNo}`, formData, {
@@ -148,7 +174,8 @@ function FaqPost() {
             });
     };
 
-    const nickname = "닉네임51";
+    // const nickname = "닉네임51";
+
     //추천 버튼 함수   //게시글 추천 //댓글 추천
     const addLike = async (type, targetNo, nickname) => {
         const formData = new FormData();
@@ -180,65 +207,77 @@ function FaqPost() {
     };
 
     //추천 추가 ---- 추천 취소 토글 버튼
+    const props = {
+        nickname: nickname,
+        addLike: addLike,
+        deleteLike: deleteLike,
+    };
 
     return (
-        <div className="postContainer">
-
+        <div className={styles.postContainer}>
             {postObject && (
-                <div className="postSection">
-
+                <div className={styles.postSection}>
+                    <div className={styles.postCommentWrapper}></div>
                     <CareerBoardTable moment={moment} tableData={postObject} />
-                    <div>
-                        {postObject !== null &&
-                            localStorage.getItem("user") === postObject.nickname && (
-                                <div>
-                                    <button
-                                        onClick={() => {
-                                            deletePost(postObject.postNo);
-                                        }}
-                                    >
-                                        게시글 삭제
-                                    </button>
-                                </div>
-                            )}
+                    <div className="tempo">
+                        {postObject !== null && nickname === postObject.nickname && (
+                            <div className={styles.commentAddBtnWrapper}>
+                                <button
+                                    className={styles.commentAddBtn}
+                                    onClick={() => {
+                                        deletePost(postObject.postNo);
+                                    }}
+                                >
+                                    삭제
+                                </button>
+                                <button
+                                    className={styles.commentAddBtn}
+                                    onClick={() => {
+                                        navigate("update");
+                                    }}
+                                >
+                                    수정
+                                </button>
+                            </div>
+                        )}
                     </div>
-
-                    {postObject !== null ? (
-                        <div className="recommend">
-                            아이콘 색칠 :유저가 해당글을 이미 추천함
+                    {postObject !== null && nickname !== null ? (
+                        <div>
+                            {!postRecommendOrNot ? (
+                                <FaThumbsUp
+                                    className={styles.recommend}
+                                    onClick={() => {
+                                        addLike("post", postObject.postNo, nickname);
+                                        setPostRecommendOrNot(!postRecommendOrNot);
+                                    }}
+                                />
+                            ) : (
+                                <FaThumbsUp
+                                    className={styles.notRecommend}
+                                    onClick={() => {
+                                        deleteLike("post", postObject.postNo, nickname);
+                                        setPostRecommendOrNot(!postRecommendOrNot);
+                                    }}
+                                />
+                            )}
                         </div>
                     ) : (
-                        <div className="notRecommend"> 아이콘 회색 추천아직</div>
+                        <FaThumbsUp
+                            className={styles.recommend}
+                            onClick={() => {
+                                alert("로그인한 유저만 추천할 수 있습니다.");
+                            }}
+                        />
                     )}
 
-                    <button
-                        onClick={() => {
-                            addLike("post", postObject.postNo, nickname);
-                        }}
-                    >
-                        추천 <FaThumbsUp />
-                    </button>
-                    <button
-                        onClick={() => {
-                            deleteLike("post", postObject.postNo, nickname);
-                        }}
-                    >
-                        추천취소
-                    </button>
-                    <button
-                        onClick={() => {
-                            navigate("update");
-                        }}
-                    >
-                        글 수정하기
-                    </button>
-
-                    <div className="listOfComments">
+                    <div className={styles.listOfComments}>
                         {postObject != null &&
                             postObject.replies.map((reply, index) => {
                                 return (
-                                    <div className="comment" key={index}>
-                                        <div className="commentNickname">{reply.nickname}</div>
+                                    <div className={styles.comment} key={index}>
+                                        <div className={styles.commentNickname}>
+                                            {reply.nickname}
+                                        </div>
                                         {updateClicked === true ? (
                                             <CommentList
                                                 sendComment={sendComment}
@@ -248,14 +287,14 @@ function FaqPost() {
                                         ) : (
                                             <div>{reply.replyContent}</div>
                                         )}
-                                        <span className="commentTime">
+                                        <span className={styles.commentTime}>
                                             {moment(reply.replyRegdate).format("LLL")}
                                         </span>
                                         <span>
-                                            {localStorage.getItem("user") === reply.nickname && (
-                                                <div className="commentAddBtnWrapper">
+                                            {nickname === reply.nickname && (
+                                                <div className={styles.commentAddBtnWrapper}>
                                                     <button
-                                                        className="commentAddBtn"
+                                                        className={styles.commentAddBtn}
                                                         onClick={() => {
                                                             setUpdateClicked(!updateClicked);
                                                         }}
@@ -264,7 +303,7 @@ function FaqPost() {
                                                     </button>
                                                     {updateClicked ? (
                                                         <button
-                                                            className="commentAddBtn"
+                                                            className={styles.commentAddBtn}
                                                             onClick={() => {
                                                                 setSendComment(true);
                                                             }}
@@ -273,7 +312,7 @@ function FaqPost() {
                                                         </button>
                                                     ) : (
                                                         <button
-                                                            className="commentAddBtn"
+                                                            className={styles.commentAddBtn}
                                                             onClick={() => {
                                                                 deleteReply(reply.replyNo);
                                                             }}
@@ -283,23 +322,16 @@ function FaqPost() {
                                                     )}
                                                 </div>
                                             )}
-                                            {localStorage.getItem("user") !== reply.nickname && (
-                                                <div>
-                                                    <button
-                                                        onClick={() => {
-                                                            addLike("reply", reply.replyNo, nickname);
-                                                        }}
-                                                    >
-                                                        댓글추천 <FaThumbsUp />
-                                                    </button>
-                                                    <button
-                                                        onClick={() => {
-                                                            deleteLike("reply", reply.replyNo, nickname);
-                                                        }}
-                                                    >
-                                                        댓글추천취소
-                                                    </button>
-                                                </div>
+                                            {/* db에서 회원 댓글 추천 유무 확인 */}
+                                            {nickname !== null ? (
+                                                <Comment props={props} reply={reply} />
+                                            ) : (
+                                                <FaThumbsUp
+                                                    className={styles.replyRecommend}
+                                                    onClick={() => {
+                                                        alert("로그인한 유저만 추천할 수 있습니다.");
+                                                    }}
+                                                />
                                             )}
                                         </span>
                                     </div>
@@ -307,37 +339,37 @@ function FaqPost() {
                             })}
                     </div>
 
-                    <div className="commentSection">
-                        <div className="commentNickname">
-                            {localStorage.getItem("user")}
-                        </div>
-                        <div className="commentInputWrapper">
-                            <input
-                                className="commentInputBox"
-                                type="text"
-                                placeholder="댓글을 남겨보세요"
-                                autoComplete="off"
-                                value={newComment}
-                                onChange={(event) => {
-                                    setNewComment(event.target.value);
-                                }}
-                            ></input>
-                            <div className="commentAddBtnWrapper">
-                                <button
-                                    className="commentAddBtn"
-                                    onClick={() => {
-                                        addComment();
+                    {nickname !== null ? (
+                        <div className={styles.commentSection}>
+                            <div className={styles.commentNickname}>{nickname}</div>
+                            <div className={styles.commentInputWrapper}>
+                                <input
+                                    className={styles.commentInputBox}
+                                    type="text"
+                                    placeholder="댓글을 남겨보세요"
+                                    autoComplete="off"
+                                    value={newComment}
+                                    onChange={(event) => {
+                                        setNewComment(event.target.value);
                                     }}
-                                >
-                                    등록
-                                </button>
+                                ></input>
+                                <div className={styles.commentAddBtnWrapper}>
+                                    <button
+                                        className={styles.commentAddBtn}
+                                        onClick={() => {
+                                            addComment();
+                                        }}
+                                    >
+                                        등록
+                                    </button>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    ) : null}
                 </div>
             )}
         </div>
     );
 }
 
-export default FaqPost;
+export default StudyPost;

@@ -1,0 +1,113 @@
+.mainContainer {
+  max-width: 1200px;
+  margin: auto;
+}
+
+.studyBg {
+  /* background: linear-gradient(#dcd6f7, #a6b1e1); */
+  height: 500px;
+  display: flex;
+  justify-content: center;
+  margin: auto;
+}
+
+.studyLeft {
+  color: #a6b1e1;
+  font-size: 28px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.studyTitle {
+  margin: 0;
+}
+
+.studySubTitle {
+  margin: 0;
+  padding-top: -20px;
+}
+
+.mainBtn {
+  background-color: #9162b1;
+  padding: 15px 20px;
+  margin: 20px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 20px;
+  color: #fff;
+  border-radius: 20px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.mainBtn:hover {
+  transform: translate(0, -6px);
+  box-shadow: 10px -10px 25px 0 rgba(166, 177, 225, 0.5),
+    -10px 10px 25px 0 rgba(143, 64, 248, 0.5);
+  background-color: #a6b1e1;
+}
+
+.studyRight {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.studyImg {
+  width: 500px;
+  border-radius: 10px;
+  margin-left: 50px;
+}
+
+.bootCampWrapper {
+  height: 100%;
+}
+.bootCampBg {
+  height: 100vh;
+  perspective: 10px;
+}
+
+.bootCampImg {
+  position: absolute;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.bootCampText {
+  color: #a6b1e1;
+  font-size: 30px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.boardBg {
+  /* background: linear-gradient(#a6b1e1, #dcd6f7); */
+  height: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 50px;
+}
+
+.boardImg {
+  width: 400px;
+  border-radius: 10px;
+  margin: 0 50px;
+}
+
+.boardText {
+  color: #a6b1e1;
+  font-size: 25px;
+  align-items: center;
+}
+.forumLink {
+  text-decoration: none;
+  color: white;
+}
+
+.boardImg {
+  width: 500px;
+}

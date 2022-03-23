@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configurers.HttpBasicConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,51 +18,47 @@ import com.chodae.find.ex.security.filter.HeaderCheckFilter;
 import com.chodae.find.ex.security.filter.LoginFilter;
 import com.chodae.find.ex.security.handler.LoginFailHandler;
 import com.chodae.find.ex.security.jwtutil.JWTUtil;
+import com.chodae.find.service.UserFindService;
+import com.chodae.find.service.UserFindServiceImpl;
+import com.chodae.find5.repository.UserRepo;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
 @Log4j2
-@Configuration @EnableWebSecurity
+@Configuration @EnableWebSecurity @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
+	private final UserRepo userRepo;
+	
 	
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		
 		http.csrf().disable();
-		http.cors().configurationSource(corsConfigurationSource());		
+		http.cors();
+		http.httpBasic().disable();
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		
-		http.authorizeHttpRequests().antMatchers("/**").permitAll()
-									.antMatchers("/sample/member").hasRole("USER");
+		http.authorizeHttpRequests().antMatchers("/").permitAll();
+		http.authorizeHttpRequests().antMatchers("/faq/**").hasRole("USER");//로그인 '유저'만 접근 가능 
+		http.authorizeHttpRequests().antMatchers("/notice/**").permitAll();
+		http.authorizeHttpRequests().antMatchers("/api/find/**").permitAll();
+		http.authorizeHttpRequests().antMatchers("/api/login").permitAll();
+		http.authorizeHttpRequests().antMatchers("/**").permitAll();
 		
-//		http.authorizeRequests()
-//				.antMatchers("/sample/all").permitAll()
-//				.antMatchers("/sample/member").hasRole("USER");
-//		
-//		http.formLogin();
-//		http.logout();
 		
+
+		
+		
+//		http.authorizeRequests().anyRequest().authenticated();
 		
 		http.addFilterBefore(checkFilter(), UsernamePasswordAuthenticationFilter.class);
 		http.addFilterBefore(loginFilter(), UsernamePasswordAuthenticationFilter.class);
-		
-		
-		
-//		.and()
-//		.cors().configurationSource(corsConfigurationSource());
-		
-		
-//		http.authorizeRequests().anyRequest().authenticated();//나머지 요청들은 모두 인증되어야함
-		
-		
 	}
 	
-	//접근제한목록 (Access Control List)
 	
-	
-	
-	// CORS 허용 적용
+	//CORS허용
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
     	
@@ -88,13 +85,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     
     @Bean
     public HeaderCheckFilter checkFilter() {
-    	return new HeaderCheckFilter("**",jwtUtil());
+    	
+    	HeaderCheckFilter checkFilter = new HeaderCheckFilter("/**", jwtUtil());
+   	
+    	return checkFilter;
     }
     
     @Bean
-    public LoginFilter loginFilter() throws Exception {
+    public UserFindService userFindService() {
     	
-    	LoginFilter loginFilter = new LoginFilter("/api/login", jwtUtil());
+    	return new UserFindServiceImpl(userRepo, passwordEncoder(), jwtUtil());
+    }
+    
+    
+    @Bean
+    public LoginFilter loginFilter() throws Exception {
+
+    	LoginFilter loginFilter = new LoginFilter("/api/login", jwtUtil(), userFindService());
     	
     	loginFilter.setAuthenticationManager(authenticationManager());
     	

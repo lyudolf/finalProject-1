@@ -1,0 +1,20 @@
+.tos {
+  justify-content: center;
+  width: 100%;
+  overflow-x: hidden;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.toscontent {
+  margin: 50px 50px;
+}
+.tosH2H4 {
+  text-align: center;
+  margin: 15px 0;
+}
+
+.tos li {
+  list-style: none;
+  margin-top: 5px;
+}

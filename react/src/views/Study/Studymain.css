@@ -6,21 +6,18 @@
   box-shadow: none;
 }
 .life2 {
-  border: solid 3px red;
   height: 300px;
   width: 300px;
 }
 .main {
   height: 300px;
-
-  margin-bottom: 90px;
+  margin-bottom: 13%;
   padding: 30px;
 }
 .main2 {
   width: 100vw;
   display: flex;
   flex-flow: row wrap;
-  margin: auto;
   justify-content: center;
 }
 .miss {
