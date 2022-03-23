@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useParams, useLocation } from "react-router-dom";
 import axios from "../plugins/axios";
 import CommentList from "./CommentList"; //댓글
-import { FaThumbsUp } from "react-icons/fa";
+import { AiFillHeart } from "react-icons/ai";
+import { AiOutlineHeart } from "react-icons/ai";
 import moment from "moment";
 import useStore from "../plugins/store";
 import styles from "../views/forget/FaqPost.module.css";
@@ -33,7 +34,6 @@ function PostReply({ reply }) {
 
   const getReply = function (reply) {
     reply.finduser3.map((like) => {
-      console.log("finduser3", reply.finduser3);
       if (like === nickname) {
         setReplyRecommendOrNot(true);
       }
@@ -87,8 +87,7 @@ function PostReply({ reply }) {
       .then((response) => {
         console.log(response.data);
         alert("추천하셨습니다");
-
-        // window.location.reload();
+        window.location.reload();
       })
       .catch((error) => {
         console.log(error);
@@ -102,7 +101,7 @@ function PostReply({ reply }) {
       .then((response) => {
         // console.log(response.data);
         alert("추천을 취소하셨습니다");
-        // window.location.reload();
+        window.location.reload();
       })
       .catch((error) => {
         console.log(error);
@@ -159,26 +158,26 @@ function PostReply({ reply }) {
         {/* db에서 회원 댓글 추천 유무 확인 */}
         {nickname !== null ? (
           <div className={styles.replyRecommendContainer}>
-            {!replyRecommendOrNot ? (
-              <FaThumbsUp
+            {replyRecommendOrNot ? (
+              <AiFillHeart
                 className={styles.replyRecommend}
-                onClick={() => {
-                  addLike("reply", reply.replyNo, nickname);
-                  setReplyRecommendOrNot(true);
-                }}
-              />
-            ) : (
-              <FaThumbsUp
-                className={styles.replyNotRecommend}
                 onClick={() => {
                   deleteLike("reply", reply.replyNo, nickname);
                   setReplyRecommendOrNot(false);
                 }}
               />
+            ) : (
+              <AiOutlineHeart
+                className={styles.replyNotRecommend}
+                onClick={() => {
+                  addLike("reply", reply.replyNo, nickname);
+                  setReplyRecommendOrNot(true);
+                }}
+              />
             )}
           </div>
         ) : (
-          <FaThumbsUp
+          <AiOutlineHeart
             className={styles.replyRecommend}
             onClick={() => {
               alert("로그인한 유저만 추천할 수 있습니다.");

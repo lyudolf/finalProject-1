@@ -7,7 +7,9 @@ import moment from "moment";
 import PostReply from "../../component/PostReply";
 
 import useStore from "../../plugins/store";
-import { FaThumbsUp } from "react-icons/fa";
+// import { FaThumbsUp } from "react-icons/fa";
+import { AiFillHeart } from "react-icons/ai";
+import { AiOutlineHeart } from "react-icons/ai";
 // import { FaThumbsDown } from "react-icons/fa";
 
 function FaqPost() {
@@ -41,11 +43,10 @@ function FaqPost() {
   const [comments, setComments] = useState(null);
   const [newComment, setNewComment] = useState("");
   const [postRecommendOrNot, setPostRecommendOrNot] = useState(false);
-  // const [isReplyRecommended, setIsReplyRecommended] = useState(false);
 
   useEffect(() => {
     getPost(postNo);
-  }, []);
+  }, [postNo]);
 
   const getPost = function (postNo) {
     axios
@@ -187,33 +188,38 @@ function FaqPost() {
           {/* 로그인한 닉네임의 유저가 게시글을 추천한경우 / 아직 안한경우  */}
           {postObject !== null && nickname !== null ? (
             <div>
-              {!postRecommendOrNot ? (
-                <FaThumbsUp
+              {postRecommendOrNot ? (
+                <AiFillHeart
                   className={styles.recommend}
-                  onClick={() => {
-                    addLike("post", postObject.postNo, nickname);
-                    setPostRecommendOrNot(true);
-                  }}
-                />
-              ) : (
-                <FaThumbsUp
-                  className={styles.notRecommend}
                   onClick={() => {
                     deleteLike("post", postObject.postNo, nickname);
                     setPostRecommendOrNot(false);
                   }}
                 />
+              ) : (
+                <AiOutlineHeart
+                  className={styles.notRecommend}
+                  onClick={() => {
+                    addLike("post", postObject.postNo, nickname);
+                    setPostRecommendOrNot(true);
+                  }}
+                />
               )}
             </div>
           ) : (
-            <FaThumbsUp
+            <AiOutlineHeart
               className={styles.recommend}
               onClick={() => {
                 alert("로그인한 유저만 추천할 수 있습니다.");
               }}
             />
           )}
+          <div>
+            좋아요 &nbsp;
+            <span className={styles.likeCount}>{postObject.postLike}</span>
+          </div>
 
+          {/* 댓글 컴포넌트 맵으로 돌리는 부분 */}
           <div className={styles.listOfComments}>
             {postObject != null &&
               postObject.replies.map((reply, index) => {
@@ -223,27 +229,29 @@ function FaqPost() {
 
           {nickname !== null ? (
             <div className={styles.commentSection}>
-              <div className={styles.commentNickname}>{nickname}</div>
-              <div className={styles.commentInputWrapper}>
-                <input
-                  className={styles.commentInputBox}
-                  type="text"
-                  placeholder="댓글을 남겨보세요"
-                  autoComplete="off"
-                  value={newComment}
-                  onChange={(event) => {
-                    setNewComment(event.target.value);
-                  }}
-                ></input>
-                <div className={styles.commentAddBtnWrapper}>
-                  <button
-                    className={styles.commentAddBtn}
-                    onClick={() => {
-                      addComment();
+              <div className={styles.commentTextWrapper}>
+                <div className={styles.commentNickname}>{nickname}</div>
+                <div className={styles.commentInputWrapper}>
+                  <input
+                    className={styles.commentInputBox}
+                    type="text"
+                    placeholder="댓글을 남겨보세요"
+                    autoComplete="off"
+                    value={newComment}
+                    onChange={(event) => {
+                      setNewComment(event.target.value);
                     }}
-                  >
-                    등록
-                  </button>
+                  ></input>
+                  <div className={styles.commentAddBtnWrapper}>
+                    <button
+                      className={styles.commentAddBtn}
+                      onClick={() => {
+                        addComment();
+                      }}
+                    >
+                      등록
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
