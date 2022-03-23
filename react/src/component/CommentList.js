@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import styles from "../views/forget/FaqPost.module.css";
 
 function CommentList({ updateReply, reply, sendComment }) {
   const [updatedComment, setUpdatedComment] = useState(reply.replyContent);
@@ -12,9 +13,10 @@ function CommentList({ updateReply, reply, sendComment }) {
   return (
     <div>
       <input
-        className="commentInputBox"
+        className={styles.commentInputBox}
         type="text"
         autoComplete="off"
+        autoFocus
         value={updatedComment}
         onChange={(event) => {
           setUpdatedComment(event.target.value);
