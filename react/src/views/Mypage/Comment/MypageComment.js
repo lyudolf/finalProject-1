@@ -1,17 +1,22 @@
-import React, { useEffect, useState,navigate } from "react";
+import React, { useEffect, useState, navigate } from "react";
 import {
   Link,
   useNavigate,
   useLocation,
-  useSearchParams,} from "react-router-dom";
+  useSearchParams,
+} from "react-router-dom";
 import axios from "../../../plugins/axios";
 import "./MypageComment.css";
 import useStore from "../../../plugins/store";
 import moment from "moment"; //날짜 수정하기 위해 모멘트 설치
 import CommentList from "./CommentList"; //댓글 수정하면 나오는 입력창
 
+import ReactPaginate from "react-paginate";
+import SearchBar from "./MypageSearchBar";
+import styles from "./MypageComment.module.css";
+
 function ReviewComment() {
- 
+
   const navigate = useNavigate();
 
   const [searchParams, setSearchParams] = useSearchParams();
@@ -26,36 +31,45 @@ function ReviewComment() {
 
   const [searchType, setSearchType] = useState("");
   const [keyword, setKeyword] = useState("");
- 
+
 
   const [paginationNumber, setPaginationNumber] = useState(0);
 
   const nickname =
-  useStore.getState().member !== null
-    ? useStore.getState().member.nickname
-    : null;
+    useStore.getState().member !== null
+      ? useStore.getState().member.nickname
+      : null;
 
   const [postObject, setPostObject] = useState(null);
   const [comments, setComments] = useState(null);
   const [newComment, setNewComment] = useState("");
   const [updateClicked, setUpdateClicked] = useState(false);
   const [sendComment, setSendComment] = useState(false);
-  
+
   useEffect(() => {
     page = page === null ? 1 : page;
     qType = qType === null ? "" : qType;
     qWord = qWord === null ? "" : qWord;
-    qOrder = qOrder === null ? "" : qOrder; 
+    qOrder = qOrder === null ? "" : qOrder;
 
     getPost(page, qType, qWord, qOrder);
 
     setPaginationNumber(parseInt(page));
   }, [page, qType, qWord, qOrder]);
 
+  const changePage = ({ selected }) => {
+    getPost(selected + 1, qType, qWord, qOrder);
+  };
+
+  const addOrder = (e) => {
+    // console.log(e.target.value);
+    getPost(page, qType, qWord, e.target.value);
+  };
+
 
   const getPost = async function (page, searchType, keyword, order = "replyRegdate") {
     let url = `/mypage/reply/${nickname}`;
-      await axios
+    await axios
       .get(url, {
         params: {
           page: page,
@@ -65,22 +79,22 @@ function ReviewComment() {
         },
       })
       .then((response) => {
-        // const postList = response.data.content;
-        // for (const post of postList) {
-        //   //작성시간 변환
-        //   const date = new Date(post.postRegdate);
-        //   post.postRegdate = dateFormat(date);
-        // }
-        // //업데이트
-        // setPostInfo(response.data);
-        // setPosts(postList);
-        // console.log(postList);
-        // setPageCount(response.data.totalPages);
+        const replyList = response.data.content;
+        for (const reply of replyList) {
+          //작성시간 변환
+          const date = new Date(reply.replyRegdate);
+          reply.replyRegdate = dateFormat(date);
+        }
+        //업데이트
+        setPostInfo(response.data);
+        setPosts(replyList);
+        console.log(replyList);
+        setPageCount(response.data.totalPages);
 
-        // navigate(
-        //   `/mypage/MypageComment/?page=${page}&searchType=${searchType}&keyword=${keyword}&order=${order}`
-      //   );
-       })
+        navigate(
+          `/mypage/MypageComment/?page=${page}&searchType=${searchType}&keyword=${keyword}&order=${order}`
+        );
+      })
       .catch((error) => {
         console.log(error);
       });
@@ -102,157 +116,83 @@ function ReviewComment() {
     return `${date.getFullYear()}-${month}-${day} ${hour}:${minute}:${second}`;
   }
 
-  //댓글 추가 => 추가후 게시글 다시조회 댓글확인. 날짜 오름차순으로 출력,
-  // 댓글 추가후 추가 된 댓글 새로고침없이 확인가능?
-  // 댓글도 닉네임으로 불러와야함.
-  const addComment = async function () {
-    const formData = new FormData();
-
-    formData.append("content", newComment);
-    formData.append("nickname", nickname);
-
-    await axios
-      .post(`/review/reply/${nickname}`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
-      .then((response) => {
-        console.log(response.data);
-        window.location.reload();
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-  //댓글 삭제
-  const deleteReply = async function (postNo, replyNo) {
-    console.log(replyNo, nickname);
-    await axios({
-      method: "DELETE",
-      url: `/review/post/${postNo}/reply/${replyNo}/${nickname}`,
-    }).then(() => {
-      window.location.reload();
-      setComments(
-        comments.filter((val) => {
-          return val.replyNo !== replyNo;
-        })
-      );
-    });
-  };
-  //댓글 수정
-  const updateReplyInReview = async function (content, replyNo, idindex) {
-    const formData = new FormData();
-    formData.append("index", idindex);
-    formData.append("nickname", nickname);
-    formData.append("content", content);
-    console.log(replyNo, idindex);
-    await axios
-      .put(`/review/index/${idindex}/reply/${replyNo}`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
-      .then((response) => {
-        console.log(response.data);
-        window.location.reload();
-      });
+  const getData = (posts, pageCount, searchType, keyword) => {
+    //검색버튼 누르면 검색결과 1페이지 리스트랑 페이지정보 넘어옴.
+    // console.log(posts, pageCount, searchType, keyword);
+    setPosts(posts);
+    setPageCount(pageCount);
+    setSearchType(searchType);
+    setKeyword(keyword);
   };
 
-  
 
- 
+
+
+
+
+
 
   return (
-    <div className="postContainer1">
-      {postObject && (
-        <div className="postSection1">
-          <div className="listOfComments1">
-            {postObject != null &&
-              postObject.replies.map((reply, index) => {
-                return (
-                  <div className="comment1" key={index}>
-                    <div className="commentNickname1">{reply.nickname}</div>
-                    {updateClicked === true ? (
-                      <CommentList
-                        sendComment={sendComment}
-                        updateReplyInReview={updateReplyInReview}
-                        reply={reply}
-                        
-                      />
-                    ) : (
-                      <div>{reply.replyContent}</div>
-                    )}
-                    <span className="commentTime1">
-                      {moment(reply.replyRegdate).format("LLL")}
-                    </span>
-                    <span>
-                      {localStorage.getItem("user") === reply.nickname && (
-                        <div className="commentAddBtnWrapper1">
-                          <button
-                            className="commentAddBtn1"
-                            onClick={() => {
-                              setUpdateClicked(!updateClicked);
-                            }}
-                          >
-                            {updateClicked ? "취소" : "수정"}
-                          </button>
-                          {updateClicked ? (
-                            <button
-                              className="commentAddBtn1"
-                              onClick={() => {
-                                setSendComment(true);
-                              }}
-                            >
-                              수정
-                            </button>
-                          ) : (
-                            <button
-                              className="commentAddBtn1"
-                              onClick={() => {
-                                deleteReply(postObject.postNo, reply.replyNo);
-                              }}
-                            >
-                              삭제
-                            </button>
-                          )}
-                        </div>
-                      )}
-                    </span>
-                  </div>
-                );
-              })}
-          </div>
+    <div className={styles.boardContainer}>
+      <h1 className={styles.heading}>내가 쓴 댓글</h1>
+      <div className={styles.orderButtons}>
 
-          <div className="commentSection1">
-            <div className="commentNickname1">
-              {localStorage.getItem("user")}
-            </div>
-            <div className="commentInputWrapper1">
-              <input
-                className="commentInputBox1"
-                type="text"
-                placeholder="댓글을 남겨보세요"
-                autoComplete="off"
-                value={newComment}
-                onChange={(event) => {
-                  setNewComment(event.target.value);
-                }}
-              ></input>
-              <div className="commentAddBtnWrapper1">
-                <button
-                  className="commentAddBtn1"
-                  onClick={() => {
-                    addComment();
-                  }}
-                >
-                  등록
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+        <button value="replyLike" onClick={addOrder}>
+          추천순
+        </button>
+
+      </div>
+
+      <table className={styles.faqTable}>
+        <thead>
+          <tr>
+            <th className={styles.wNo}>번호</th>
+            <th className={styles.wTitle}>제목</th>
+            <th className={styles.wAuthor}>작성자</th>
+            <th className={styles.wLike}>추천수</th>
+            <th className={styles.wView}>조회수</th>
+            <th className={styles.wDate}>작성일</th>
+          </tr>
+        </thead>
+        <tbody>
+          {posts.map((post) => (
+            <tr>
+              <td>{post.postNo}</td>
+              <td className={styles.tableTitle}>
+                <Link to={`${post.postNo}`} className={styles.postTableTitle}>
+                  {post.postTitle}
+                </Link>
+                {post.replyCount > 0 && <span>[{post.replyCount}]</span>}
+              </td>
+              <td>{post.nickname}</td>
+              <td>{post.postLike}</td>
+              <td>{post.postViews}</td>
+              <td>{post.postRegdate}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      <div className={styles.paginateContainer}>
+        <ReactPaginate
+          previousLabel={"이전"}
+          nextLabel={"다음"}
+          pageCount={pageCount}
+          forcePage={paginationNumber - 1}
+          onPageChange={changePage}
+          containerClassName={styles.paginationBttns}
+          previousLinkClassName={styles.previousBttn}
+          nextLinkClassName={styles.nextBttn}
+          disabledClassName={styles.paginationDisabled}
+          activeClassName={styles.paginationActive}
+        />
+      </div>
+
+      <div>
+        <SearchBar getData={getData} nickname={nickname} />
+
+      </div>
+
     </div>
   );
 }
