@@ -1,0 +1,166 @@
+.postContainer {
+  max-width: 1200px;
+  margin: auto;
+}
+
+.postSection {
+  width: 90%;
+  border-radius: 5px;
+  border: 1px solid #eee;
+  padding: 30px;
+  margin: auto;
+}
+
+.postCommentWrapper {
+  width: 90%;
+}
+.postBody {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #f5f5f5;
+}
+.postBox {
+  margin-top: 20px;
+  background-color: white;
+}
+.postHeader {
+  display: flex;
+  justify-content: space-between;
+}
+.postInfo {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px;
+}
+.postCatogory {
+  display: flex;
+  justify-content: end;
+}
+.postContent {
+  margin-top: 12px;
+  height: 400px;
+  border-top: solid 1px #f5f5f5;
+}
+.postContent div {
+  padding: 4px;
+  min-height: 200px;
+}
+
+.postTitle {
+  font-weight: bold;
+  font-size: 24px;
+}
+
+.eachReply {
+  border-top: solid 1px #f5f5f5;
+  margin-top: 12px;
+  padding: 8px;
+}
+.regDate {
+  color: #6d6b6b;
+  font-size: 12px;
+}
+
+.replyContent {
+  margin-top: 4px;
+  font-size: 20px;
+}
+
+.commentSection {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  margin-top: 10px;
+  width: 100%;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  margin: 5px 0 30px 0;
+  padding: 5px 0 5px 10px;
+}
+.listOfComments {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  margin-top: 10px;
+}
+
+.comment {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  margin: 5px 0;
+  padding: 5px 0 5px 10px;
+}
+
+.commentNickname {
+  font-weight: bold;
+  padding-bottom: 3px;
+}
+
+.commentTime {
+  padding-right: 10px;
+  color: rgba(148, 141, 141);
+}
+
+.commentInputBox {
+  border-style: none;
+  display: inline-block;
+  font-size: 15px;
+  width: 90%;
+  padding: 5px;
+  flex: 1;
+}
+
+.commentAddBtnWrapper {
+  display: flex;
+  justify-content: end;
+}
+
+.commentAddBtn {
+  display: inline-block;
+  width: 50px;
+  height: 30px;
+  border-radius: 8px;
+  border: none;
+  margin: 5px;
+  background-color: #dcd6f7;
+  color: #424874;
+  font-weight: bold;
+}
+
+.commentAddBtn:hover {
+  background: #a6b1e1;
+}
+
+.recommend {
+  cursor: pointer;
+  font-size: 25px;
+  color: #a6b1e1;
+}
+
+.notRecommend {
+  cursor: pointer;
+  font-size: 25px;
+  color: #424874;
+}
+
+.replyRecommendContainer {
+  display: flex;
+  justify-content: end;
+  padding-right: 10px;
+}
+
+.replyRecommend {
+  cursor: pointer;
+  font-size: 20px;
+  color: #a6b1e1;
+}
+
+.replyNotRecommend {
+  cursor: pointer;
+  font-size: 20px;
+  color: #424874;
+}
+.tempo {
+  margin-bottom: 178px;
+}

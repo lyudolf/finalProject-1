@@ -37,7 +37,7 @@ import Registercopy from "./views/signup/Registercopy"; //회원가입폼
 
 //게시판---------------------------------------------------------
 import MainBoard from "./views/board/MainBoard"; //메인게시판
-import FourTables from "./views/board/FourTables";
+import FourTables from "./views/board/FourTables"; //실시간게시글
 import CreatePost from "./views/board/CreatePost"; //게시판 글쓰기
 
 import TechNews from "./views/board/itnews/TechNews"; //it뉴스게시판
@@ -57,6 +57,11 @@ import Study from "../src/views/Study/study";
 
 import Company from "./views/Footer/company"; // 푸터 상세페이지
 import Tos from "./views/Footer/Tos";
+//-----------------------------------------------
+import Mypage from "./views/Mypage/Mypage"; //마이페이지
+import Mypagepost from "./views/Mypage/Mypagepost"; //faqpost변형
+import MypageBoard from "./views/Mypage/MypageBoard"; //faq변형
+import MypageComment from "./views/Mypage/Comment/MypageComment";
 //-----------------------------------------------
 import NotFound from "./views/NotFound"; //404 page
 import CreatePostCust from "./views/Study/CreatePostCust";
@@ -170,6 +175,14 @@ function App() {
         <Route path="/jobfair" element={<JobFair />} />
 
         <Route path="*" element={<NotFound />} />
+          {/* 마이페이지 */}
+      <Route path="/mypage" element={<Mypage title="마이페이지" />}>
+      <Route path="/mypage/Mypagepost" element={<MypageBoard title="마이페이지" />}></Route>
+      <Route path="/mypage/:postno" element={<Mypagepost />} />
+      <Route path="/mypage/create" element={<CreatePost />} />   
+      <Route path="/mypage/MypageComment" element={<MypageComment />} />   
+          <Route path="/mypage/:postno/update" element={<UpdatePost />} />
+          </Route>
       </Routes>
 
       <Footer />

@@ -74,7 +74,7 @@ public class BoardController {
 	Page<Post> getMyReply(@PathVariable String nickname, PageVO pageVo,
 			@RequestParam String searchType,
 			@RequestParam String keyword,
-			@RequestParam(required = false, defaultValue = "postRegdate") String order){
+			@RequestParam(required = false, defaultValue = "replyRegdate") String order){
 		
 		log.info(""+pageVo+":::"+searchType+"::::"+keyword);
 		log.info(""+pageVo.makePageable(0, order)); 
