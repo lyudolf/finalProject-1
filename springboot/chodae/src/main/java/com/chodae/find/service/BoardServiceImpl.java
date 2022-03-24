@@ -157,8 +157,10 @@ public class BoardServiceImpl implements BoardService {
 			System.out.println(reply + "@@@@@@@@@@@@@@@@@@@@@@@@");
 			User replyUser = userRepo.findById(reply.getId()).get();
 			reply.setNickname(replyUser.getNickname());
-			
-			
+			List finduser3 = recommRepo.existReplyRecomm3(reply.getReplyNo());
+	        System.out.println("각 댓글 추천"+finduser3);
+	        reply.setFinduser3(finduser3); 
+						
 	
 		});
 
