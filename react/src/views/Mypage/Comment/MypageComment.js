@@ -1,30 +1,23 @@
-import React, { useState, useEffect } from "react";
-import ReactPaginate from "react-paginate";
+import React, { useEffect, useState, navigate } from "react";
 import {
   Link,
   useNavigate,
   useLocation,
   useSearchParams,
 } from "react-router-dom";
-import axios from "../../plugins/axios";
-import styles from "./Faq.module.css";
-import SearchBar from "./SearchBar";
-import useStore from "../../plugins/store";
+import axios from "../../../plugins/axios";
+import "./MypageComment.css";
+import useStore from "../../../plugins/store";
+import moment from "moment"; //날짜 수정하기 위해 모멘트 설치
+import CommentList from "./CommentList"; //댓글 수정하면 나오는 입력창
 
-function Faq(props) {
-  const store = useStore();
+import ReactPaginate from "react-paginate";
+import SearchBar from "./MypageSearchBar";
+import styles from "./MypageComment.module.css";
 
-  // console.log(useStore.getState().member);
+function ReviewComment() {
 
   const navigate = useNavigate();
-  const location = useLocation();
-
-  const idx = location.pathname.indexOf("/", 1);
-  // console.log(idx);
-  const boardGroup = location.pathname.slice(1, idx);
-  const boardName = location.pathname.slice(idx + 1);
-
-  let currentUrl = "";
 
   const [searchParams, setSearchParams] = useSearchParams();
   let page = searchParams.get("page");
@@ -39,7 +32,19 @@ function Faq(props) {
   const [searchType, setSearchType] = useState("");
   const [keyword, setKeyword] = useState("");
 
+
   const [paginationNumber, setPaginationNumber] = useState(0);
+
+  const nickname =
+    useStore.getState().member !== null
+      ? useStore.getState().member.nickname
+      : null;
+
+  const [postObject, setPostObject] = useState(null);
+  const [comments, setComments] = useState(null);
+  const [newComment, setNewComment] = useState("");
+  const [updateClicked, setUpdateClicked] = useState(false);
+  const [sendComment, setSendComment] = useState(false);
 
   useEffect(() => {
     page = page === null ? 1 : page;
@@ -47,24 +52,23 @@ function Faq(props) {
     qWord = qWord === null ? "" : qWord;
     qOrder = qOrder === null ? "" : qOrder;
 
-    getFaq(page, qType, qWord, qOrder);
+    getPost(page, qType, qWord, qOrder);
 
     setPaginationNumber(parseInt(page));
-  }, [props, page, qType, qWord, qOrder]);
+  }, [page, qType, qWord, qOrder]);
 
   const changePage = ({ selected }) => {
-    getFaq(selected + 1, qType, qWord, qOrder);
+    getPost(selected + 1, qType, qWord, qOrder);
   };
 
   const addOrder = (e) => {
     // console.log(e.target.value);
-    getFaq(page, qType, qWord, e.target.value);
+    getPost(page, qType, qWord, e.target.value);
   };
 
-  //리액트화면에서 검색결과 창에서 x버튼 누르면 타입과 검색처 초기화?
-  async function getFaq(page, searchType, keyword, order = "postRegdate") {
-    let url = `/${boardName}`;
 
+  const getPost = async function (page, searchType, keyword, order = "replyRegdate") {
+    let url = `/mypage/reply/${nickname}`;
     await axios
       .get(url, {
         params: {
@@ -75,28 +79,27 @@ function Faq(props) {
         },
       })
       .then((response) => {
-        const postList = response.data.content;
-        for (const post of postList) {
+        const replyList = response.data.content;
+        for (const reply of replyList) {
           //작성시간 변환
-          const date = new Date(post.postRegdate);
-          post.postRegdate = dateFormat(date);
+          const date = new Date(reply.replyRegdate);
+          reply.replyRegdate = dateFormat(date);
         }
         //업데이트
         setPostInfo(response.data);
-        setPosts(postList);
-        // console.log(postList);
+        setPosts(replyList);
+        console.log(replyList);
         setPageCount(response.data.totalPages);
 
-        currentUrl = `/${boardGroup}/${boardName}?page=${page}&searchType=${searchType}&keyword=${keyword}&order=${order}`;
-
         navigate(
-          `/${boardGroup}/${boardName}?page=${page}&searchType=${searchType}&keyword=${keyword}&order=${order}`
+          `/mypage/MypageComment/?page=${page}&searchType=${searchType}&keyword=${keyword}&order=${order}`
         );
       })
       .catch((error) => {
         console.log(error);
       });
-  }
+  };
+
   function dateFormat(date) {
     let month = date.getMonth() + 1;
     let day = date.getDate();
@@ -122,19 +125,22 @@ function Faq(props) {
     setKeyword(keyword);
   };
 
+
+
+
+
+
+
+
   return (
     <div className={styles.boardContainer}>
-      <h1 className={styles.heading}>{props.title}</h1>
+      <h1 className={styles.heading}>내가 쓴 댓글</h1>
       <div className={styles.orderButtons}>
-        <button value="postViews" onClick={addOrder}>
-          조회순
-        </button>
-        <button value="postLike" onClick={addOrder}>
+
+        <button value="replyLike" onClick={addOrder}>
           추천순
         </button>
-        <button value="replyCount" onClick={addOrder}>
-          댓글순
-        </button>
+
       </div>
 
       <table className={styles.faqTable}>
@@ -183,22 +189,12 @@ function Faq(props) {
       </div>
 
       <div>
-        <SearchBar getData={getData} />
-        {localStorage.getItem("username") ? (
-          <div className={styles.writePostBtnWrapper}>
-            <button
-              onClick={() => {
-                navigate(`/${boardGroup}/${boardName}/create`);
-              }}
-              className={styles.writePostBtn}
-            >
-              글쓰기
-            </button>
-          </div>
-        ) : null}
+        <SearchBar getData={getData} nickname={nickname} />
+
       </div>
 
     </div>
   );
 }
-export default Faq;
+
+export default ReviewComment;

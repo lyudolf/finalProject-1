@@ -249,13 +249,13 @@ public class BoardServiceImpl implements BoardService {
 		return list;
 	}
 	@Override  //내가 쓴 댓글 검색
-	public Page<Post> findMyReply(String nickname, String searchType, String keyword, Pageable pageable) {
+	public Page<Reply> findMyReply(String nickname, String searchType, String keyword, Pageable pageable) {
 		// type : 내용 content
 		 
 		
 		User user = userRepo.findUserByNickname(nickname);//닉네임으로 id조회
 		
-		Page<Post> list = null;
+		Page<Reply> list = null;
 		
 		// 타입에 맞춰서 메소드 호출
 		if(searchType.equals("content")) {
@@ -267,7 +267,8 @@ public class BoardServiceImpl implements BoardService {
 		}
 		
 		list.forEach(reply -> {
-			
+			reply.setPostNo(reply.getPost().getPostNo());
+			reply.setBoardName(BoardGroup.getBoardNameByNo(reply.getBoardNo()).name());
 			reply.setNickname(nickname);
 		});
 		
@@ -421,8 +422,8 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public Long deletePost(String boardName,Long postNo, String nickname) {
 		
-		List list = recommRepo.findAllRecommInPost(postNo);
-		recommRepo.deleteAll(list);
+//		List list = recommRepo.findAllRecommInPost(postNo);
+//		recommRepo.deleteAll(list);
 		
 		//2.게시글 번호로 게시글 객체 불러와서 삭제후 삭제된 게시글 번호 반환
 		postRepo.deleteById(postNo);

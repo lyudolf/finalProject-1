@@ -2,12 +2,16 @@ import React, { useEffect, useState } from "react";
 
 import axios from "../../plugins/axios";
 import "./ReviewComment.css";
-
+import useStore from "../../plugins/store";
 import moment from "moment"; //날짜 수정하기 위해 모멘트 설치
 import CommentList from "./CommentList"; //댓글 수정하면 나오는 입력창
 
 function ReviewComment(id) {
   const idindex = id;
+  const nickname =
+  useStore.getState().member !== null
+    ? useStore.getState().member.nickname
+    : null;
 
   const [postObject, setPostObject] = useState(null);
   const [comments, setComments] = useState(null);
@@ -23,7 +27,7 @@ function ReviewComment(id) {
     axios
       .get(`/review/index/${idindex}`)
       .then((response) => {
-        // console.log(response.data);
+        console.log(response.data);
 
         const post = response.data;
         post.postRegdate = dateFormat(new Date(post.postRegdate));
@@ -63,7 +67,7 @@ function ReviewComment(id) {
     const formData = new FormData();
 
     formData.append("content", newComment);
-    formData.append("nickname", "닉네임51");
+    formData.append("nickname", nickname);
 
     await axios
       .post(`/review/reply/${idindex.id}`, formData, {
@@ -72,7 +76,7 @@ function ReviewComment(id) {
         },
       })
       .then((response) => {
-        // console.log(response.data);
+        console.log(response.data);
         window.location.reload();
       })
       .catch((error) => {
@@ -84,7 +88,7 @@ function ReviewComment(id) {
     console.log(replyNo, idindex);
     await axios({
       method: "DELETE",
-      url: `/review/post/${postNo}/reply/${replyNo}/닉네임51`,
+      url: `/review/post/${postNo}/reply/${replyNo}/${nickname}`,
     }).then(() => {
       window.location.reload();
       setComments(
@@ -99,7 +103,7 @@ function ReviewComment(id) {
   const updateReplyInReview = async function (content, replyNo, idindex) {
     const formData = new FormData();
     formData.append("index", idindex);
-    formData.append("nickname", "닉네임51");
+    formData.append("nickname", nickname);
     formData.append("content", content);
     console.log(replyNo, idindex);
     await axios
@@ -114,7 +118,7 @@ function ReviewComment(id) {
       });
   };
 
-  const nickname = "닉네임51";
+ 
 
   return (
     <div className="postContainer1">

@@ -90,31 +90,23 @@ public class BoardPostTest {
 	}
 	
 	
+	@Transactional
+	@Test
+	public void testEnum() {
+		log.info("열거형테스트를 시작합니다.");
+		
+		
+		BoardGroup[] board = BoardGroup.values();
+		log.info(Arrays.toString(board));
+		log.info(""+BoardGroup.getBoardNameByNo(1).name());
+	
+	}
+	
 	
 	@Transactional
 	@Test
 	public void insertBoardAll() {   //1. 게시판 그룹 세팅
-		
-//		log.info("열거형테스트를 시작합니다.");
-//		
-//		log.info(BoardGroup.공지사항.name());
-//		log.info(String.valueOf( (BoardGroup.공지사항.name()=="공지사항")));
-//		
-//		log.info( BoardGroup.valueOf("공지사항").name());
-//		System.out.println( BoardGroup.valueOf("공지사항").getValue());
-//		
-////		log.info(String.valueOf(BoardGroup.스터디모집.ordinal()) ); //기본순서
-//		
-////		BoardGroup[] board = BoardGroup.values();
-////		log.info(Arrays.toString(board));
-//		
-//		System.out.println(BoardGroup.스터디모집.getValue());
-//		
-//		BoardGroup b2o = BoardGroup.valueOf(BoardGroup.class, "스터디모집");
-//		BoardGroup b3o = BoardGroup.스터디모집;
-//		System.out.println("b2==b3: "+ (b2o==b3o));
-		
-		//열거형 클래스를 한번에 리스트로 데이터베이스에 저장함. 기본키는 열거형상수의 값으로 지정. 
+
 		
 		List<Board> list = new ArrayList<Board>();
 		BoardGroup[] arr = BoardGroup.values();

@@ -7,20 +7,24 @@ import {
   useSearchParams,
 } from "react-router-dom";
 import axios from "../../plugins/axios";
-import styles from "./Faq.module.css";
-import SearchBar from "./SearchBar";
+import styles from "./MypageBoard.module.css";
+
 import useStore from "../../plugins/store";
 
-function Faq(props) {
+function MypageBoard(props) {
+  
   const store = useStore();
-
-  // console.log(useStore.getState().member);
+  const nickname =
+  useStore.getState().member !== null
+    ? useStore.getState().member.nickname
+    : null;
+  console.log(useStore.getState().member);
 
   const navigate = useNavigate();
   const location = useLocation();
 
   const idx = location.pathname.indexOf("/", 1);
-  // console.log(idx);
+  console.log(idx);
   const boardGroup = location.pathname.slice(1, idx);
   const boardName = location.pathname.slice(idx + 1);
 
@@ -45,7 +49,7 @@ function Faq(props) {
     page = page === null ? 1 : page;
     qType = qType === null ? "" : qType;
     qWord = qWord === null ? "" : qWord;
-    qOrder = qOrder === null ? "" : qOrder;
+    qOrder = qOrder === null ? "" : qOrder; 
 
     getFaq(page, qType, qWord, qOrder);
 
@@ -57,13 +61,13 @@ function Faq(props) {
   };
 
   const addOrder = (e) => {
-    // console.log(e.target.value);
+    console.log(e.target.value);
     getFaq(page, qType, qWord, e.target.value);
   };
 
   //리액트화면에서 검색결과 창에서 x버튼 누르면 타입과 검색처 초기화?
   async function getFaq(page, searchType, keyword, order = "postRegdate") {
-    let url = `/${boardName}`;
+    let url = `/mypage/post/${nickname}`;
 
     await axios
       .get(url, {
@@ -84,7 +88,7 @@ function Faq(props) {
         //업데이트
         setPostInfo(response.data);
         setPosts(postList);
-        // console.log(postList);
+        console.log(postList);
         setPageCount(response.data.totalPages);
 
         currentUrl = `/${boardGroup}/${boardName}?page=${page}&searchType=${searchType}&keyword=${keyword}&order=${order}`;
@@ -115,7 +119,7 @@ function Faq(props) {
 
   const getData = (posts, pageCount, searchType, keyword) => {
     //검색버튼 누르면 검색결과 1페이지 리스트랑 페이지정보 넘어옴.
-    // console.log(posts, pageCount, searchType, keyword);
+    console.log(posts, pageCount, searchType, keyword);
     setPosts(posts);
     setPageCount(pageCount);
     setSearchType(searchType);
@@ -182,23 +186,11 @@ function Faq(props) {
         />
       </div>
 
-      <div>
-        <SearchBar getData={getData} />
-        {localStorage.getItem("username") ? (
-          <div className={styles.writePostBtnWrapper}>
-            <button
-              onClick={() => {
-                navigate(`/${boardGroup}/${boardName}/create`);
-              }}
-              className={styles.writePostBtn}
-            >
-              글쓰기
-            </button>
-          </div>
-        ) : null}
-      </div>
+      
 
+      {/* <img src={"http://localhost:8000/get/image/springboot-oauth.jpg"} width="100%" alt="이미지" /> */}
+      {/* ??????????????????????????????????????????????????????? */}
     </div>
   );
 }
-export default Faq;
+export default MypageBoard;

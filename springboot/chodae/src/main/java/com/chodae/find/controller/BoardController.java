@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.chodae.find.domain.Post;
+import com.chodae.find.domain.Reply;
 import com.chodae.find.dto.PostDTO;
 import com.chodae.find.service.BoardService;
 import com.chodae.find.vo.PageVO;
@@ -71,15 +72,15 @@ public class BoardController {
 	//내가쓴 댓글 조회 (닉네임)
 	@Transactional
 	@GetMapping("/mypage/reply/{nickname}")
-	Page<Post> getMyReply(@PathVariable String nickname, PageVO pageVo,
+	Page<Reply> getMyReply(@PathVariable String nickname, PageVO pageVo,
 			@RequestParam String searchType,
 			@RequestParam String keyword,
-			@RequestParam(required = false, defaultValue = "postRegdate") String order){
+			@RequestParam(required = false, defaultValue = "replyRegdate") String order){
 		
 		log.info(""+pageVo+":::"+searchType+"::::"+keyword);
 		log.info(""+pageVo.makePageable(0, order)); 
 		
-		Page<Post> result = boardService.findMyReply(nickname, searchType, keyword,pageVo.makePageable(0, order));
+		Page<Reply> result = boardService.findMyReply(nickname, searchType, keyword,pageVo.makePageable(0, order));
 		
 		return result;	
 	}

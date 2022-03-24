@@ -64,11 +64,11 @@ function PostReply({ reply }) {
       method: "DELETE",
       url: `/${boardName}/${postNo}/reply/${replyNo}/${nickname}`,
     }).then(() => {
-      setComments(
-        comments.filter((val) => {
-          return val.replyNo !== replyNo;
-        })
-      );
+      // setComments(
+      //   comments.filter((val) => {
+      //     return val.replyNo !== replyNo;
+      //   })
+      // );
       window.location.reload();
     });
   };
