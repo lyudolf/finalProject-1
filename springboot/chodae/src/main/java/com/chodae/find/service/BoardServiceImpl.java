@@ -421,8 +421,8 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public Long deletePost(String boardName,Long postNo, String nickname) {
 		
-		List list = recommRepo.findAllRecommInPost(postNo);
-		recommRepo.deleteAll(list);
+//		List list = recommRepo.findAllRecommInPost(postNo);
+//		recommRepo.deleteAll(list);
 		
 		//2.게시글 번호로 게시글 객체 불러와서 삭제후 삭제된 게시글 번호 반환
 		postRepo.deleteById(postNo);
