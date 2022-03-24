@@ -54,7 +54,7 @@ function CareerBoardTable({ tableData, moment }) {
                   <img
                     className={styles.miss}
                     src={`http://localhost:8000/get/image/${name.name}`}
-                    width="20%"
+                    width="200%"
                     alt="이미지"
                   />
                 </td>

@@ -9,23 +9,6 @@ function MenuBar() {
           <Link className={styles.menuLink} to="/together/study">
             스터디모집
           </Link>
-          <ul>
-            <li>
-              <Link className={styles.menuLink} to="#">
-                간이테스트
-              </Link>
-            </li>
-            <li>
-              <Link className={styles.menuLink} to="#">
-                지역별 검색
-              </Link>
-            </li>
-            <li>
-              <Link className={styles.menuLink} to="#">
-                맞춤형 검색
-              </Link>
-            </li>
-          </ul>
         </li>
 
         <li>
