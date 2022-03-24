@@ -23,7 +23,7 @@ const Registercopy = () => {
       .test("중복검사", "이미 사용중인 닉네임 입니다", function (values) {
         const nickname = values;
         const promise1 = axios
-          .get("http://localhost:8000/reg/me/nickname", {
+          .get("/reg/me/nickname", {
             params: { nickname: nickname },
           })
           .then((res) => {
@@ -50,7 +50,7 @@ const Registercopy = () => {
       .test("중복검사", "이미 사용중인 이메일입니다", function (values) {
         const email = values;
         const promise = axios
-          .get("http://localhost:8000/reg/me/email", {
+          .get("/reg/me/email", {
             params: { email: email },
           })
           .then((res) => {
@@ -85,7 +85,7 @@ const Registercopy = () => {
       .test("중복검사", "이미 사용중인 아이디 입니다", function (values) {
         const loginId = values;
         const promise = axios
-          .get("http://localhost:8000/reg/me/loginId", {
+          .get("/reg/me/loginId", {
             params: { loginId: loginId },
           })
           .then((res) => {
@@ -140,7 +140,7 @@ const Registercopy = () => {
         console.log(values.password);
         axios
           .post(
-            "http://localhost:8000/reg",
+            "/reg",
             {
               name,
               password,
@@ -170,7 +170,7 @@ const Registercopy = () => {
             console.log(error.response);
           });
       }}
-      // formik.setFieldTouched('email')
+    // formik.setFieldTouched('email')
     >
       {(formik) => {
         const renderErrorMessage = (field) => {

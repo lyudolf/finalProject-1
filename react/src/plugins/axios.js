@@ -5,6 +5,7 @@ import jwt_decode from 'jwt-decode';
 
 
 const baseURL = 'http://localhost:8000';
+
 let accessToken = (localStorage.hasOwnProperty("accessToken")) ? localStorage.getItem("accessToken") : null;
 let refreshToken = (localStorage.hasOwnProperty("refreshToken")) ? localStorage.getItem("refreshToken") : null;
 
@@ -20,8 +21,10 @@ const instance = axios.create({
 instance.interceptors.request.use(
     async function (config) {
 
-        if (accessToken === null) {
-            console.log("토큰없이");
+        accessToken = (localStorage.hasOwnProperty("accessToken")) ? localStorage.getItem("accessToken") : null;
+
+        if (accessToken == null) {
+            console.log("토큰없음");
             return config;
         }
 
@@ -43,7 +46,7 @@ instance.interceptors.request.use(
             console.log("아직 만료안됨");
             if (localStorage.hasOwnProperty("accessToken")) {
 
-                config.headers.Authorization = 'Bearer ' + accessToken;
+                config.headers.Authorization = `Bearer ${accessToken}`;
             }
             return config;
 
@@ -81,12 +84,12 @@ instance.interceptors.request.use(
     function (error) {
 
         return Promise.reject(error);
-     }
- );
+    }
+);
 
 
- instance.interceptors.response.use(
-     function (response) {
+instance.interceptors.response.use(
+    function (response) {
 
 
         return response;
