@@ -145,6 +145,7 @@ function MypageBoard(props) {
         <thead>
           <tr>
             <th className={styles.wNo}>번호</th>
+            
             <th className={styles.wTitle}>제목</th>
             <th className={styles.wAuthor}>작성자</th>
             <th className={styles.wLike}>추천수</th>
@@ -156,6 +157,7 @@ function MypageBoard(props) {
           {posts.map((post) => (
             <tr>
               <td>{post.postNo}</td>
+              
               <td className={styles.tableTitle}>
                 <Link to={`${post.postNo}`} className={styles.postTableTitle}>
                   {post.postTitle}
