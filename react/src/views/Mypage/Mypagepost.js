@@ -26,6 +26,7 @@ function Mypagepost() {
   const location = useLocation();
   const navigate = useNavigate();
 
+  
   console.log(location);
   const idx = location.pathname.indexOf("/", 1);
   console.log(idx);
@@ -56,16 +57,7 @@ function Mypagepost() {
       .then((response) => {
         console.log(response.data);
         const post = response.data;
-        // if ((post.finduser2.find(element => element === nickname) === null)) {
-        //   setPostRecommentOrNot(true)
-        // } else if ((post.finduser2.find(element => element === nickname) === 1)) {
-        //   (setPostRecommentOrNot(false))
-        // }
-        // if ((post.finduser.find(element => element === nickname) === undefined)) {
-        //   setReplyRecommentOrNot(true)
-        // } else if ((post.finduser.find(element => element === nickname) === 1)) {
-        //   (setReplyRecommentOrNot(false))
-        // }
+       
         console.log(nickname)
 
         if (post.finduser === null) {

@@ -58,7 +58,7 @@ import StudyPost from "./views/Study/StudyPost";
 
 function App() {
   let [shoes, shoes1] = useState(data);
-
+  
   return (
     <div className="App">
       <Header />

@@ -15,13 +15,13 @@ function Detail(props) {
     
     <div className={styles.DetailCard}>
       <div className={styles.Card}>
-        <div className={styles.detailImage}>
-          <img src={
+        
+          <img className={styles.detailImage} src={
               "https://github.com/9598dohyun/image/blob/main/academyphoto/photo" +
               [id] +  ".png?raw=true"
             }
           />
-        </div>
+        
         <div className={styles.detailTableContainer}>
           <table className={styles.detailContent}>
             <tbody>
