@@ -57,6 +57,7 @@ function MenuBar() {
               </Link>
             </li>
             <li>
+              <a href="/mainboard/career">취업준비게시판</a>
               <Link className={styles.menuLink} to="/mainboard/career">
                 취업준비게시판
               </Link>
@@ -85,6 +86,7 @@ function MenuBar() {
               </Link>
             </li>
             <li>
+              <a href="/Start">심리테스트</a>
               <Link className={styles.menuLink} to="#">
                 심리테스트
               </Link>
@@ -103,6 +105,7 @@ function MenuBar() {
               </Link>
             </li>
             <li>
+              <a href="/FAQ">자주하는 질문</a>
               <Link className={styles.menuLink} to="/customer/faq">
                 자주하는 질문
               </Link>
