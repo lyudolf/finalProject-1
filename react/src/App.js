@@ -14,14 +14,12 @@ import Profile from "./views/login/Profile";
 
 //간이테스트 라우터 연결------------------------------------------
 import Test from "./views/test/Test";
-import Start from "./views/test/Start"; 
+import Start from "./views/test/Start";
 import Score from "./views/test/Score";
 import Quiz from "./views/test/Quiz";
 
 //faq 라우터 연결------------------------------------------------
 import FAQ from "./views/faq/FAQ";
-
-
 
 //아이디 및 비밀번호 찾기 라우터 연결------------------------------
 import ForgetId from "./views/forget/ForgetId"; //아이디 찾기 처음화면
@@ -79,8 +77,6 @@ function App() {
   const REDIRECT_URI = "http://localhost:3000/oauth/kakao/callback";
   const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=b57361b0269da06ba5b8bf17e32058f5&redirect_uri=http://localhost:3000/oauth/kakao/callback&response_type=code`;
 
-
-
   return (
     <div className="App">
       <Header />
@@ -88,28 +84,25 @@ function App() {
 
       <Routes>
         <Route path="/" element={<Main />} />
-        
+
         {/* 로그인 메인화면 */}
 
         <Route path="/login" element={<Login />} />
         <Route path="/" exact element={KAKAO_AUTH_URL}></Route>
-        <Route path="/oauth/kakao/callback" exact element={<Auth/>}></Route>
-        <Route path="/profile" exact element={<Profile/>}></Route>
-        
+        <Route path="/oauth/kakao/callback" exact element={<Auth />}></Route>
+        <Route path="/profile" exact element={<Profile />}></Route>
+
         {/*심리테스트 메인화면*/}
-        <Route path="/Test" element={<Test/>}/>
-        <Route path="/Start" element={<Start/>}/>
-        <Route path="/Score" element={<Score/>}/>
-        <Route path="/Quiz" element={<Quiz/>}/>
+        <Route path="/Test" element={<Test />} />
+        <Route path="/Start" element={<Start />} />
+        <Route path="/Score" element={<Score />} />
+        <Route path="/Quiz" element={<Quiz />} />
 
         {/*Faq 메인화면 */}
-        <Route path="/FAQ" element={<FAQ/>}/>
+        <Route path="/FAQ" element={<FAQ />} />
 
         {/* mypage 메인화면
         <Route path="/mypage" element={<Mypage/>}/> */}
-       
-
-
 
         {/* 아이디찾기 메인화면 */}
         <Route path="/find" element={<Find />}>
@@ -174,6 +167,7 @@ function App() {
         {/* 이벤트 */}
         <Route path="/jobfair" element={<JobFair />} />
 
+        {/* 404 페이지 */}
         <Route path="*" element={<NotFound />} />
           {/* 마이페이지 */}
       <Route path="/mypage" element={<Mypage title="마이페이지" />}>
