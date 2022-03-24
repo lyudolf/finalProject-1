@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import ReviewComment from "./ReviewComment.js";
-import "./Detail.css";
+import styles from "./Detail.module.css";
 
 function Detail(props) {
   const [data, setdata] = useState("");
@@ -12,23 +12,22 @@ function Detail(props) {
   // 그래서 destructuring을 사용해 변수에 담아줌
   // console.log(props.shoes);
   return (
-    <div className="DetailCard">
-      <div className="Card">
-        <div className="detailImage">
-          <img
-            src={
+    
+    <div className={styles.DetailCard}>
+      <div className={styles.Card}>
+        <div className={styles.detailImage}>
+          <img src={
               "https://github.com/9598dohyun/image/blob/main/academyphoto/photo" +
-              [id] +
-              ".png?raw=true"
+              [id] +  ".png?raw=true"
             }
           />
         </div>
-        <div className="detailTableContainer">
-          <table className="detailContent">
+        <div className={styles.detailTableContainer}>
+          <table className={styles.detailContent}>
             <tbody>
               <tr>
                 <td>
-                  <div className="contentA">
+                  <div className={styles.contentA}>
                     <h2>교육기관명: </h2>
                     <p>{props.shoes[id].title}</p>
                   </div>
@@ -36,7 +35,7 @@ function Detail(props) {
               </tr>
               <tr>
                 <td>
-                  <div className="contentA">
+                  <div className={styles.contentA}>
                     <h2>기관위치: </h2>
                     <p>{props.shoes[id].place} </p>
                   </div>
@@ -44,7 +43,7 @@ function Detail(props) {
               </tr>
               <tr>
                 <td>
-                  <div className="contentA">
+                  <div className={styles.contentA}>
                     <h2>전화번호: </h2>
                     <p>{props.shoes[id].pNumber}</p>
                   </div>
@@ -52,7 +51,7 @@ function Detail(props) {
               </tr>
               <tr>
                 <td>
-                  <div className="contentA">
+                  <div className={styles.contentA}>
                     <h2>운영강의: </h2>
                     <p>{props.shoes[id].class}</p>
                   </div>
@@ -60,7 +59,7 @@ function Detail(props) {
               </tr>
               <tr>
                 <td>
-                  <div className="contentA">
+                  <div className={styles.contentA}>
                     <h2>URL: </h2>
                     <a href={props.shoes[id].address} target="_blank">
                       {props.shoes[id].address}
@@ -70,7 +69,7 @@ function Detail(props) {
               </tr>
               <tr>
                 <td>
-                  <div className="contentA">
+                  <div className={styles.contentA}>
                     <h2>한줄 코멘트: </h2>
                     <p>{props.shoes[id].comment}</p>
                   </div>

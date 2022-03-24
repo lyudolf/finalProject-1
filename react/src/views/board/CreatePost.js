@@ -11,7 +11,7 @@ function CreatePost() {
 
   //글 수정시 글 수정페이지로 넘어오면서 기존 글 정보로 initialValues를 초기화 해줘야되나?
   const initialValues = {
-    boardName: "",
+    boardName: "book",
     title: "",
     content: "",
     nickname: "",
@@ -94,9 +94,9 @@ function CreatePost() {
               name="boardName"
               className={styles.boardNameField}
             >
-              <option value="study">스터디모집</option>
-              <option value="edu">국비교육</option>
-              <option value="review">리뷰게시판</option>
+              {/* <option value="study">스터디모집</option>
+              <option value="edu">국비교육</option> */}
+              <option value="book">리뷰게시판</option>
               <option value="worry">고민상담</option>
               <option value="career">취업준비</option>
               <option value="news">IT뉴스</option>

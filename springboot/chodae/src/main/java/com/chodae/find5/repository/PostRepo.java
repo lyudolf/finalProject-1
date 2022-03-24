@@ -11,6 +11,7 @@ import org.springframework.data.repository.query.Param;
 
 import com.chodae.find.domain.Board;
 import com.chodae.find.domain.Post;
+import com.chodae.find.domain.Reply;
 
 public interface PostRepo  extends JpaRepository<Post, Long>{
 	
@@ -81,10 +82,10 @@ public interface PostRepo  extends JpaRepository<Post, Long>{
 //	@Query("SELECT r, p.postTitle, p.board.boardNo, p.postNo FROM Reply r left join r.post p WHERE r.id = ?1 and r.replyContent Like %?2% ")
 //	@Query("SELECT r FROM Reply r left join r.post p WHERE r.id = ?1 and r.replyContent Like %?2% ")
 	@Query("SELECT r FROM Reply r WHERE r.id = ?1 and r.replyContent Like %?2% ")
-	Page<Post> getMyReplyLikeContent(Long id, String keyword, Pageable paging);
+	Page<Reply> getMyReplyLikeContent(Long id, String keyword, Pageable paging);
 	
 	@Query("SELECT r FROM Reply r WHERE r.id = ?1")
-	Page<Post> getMyReplyById(Long id, Pageable paging);
+	Page<Reply> getMyReplyById(Long id, Pageable paging);
 	
 	
 }

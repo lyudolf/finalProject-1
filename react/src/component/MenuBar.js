@@ -40,7 +40,6 @@ function MenuBar() {
               </Link>
             </li>
             <li>
-              <a href="/mainboard/career">취업준비게시판</a>
               <Link className={styles.menuLink} to="/mainboard/career">
                 취업준비게시판
               </Link>
