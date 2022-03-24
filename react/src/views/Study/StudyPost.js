@@ -226,7 +226,7 @@ function StudyPost() {
                     <div className={styles.postCommentWrapper}></div>
                     <CareerBoardTable moment={moment} tableData={postObject} />
                     <div className={styles.tempo}>
-                        <button onClick={() => { apply(postObject.postNo) }}>신청하기</button>
+                        {/* <button onClick={() => { apply(postObject.postNo) }}>신청하기</button> */}
                         {postObject !== null && nickname === postObject.nickname && (
                             <div className={styles.commentAddBtnWrapper}>
 
