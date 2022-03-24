@@ -212,16 +212,24 @@ function StudyPost() {
         addLike: addLike,
         deleteLike: deleteLike,
     };
+    const apply = async (targetNo) => {
+        const formData = new FormData();
+        formData.append("nickname", nickname);
+        axios.post(`/${boardName}/${targetNo}`)
 
+    }
     return (
         <div className={styles.postContainer}>
             {postObject && (
                 <div className={styles.postSection}>
+
                     <div className={styles.postCommentWrapper}></div>
                     <CareerBoardTable moment={moment} tableData={postObject} />
-                    <div className="tempo">
+                    <div className={styles.tempo}>
+                        <button onClick={() => { apply(postObject.postNo) }}>신청하기</button>
                         {postObject !== null && nickname === postObject.nickname && (
                             <div className={styles.commentAddBtnWrapper}>
+
                                 <button
                                     className={styles.commentAddBtn}
                                     onClick={() => {
