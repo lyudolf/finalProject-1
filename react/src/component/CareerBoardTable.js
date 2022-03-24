@@ -24,7 +24,7 @@ function CareerBoardTable({ tableData, moment }) {
                   category.map((category, index) => (
                     <span
                       key={category.categoryName + index}
-                      className={"cate" + index}
+                      className={styles[`cate${index}`]}
                     >
                       #{category.categoryName}
                     </span>
@@ -54,7 +54,7 @@ function CareerBoardTable({ tableData, moment }) {
                   <img
                     className={styles.miss}
                     src={`http://localhost:8000/get/image/${name.name}`}
-                    width="20%"
+                    width="200%"
                     alt="이미지"
                   />
                 </td>

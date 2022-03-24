@@ -2,18 +2,22 @@ import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "../../plugins/axios";
 import useStore from "../../plugins/store";
-import jwt_decode from "jwt-decode";
+
+import jwt_decode from 'jwt-decode'
+import Profile from "./Profile";
 import styles from "./Login.module.css";
 import { Buffer } from "buffer";
+
 import kakao from "../../assets/kakao.png";
-import Auth from "./Auth";
+import Auth from "../../views/login/Auth"
 import { BrowserRouter as Routes, Route } from "react-router-dom";
 
 
 function Login() {
-  const REST_API_KEY = "[본인 REST API KEY 값]";
+  const REST_API_KEY = "e9fdc52e3d35e33eb4ba5a732d2942ed";
   const REDIRECT_URI = "http://localhost:3000/oauth/kakao/callback";
   const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=b57361b0269da06ba5b8bf17e32058f5&redirect_uri=http://localhost:8000/kakaologin&response_type=code`;
+
 
   const store = useStore();
 
@@ -57,6 +61,63 @@ function Login() {
       });
   };
 
+
+
+  // const data = { loginId: loginId, password: password };
+  // console.log(data);
+
+  // const formData = new FormData();
+  // formData.append("loginId", loginId);
+  // formData.append("password", password);
+
+  // axios.post("/api/login", formData)
+  //   .then((response) => {
+
+  //     //console.log(response.headers.get('Authorization'))
+  //     console.log(response.data)
+  //     const token = response.data;
+
+  //     // localStorage.setItem("username", data.username);
+
+  //     // const please = token.split('.')[1]
+  //     // const payload = Buffer.from(please, 'base64');
+  //     // const result = JSON.parse(payload.toString());
+  //     // localStorage.setItem('result2', JSON.stringify(result));
+  //     // console.log(result);
+
+
+
+  //     // token이 필요한 API 요청 시 header Authorization에 token 담아서 보내기
+  //     // axios.defaults.headers.common['Authorization'] = `Bearer ${response.data}`;
+
+  //     // console.log(localStorage.getItem("hi"))
+
+  //   }).catch((error) => {
+  //     console.log(error);
+  //   });
+
+
+  // const login = () => {
+  //   const data = { username: username, password: password };
+  //   console.log(data);
+  //   // navigate(-1);
+  // };
+
+  // let navigate = useNavigate();
+  // const { Kakao } = window;
+
+
+
+        // token이 필요한 API 요청 시 header Authorization에 token 담아서 보내기
+  //       axios.defaults.headers.common['Authorization'] = `Bearer ${response.data}`;
+  //       console.log(localStorage.getItem("hi"))
+  //     }).catch((error) => {
+  //       console.log(error);
+  //     });
+  // };
+  // 
+
+
   return (
     <div className={styles.loginContainer}>
       <label>아이디: </label>
@@ -83,16 +144,11 @@ function Login() {
       <Link to="/find/id">
         <button className={styles.loginBtn}>ID/PW 찾기</button>
       </Link>
-      {/* <button onClick={kakaoLogin}>
+      <h1><a href={KAKAO_AUTH_URL}>Kakao Login</a></h1>
+        {/* { <button onClick={{KAKAO_AUTH_URL}}>
         <img src={kakao} alt="kakao_button" />
-      </button> */}
-
-      {/* <Routes>
-          <Route path="/" exact element={KAKAO_AUTH_URL}></Route>
-            <h1><a href={KAKAO_AUTH_URL}>Kakao Login</a></h1>
-          <Route path="/oauth/kakao/callback" exact element={<Auth/>}></Route>
-      </Routes> */}
-    </div>
+      </button>}   */}
+      </div>
   );
 }
 export default Login;

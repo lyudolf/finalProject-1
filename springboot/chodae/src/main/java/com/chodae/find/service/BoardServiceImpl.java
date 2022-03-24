@@ -157,8 +157,10 @@ public class BoardServiceImpl implements BoardService {
 			System.out.println(reply + "@@@@@@@@@@@@@@@@@@@@@@@@");
 			User replyUser = userRepo.findById(reply.getId()).get();
 			reply.setNickname(replyUser.getNickname());
-			
-			
+			List finduser3 = recommRepo.existReplyRecomm3(reply.getReplyNo());
+	        System.out.println("각 댓글 추천"+finduser3);
+	        reply.setFinduser3(finduser3); 
+						
 	
 		});
 
@@ -247,13 +249,13 @@ public class BoardServiceImpl implements BoardService {
 		return list;
 	}
 	@Override  //내가 쓴 댓글 검색
-	public Page<Post> findMyReply(String nickname, String searchType, String keyword, Pageable pageable) {
+	public Page<Reply> findMyReply(String nickname, String searchType, String keyword, Pageable pageable) {
 		// type : 내용 content
 		 
 		
 		User user = userRepo.findUserByNickname(nickname);//닉네임으로 id조회
 		
-		Page<Post> list = null;
+		Page<Reply> list = null;
 		
 		// 타입에 맞춰서 메소드 호출
 		if(searchType.equals("content")) {
@@ -265,7 +267,8 @@ public class BoardServiceImpl implements BoardService {
 		}
 		
 		list.forEach(reply -> {
-			
+			reply.setPostNo(reply.getPost().getPostNo());
+			reply.setBoardName(BoardGroup.getBoardNameByNo(reply.getBoardNo()).name());
 			reply.setNickname(nickname);
 		});
 		
@@ -415,11 +418,12 @@ public class BoardServiceImpl implements BoardService {
 		return null;
 		
 	}
-
+	@Transactional
 	@Override
 	public Long deletePost(String boardName,Long postNo, String nickname) {
 		
-		//1.닉네임으로 회원정보 검색해서 아이디와 작성자 일치 확인(아직)
+//		List list = recommRepo.findAllRecommInPost(postNo);
+//		recommRepo.deleteAll(list);
 		
 		//2.게시글 번호로 게시글 객체 불러와서 삭제후 삭제된 게시글 번호 반환
 		postRepo.deleteById(postNo);
@@ -511,9 +515,9 @@ public class BoardServiceImpl implements BoardService {
 				
 				Reply reply =  replyRepo.findById(targetNo).get();//추천할 댓글 객체
 				
-				if(reply.getId() == user.getId()) {
-					return 0L; //본인이 스스로 추천 불가 
-				}
+//				if(reply.getId() == user.getId()) {
+//					return 0L; //본인이 스스로 추천 불가 
+//				}
 				
 				reply.setReplyLike(reply.getReplyLike()+1); //댓글의 추천수 1 증가
 				
@@ -535,9 +539,9 @@ public class BoardServiceImpl implements BoardService {
 				
 				Post post = postRepo.findById(targetNo).get(); //추천할 게시글 객체
 				
-				if(post.getId() == user.getId()) {
-					return 0L; //본인이 스스로 추천 불가 
-				}
+//				if(post.getId() == user.getId()) {
+//					return 0L; //본인이 스스로 추천 불가 
+//				}
 				
 				post.setPostLike(post.getPostLike()+1); // 게시글의 추천수 1 증가 
 				

@@ -25,6 +25,12 @@ public interface RecommendationRepo extends JpaRepository<Recommendation, Long> 
 	@Query("SELECT r.user.nickname FROM Recommendation r WHERE r.post.postNo = ?1 ")
 	List existPostRecomm2(Long postNo);
 	
+	@Query("SELECT r.user.nickname FROM Recommendation r WHERE r.reply.replyNo = ?1 ")
+    List existReplyRecomm3(Long replyNo);
+  
+  @Query("SELECT r FROM Recommendation r WHERE r.post.postNo = ?1 ")
+	List<Recommendation> findAllRecommInPost(Long postNo);
+	
 	
 	
 }

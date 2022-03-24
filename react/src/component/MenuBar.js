@@ -1,6 +1,5 @@
 import styles from "./MenuBar.module.css";
 import { Link } from "react-router-dom";
-// import styles from "./Header.module.css";
 
 function MenuBar() {
   return (
@@ -10,23 +9,6 @@ function MenuBar() {
           <Link className={styles.menuLink} to="/together/study">
             스터디모집
           </Link>
-          <ul>
-            <li>
-              <Link className={styles.menuLink} to="#">
-                간이테스트
-              </Link>
-            </li>
-            <li>
-              <Link className={styles.menuLink} to="#">
-                지역별 검색
-              </Link>
-            </li>
-            <li>
-              <Link className={styles.menuLink} to="#">
-                맞춤형 검색
-              </Link>
-            </li>
-          </ul>
         </li>
 
         <li>
@@ -43,7 +25,6 @@ function MenuBar() {
         </li>
 
         <li>
-
           <Link className={styles.menuLink} to="/latestposts">
             게시판
           </Link>
@@ -72,7 +53,7 @@ function MenuBar() {
         </li>
 
         <li>
-          <Link className={styles.menuLink} to="#">
+          <Link className={styles.menuLink} to="/jobfair">
             이벤트
           </Link>
           <ul>
@@ -82,11 +63,12 @@ function MenuBar() {
               </Link>
             </li>
             <li>
-              <Link className={styles.menuLink} to="#">
+              <Link className={styles.menuLink} to="jobfair">
                 취업박람회 일정
               </Link>
             </li>
             <li>
+              <a href="/Start">심리테스트</a>
               <Link className={styles.menuLink} to="#">
                 심리테스트
               </Link>
@@ -105,6 +87,7 @@ function MenuBar() {
               </Link>
             </li>
             <li>
+              <a href="/FAQ">자주하는 질문</a>
               <Link className={styles.menuLink} to="/customer/faq">
                 자주하는 질문
               </Link>

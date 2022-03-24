@@ -2,6 +2,7 @@ package com.chodae.find.ex.security.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -41,10 +42,41 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		
 		http.authorizeHttpRequests().antMatchers("/").permitAll();
-		http.authorizeHttpRequests().antMatchers("/faq/**").hasRole("USER");//로그인 '유저'만 접근 가능 
-		http.authorizeHttpRequests().antMatchers("/notice/**").permitAll();
-		http.authorizeHttpRequests().antMatchers("/api/find/**").permitAll();
 		http.authorizeHttpRequests().antMatchers("/api/login").permitAll();
+		http.authorizeHttpRequests().antMatchers("/api/find/**").permitAll();
+		
+		//고객센터
+//		http.authorizeHttpRequests().antMatchers("/faq").permitAll();
+//		http.authorizeHttpRequests().antMatchers("/notice/**").permitAll();
+		
+		//글 조회 추가, 삭제, 수정,  테스트필요
+		http.authorizeHttpRequests().antMatchers(HttpMethod.GET,"/*/").permitAll();
+		http.authorizeHttpRequests().antMatchers(HttpMethod.GET,"/*/*").permitAll();
+		http.authorizeHttpRequests().antMatchers(HttpMethod.POST,"/*/").hasRole("USER");
+		http.authorizeHttpRequests().antMatchers(HttpMethod.PUT,"/*/*").hasRole("USER");
+		http.authorizeHttpRequests().antMatchers(HttpMethod.DELETE,"/*/*/*").hasRole("USER");
+		
+		//댓글 추가 삭제 수정
+		http.authorizeHttpRequests().antMatchers(HttpMethod.POST,"/*/*/reply").hasRole("USER");
+		http.authorizeHttpRequests().antMatchers(HttpMethod.PUT,"/*/*/reply/*/").hasRole("USER");
+		http.authorizeHttpRequests().antMatchers(HttpMethod.DELETE,"/*/*/reply/*/*/").hasRole("USER");
+		
+		//추천 추가 삭제
+		http.authorizeHttpRequests().antMatchers(HttpMethod.POST,"/*/recomm/*/*").hasRole("USER");
+		http.authorizeHttpRequests().antMatchers(HttpMethod.DELETE,"/*/recomm/*/*/*").hasRole("USER");
+		
+		//reviewmain 댓글
+		http.authorizeHttpRequests().antMatchers(HttpMethod.GET,"/*/index/*").permitAll();
+		http.authorizeHttpRequests().antMatchers(HttpMethod.POST,"/*/reply/*").hasRole("USER");
+		http.authorizeHttpRequests().antMatchers(HttpMethod.PUT,"/*/index/*/reply/*").hasRole("USER");
+		http.authorizeHttpRequests().antMatchers(HttpMethod.DELETE,"/*/post/*/reply/*").hasRole("USER");
+		
+		//마이페이지 
+		http.authorizeHttpRequests().antMatchers("/mypage/**").permitAll();
+		
+		
+		
+		
 		http.authorizeHttpRequests().antMatchers("/**").permitAll();
 		
 		

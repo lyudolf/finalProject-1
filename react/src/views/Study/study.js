@@ -8,7 +8,7 @@ import {
     useSearchParams,
 } from "react-router-dom";
 import axios from "../../plugins/axios";
-import "../Study/Studymain.css";
+import styles from "../Study/Studymain.module.css";
 import SearchBar from "../forget/SearchBar";
 import CareerBoardTable from "../../component/CareerBoardTable";
 import useStore from "../../plugins/store";
@@ -145,21 +145,21 @@ function Study(props) {
     // }
 
     return (
-        <div className="boardContainer">
+        <div className={styles.boardContainer}>
             {/* <button onClick={() => filterResult("인천")}>인천</button> */}
-            <div className="main2">
-                {posts.slice(0, 6).map((post, i) => (
-                    <div key={i} className='main'>
-                        <div className='Card'>
-                            <button className="life">
-                                <Link to={`${post.postNo}`} className="postTableTitle">
+            <div className={styles.main2}>
+                {posts.map((post, i) => (
+                    <div key={i} className={styles.main}>
+                        <div className={styles.Card}>
+                            <button className={styles.life}>
+                                <Link to={`${post.postNo}`} className={styles.postTableTitle}>
                                     {post.image.map((image, i) =>
                                         <div key={i}>
-                                            <img className="miss" src={`http://localhost:8000/get/image/${image.name}`} width="20%" alt="이미지" />
-                                            <div className="bottom-g">
-                                                <div className="postTitle2">{post.postTitle}</div>
+                                            <img className={styles.miss} src={`http://localhost:8000/get/image/${image.name}`} width="20%" alt="이미지" />
+                                            <div className={styles.bottom22}>
+                                                <div className={styles.postTitle2}>{post.postTitle}</div>
                                                 {post.category.map((category, i) => (
-                                                    <div className="cateText" key={i}>
+                                                    <div className={styles.cateText} key={i}>
                                                         <div></div>{category.categoryKind}:{category.categoryKind.location}{category.categoryKind.level}
                                                         {category.categoryName}
                                                     </div>
@@ -174,33 +174,37 @@ function Study(props) {
                     </div >
                 ))}
             </div>
-            <ReactPaginate
-                previousLabel={"이전"}
-                nextLabel={"다음"}
-                pageCount={pageCount}
-                forcePage={paginationNumber - 1}
-                onPageChange={changePage}
-                containerClassName={"paginationBttns"}
-                previousLinkClassName={"previousBttn"}
-                nextLinkClassName={"nextBttn"}
-                disabledClassName={"paginationDisabled"}
-                activeClassName={"paginationActive"}
-            />
+            <div className={styles.paginateContainer}>
+                <ReactPaginate
+                    previousLabel={"이전"}
+                    nextLabel={"다음"}
+                    pageCount={pageCount}
+                    forcePage={paginationNumber - 1}
+                    onPageChange={changePage}
+                    containerClassName={styles.paginationBttns}
+                    previousLinkClassName={styles.previousBttn}
+                    nextLinkClassName={styles.nextBttn}
+                    disabledClassName={styles.paginationDisabled}
+                    activeClassName={styles.paginationActive}
+                />
+            </div>
+
             <div>
                 <SearchBar getData={getData} />
                 {localStorage.getItem("username") ? (
-                    <div className={"writePostBtnWrapper"}>
+                    <div className={styles.writePostBtnWrapper}>
                         <button
                             onClick={() => {
-                                navigate(`/together/study/create`);
+                                navigate(`/${boardGroup}/${boardName}/create`);
                             }}
-                            className={"writePostBtn"}
+                            className={styles.writePostBtn}
                         >
                             글쓰기
                         </button>
                     </div>
                 ) : null}
             </div>
+
 
         </div>
     );
