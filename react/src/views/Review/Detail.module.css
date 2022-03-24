@@ -1,0 +1,12 @@
+.Card{
+    display: flex;
+   
+    padding: 30px;
+    
+}
+.detailImage img{
+    width: 100%;
+    padding-right: 30px;  
+    object-fit: cover;
+    
+}

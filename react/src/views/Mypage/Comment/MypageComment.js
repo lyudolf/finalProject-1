@@ -1,13 +1,35 @@
-import React, { useEffect, useState } from "react";
-
-import axios from "../../plugins/axios";
-import "./ReviewComment.css";
-import useStore from "../../plugins/store";
+import React, { useEffect, useState,navigate } from "react";
+import {
+  Link,
+  useNavigate,
+  useLocation,
+  useSearchParams,} from "react-router-dom";
+import axios from "../../../plugins/axios";
+import "./MypageComment.css";
+import useStore from "../../../plugins/store";
 import moment from "moment"; //날짜 수정하기 위해 모멘트 설치
 import CommentList from "./CommentList"; //댓글 수정하면 나오는 입력창
 
-function ReviewComment(id) {
-  const idindex = id;
+function ReviewComment() {
+ 
+  const navigate = useNavigate();
+
+  const [searchParams, setSearchParams] = useSearchParams();
+  let page = searchParams.get("page");
+  let qType = searchParams.get("searchType");
+  let qWord = searchParams.get("keyword");
+  let qOrder = searchParams.get("order");
+
+  const [postInfo, setPostInfo] = useState({});
+  const [posts, setPosts] = useState([]);
+  const [pageCount, setPageCount] = useState(0);
+
+  const [searchType, setSearchType] = useState("");
+  const [keyword, setKeyword] = useState("");
+ 
+
+  const [paginationNumber, setPaginationNumber] = useState(0);
+
   const nickname =
   useStore.getState().member !== null
     ? useStore.getState().member.nickname
@@ -18,27 +40,47 @@ function ReviewComment(id) {
   const [newComment, setNewComment] = useState("");
   const [updateClicked, setUpdateClicked] = useState(false);
   const [sendComment, setSendComment] = useState(false);
-
+  
   useEffect(() => {
-    getPost(idindex.id);
-  }, []);
+    page = page === null ? 1 : page;
+    qType = qType === null ? "" : qType;
+    qWord = qWord === null ? "" : qWord;
+    qOrder = qOrder === null ? "" : qOrder; 
 
-  const getPost = function (idindex) {
-    axios
-      .get(`/review/index/${idindex}`)
-      .then((response) => {
-        console.log(response.data);
+    getPost(page, qType, qWord, qOrder);
 
-        const post = response.data;
-        post.postRegdate = dateFormat(new Date(post.postRegdate));
+    setPaginationNumber(parseInt(page));
+  }, [page, qType, qWord, qOrder]);
 
-        for (const reply of post.replies) {
-          reply.replyRegdate = dateFormat(new Date(reply.replyRegdate));
-        }
 
-        setPostObject(post);
-        setComments(post.replies);
+  const getPost = async function (page, searchType, keyword, order = "replyRegdate") {
+    let url = `/mypage/reply/${nickname}`;
+      await axios
+      .get(url, {
+        params: {
+          page: page,
+          searchType: searchType,
+          keyword: keyword,
+          order: order,
+        },
       })
+      .then((response) => {
+        // const postList = response.data.content;
+        // for (const post of postList) {
+        //   //작성시간 변환
+        //   const date = new Date(post.postRegdate);
+        //   post.postRegdate = dateFormat(date);
+        // }
+        // //업데이트
+        // setPostInfo(response.data);
+        // setPosts(postList);
+        // console.log(postList);
+        // setPageCount(response.data.totalPages);
+
+        // navigate(
+        //   `/mypage/MypageComment/?page=${page}&searchType=${searchType}&keyword=${keyword}&order=${order}`
+      //   );
+       })
       .catch((error) => {
         console.log(error);
       });
@@ -70,7 +112,7 @@ function ReviewComment(id) {
     formData.append("nickname", nickname);
 
     await axios
-      .post(`/review/reply/${idindex.id}`, formData, {
+      .post(`/review/reply/${nickname}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -85,7 +127,7 @@ function ReviewComment(id) {
   };
   //댓글 삭제
   const deleteReply = async function (postNo, replyNo) {
-    console.log(replyNo, idindex);
+    console.log(replyNo, nickname);
     await axios({
       method: "DELETE",
       url: `/review/post/${postNo}/reply/${replyNo}/${nickname}`,
@@ -98,7 +140,6 @@ function ReviewComment(id) {
       );
     });
   };
-
   //댓글 수정
   const updateReplyInReview = async function (content, replyNo, idindex) {
     const formData = new FormData();
@@ -118,6 +159,8 @@ function ReviewComment(id) {
       });
   };
 
+  
+
  
 
   return (
@@ -135,7 +178,7 @@ function ReviewComment(id) {
                         sendComment={sendComment}
                         updateReplyInReview={updateReplyInReview}
                         reply={reply}
-                        idindex={idindex.id}
+                        
                       />
                     ) : (
                       <div>{reply.replyContent}</div>
