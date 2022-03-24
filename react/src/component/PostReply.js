@@ -87,7 +87,6 @@ function PostReply({ reply }) {
       .then((response) => {
         console.log(response.data);
         alert("추천하셨습니다");
-        window.location.reload();
       })
       .catch((error) => {
         console.log(error);
@@ -101,10 +100,9 @@ function PostReply({ reply }) {
       .then((response) => {
         // console.log(response.data);
         alert("추천을 취소하셨습니다");
-        window.location.reload();
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error); 
       });
   };
 

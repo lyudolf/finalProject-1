@@ -4,6 +4,7 @@ import moment from "moment";
 import ReactPaginate from "react-paginate";
 import styles from "./TechNews.module.css";
 import TechTables from "./TechTable";
+import TechSearchBar from "./TechSearchBar";
 
 function TechNews() {
   const [newsData, setNewsData] = useState([]);
@@ -45,9 +46,11 @@ function TechNews() {
             </tr>
           </thead>
           <tbody>
-            {newsData.map((e) => {
-              return <TechTables e={e} styles={styles} moment={moment} />;
-            })}
+            {newsData
+              .slice(pagesVisited, pagesVisited + newsDataPerPage)
+              .map((e) => {
+                return <TechTables e={e} styles={styles} moment={moment} />;
+              })}
           </tbody>
         </table>
       )}
@@ -68,6 +71,7 @@ function TechNews() {
       {/* <TechSearchBar searchText={searchText} setSearchText={setSearchText} /> */}
 
       <div style={{ margin: "20px" }}></div>
+      {/* <TechSearchBar /> */}
     </div>
   );
 }

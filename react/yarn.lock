@@ -9398,7 +9398,7 @@
     "property-expr" "^2.0.4"
     "toposort" "^2.0.2"
 
-"zustand@^3.7.1":
+"zustand@=3.7.1":
   "integrity" "sha512-wHBCZlKj+bg03/hP+Tzv24YhnqqP8MCeN9ECPDXoF01062SIbnfl3j9O0znkDw1lNTY0a8WN3F///a0UhhaEqg=="
   "resolved" "https://registry.npmjs.org/zustand/-/zustand-3.7.1.tgz"
   "version" "3.7.1"
