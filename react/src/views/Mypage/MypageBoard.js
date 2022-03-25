@@ -84,7 +84,20 @@ function MypageBoard(props) {
           //작성시간 변환
           const date = new Date(post.postRegdate);
           post.postRegdate = dateFormat(date);
+
+          if(post.board.boardName == "review"){
+            post.board.boardName="리뷰게시판"
+          }else if(post.board.boardName == "career"){
+            post.board.boardName="취업준비게시판"
+          }else if(post.board.boardName == "book"){
+            post.board.boardName="리뷰게시판"
+          }else if(post.board.boardName == "worry"){
+            post.board.boardName="고민상담게시판"
+          }
+          
         }
+        
+
         //업데이트
         setPostInfo(response.data);
         setPosts(postList);
