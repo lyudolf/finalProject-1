@@ -24,7 +24,7 @@ function CareerBoardTable({ tableData, moment }) {
                   category.map((category, index) => (
                     <span
                       key={category.categoryName + index}
-                      className={"cate" + index}
+                      className={styles[`cate${index}`]}
                     >
                       #{category.categoryName}
                     </span>

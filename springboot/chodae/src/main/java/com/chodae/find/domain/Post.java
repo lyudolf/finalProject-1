@@ -100,7 +100,13 @@ public class Post {
 	
 	@JsonManagedReference
 	@OneToMany(mappedBy ="post", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+
 	private List<Image2> image = new ArrayList<Image2>();
+	
+	@JsonManagedReference
+	@OneToMany(mappedBy ="post", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private List<Recommendation> recomm = new ArrayList<Recommendation>();
+
 
 	@Transient
 	private List finduser;

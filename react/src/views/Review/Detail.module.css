@@ -1,0 +1,18 @@
+.Card{
+    display: flex;
+   justify-content: space-evenly;
+    padding:0 30px;
+    align-items: center;
+    
+}
+.detailImage{
+    
+    align-items: center;
+    
+    height: 50%;
+    width: 50%;
+    
+}
+.contentA{
+    padding: 10px 0;
+}

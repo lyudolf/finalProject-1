@@ -1,16 +1,14 @@
 .postContainer {
-  width: 75%;
+  max-width: 1200px;
   margin: auto;
-  margin-right: 13%;
 }
 
 .postSection {
+  width: 90%;
   border-radius: 5px;
   border: 1px solid #eee;
-  padding: 2% 5%;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+  padding: 30px;
+  margin: auto;
 }
 
 .postCommentWrapper {
@@ -72,16 +70,14 @@
 .commentSection {
   display: flex;
   flex-direction: column;
+  flex: 1;
   margin-top: 10px;
   width: 100%;
   border: 2px solid rgba(0, 0, 0, 0.1);
   border-radius: 5px;
-}
-
-.commentTextWrapper {
+  margin: 5px 0 30px 0;
   padding: 5px 0 5px 10px;
 }
-
 .listOfComments {
   display: flex;
   flex-direction: column;
@@ -148,11 +144,6 @@
   color: #424874;
 }
 
-.likeCount {
-  font-weight: bold;
-  font-size: 18px;
-}
-
 .replyRecommendContainer {
   display: flex;
   justify-content: end;
@@ -170,7 +161,6 @@
   font-size: 20px;
   color: #424874;
 }
-
-.replyLikeIconContainer {
-  display: flex;
+.tempo {
+  margin-bottom: 178px;
 }

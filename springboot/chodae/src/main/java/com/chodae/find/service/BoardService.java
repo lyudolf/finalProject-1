@@ -7,7 +7,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.chodae.find.domain.Post;
 import com.chodae.find.domain.User;
+import com.chodae.find.domain.Reply;
+
 import com.chodae.find.dto.PostDTO;
+import com.chodae.find.dto.ReplyDTO;
 
 import com.chodae.image2.Image2;
 
@@ -62,7 +65,7 @@ public interface BoardService {
 	Page<Post> findMyPost(String nickname, String searchType, String keyword, Pageable pageable);
 	
 	//내가 쓴 댓글
-	Page<Post> findMyReply(String nickname, String searchType, String keyword, Pageable pageable);
+	Page<Reply> findMyReply(String nickname, String searchType, String keyword, Pageable pageable);
 	
 	default PostDTO entityToDto(Post entity) {
 		PostDTO dto = PostDTO.builder()
@@ -87,6 +90,25 @@ public interface BoardService {
 				.postComment(entity.getPostComment())
 				.postDisplay(entity.getPostDisplay())
 				.filename(entity.getImage())
+				.build();
+		
+		return dto;
+	}
+	default ReplyDTO entityToReplyDto(Reply entity) {
+		ReplyDTO dto = ReplyDTO.builder()
+				.replyNo(entity.getReplyNo())
+				.post(entity.getPost())
+				.boardNo(entity.getBoardNo()) //+추가로 게시판이름
+				.replyContent(entity.getReplyContent())
+				.replyRegdate(entity.getReplyRegdate())
+				.replyModdate(entity.getReplyModdate())
+				.id(entity.getId())
+				.nickname(entity.getNickname())
+				.replyLike(entity.getReplyLike())
+				.level(entity.getLevel())
+				.upperReply(entity.getUpperReply())
+				.Finduser3(entity.getFinduser3())
+				.recomm(entity.getRecomm())
 				.build();
 		
 		return dto;

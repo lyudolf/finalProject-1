@@ -112,7 +112,6 @@ function FaqPost() {
         },
       })
       .then((response) => {
-        // console.log(response.data);
         window.location.reload();
       })
       .catch((error) => {
@@ -134,12 +133,15 @@ function FaqPost() {
       .then((response) => {
         console.log(response.data);
         alert("추천하셨습니다");
-
-        window.location.reload();
       })
       .catch((error) => {
         console.log(error);
       });
+    setPostRecommendOrNot(true);
+    setPostObject({
+      ...postObject,
+      postLike: postObject.postLike + 1,
+    });
   };
 
   //추천 삭제
@@ -147,13 +149,16 @@ function FaqPost() {
     await axios
       .delete(`/${boardName}/recomm/${type}/${targetNo}/${nickname}`)
       .then((response) => {
-        // console.log(response.data);
         alert("추천을 취소하셨습니다");
-        window.location.reload();
       })
       .catch((error) => {
         console.log(error);
       });
+    setPostRecommendOrNot(false);
+    setPostObject({
+      ...postObject,
+      postLike: postObject.postLike - 1,
+    });
   };
 
   return (
@@ -193,7 +198,6 @@ function FaqPost() {
                   className={styles.recommend}
                   onClick={() => {
                     deleteLike("post", postObject.postNo, nickname);
-                    setPostRecommendOrNot(false);
                   }}
                 />
               ) : (
@@ -201,7 +205,6 @@ function FaqPost() {
                   className={styles.notRecommend}
                   onClick={() => {
                     addLike("post", postObject.postNo, nickname);
-                    setPostRecommendOrNot(true);
                   }}
                 />
               )}

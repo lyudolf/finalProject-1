@@ -55,7 +55,7 @@ function Header(props) {
 
           {useStore.getState().member !== null ? (
             <nav className={styles.headerItems}>
-              <Link className={styles.headerLink} to="/mypage">
+              <Link className={styles.headerLink} to="/mypage/Mypagepost">
                 마이페이지
               </Link>
               {/* <span>|</span> */}
