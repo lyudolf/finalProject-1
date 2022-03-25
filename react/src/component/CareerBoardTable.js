@@ -1,7 +1,10 @@
 import React from "react";
 import styles from "./CareerBoardTable.module.css";
+import useStore from "../plugins/store";
 
 function CareerBoardTable({ tableData }) {
+  const baseUrl = useStore((state) => state.url);
+
   const {
     nickname,
     postLike,
@@ -53,7 +56,7 @@ function CareerBoardTable({ tableData }) {
                 <td key={i}>
                   <img
                     className={styles.miss}
-                    src={`http://localhost:8000/get/image/${name.filename}`}
+                    src={`${baseUrl}/get/image/${name.filename}`}
                     width="200%"
                     alt="이미지"
                   />

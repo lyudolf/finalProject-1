@@ -12,12 +12,12 @@ import styles from "./MypageBoard.module.css";
 import useStore from "../../plugins/store";
 
 function MypageBoard(props) {
-  
+
   const store = useStore();
   const nickname =
-  useStore.getState().member !== null
-    ? useStore.getState().member.nickname
-    : null;
+    useStore.getState().member !== null
+      ? useStore.getState().member.nickname
+      : null;
   console.log(useStore.getState().member);
 
   const navigate = useNavigate();
@@ -49,7 +49,7 @@ function MypageBoard(props) {
     page = page === null ? 1 : page;
     qType = qType === null ? "" : qType;
     qWord = qWord === null ? "" : qWord;
-    qOrder = qOrder === null ? "" : qOrder; 
+    qOrder = qOrder === null ? "" : qOrder;
 
     getFaq(page, qType, qWord, qOrder);
 
@@ -94,6 +94,7 @@ function MypageBoard(props) {
           }else if (post.board.boardName === "worry") {
             post.Grouping = "mainboard"
           }
+
 
           if(post.board.boardName == "review"){
             post.boardkoreanname1="리뷰게시판"
@@ -212,10 +213,6 @@ function MypageBoard(props) {
         />
       </div>
 
-      
-
-      {/* <img src={"http://localhost:8000/get/image/springboot-oauth.jpg"} width="100%" alt="이미지" /> */}
-      {/* ??????????????????????????????????????????????????????? */}
     </div>
   );
 }
