@@ -9,6 +9,8 @@ const useStore = create(persist(
     (set, get) => ({
         member: null,
         isLogin: false,
+        url: "http://localhost:8000",
+
         continueLogin: async (accessToken, refreshToken) => {
 
             const dt = jwt_decode(accessToken);

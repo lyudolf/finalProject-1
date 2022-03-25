@@ -12,12 +12,12 @@ import styles from "./MypageBoard.module.css";
 import useStore from "../../plugins/store";
 
 function MypageBoard(props) {
-  
+
   const store = useStore();
   const nickname =
-  useStore.getState().member !== null
-    ? useStore.getState().member.nickname
-    : null;
+    useStore.getState().member !== null
+      ? useStore.getState().member.nickname
+      : null;
   console.log(useStore.getState().member);
 
   const navigate = useNavigate();
@@ -49,7 +49,7 @@ function MypageBoard(props) {
     page = page === null ? 1 : page;
     qType = qType === null ? "" : qType;
     qWord = qWord === null ? "" : qWord;
-    qOrder = qOrder === null ? "" : qOrder; 
+    qOrder = qOrder === null ? "" : qOrder;
 
     getFaq(page, qType, qWord, qOrder);
 
@@ -85,18 +85,18 @@ function MypageBoard(props) {
           const date = new Date(post.postRegdate);
           post.postRegdate = dateFormat(date);
 
-          if(post.board.boardName == "review"){
-            post.board.boardName="리뷰게시판"
-          }else if(post.board.boardName == "career"){
-            post.board.boardName="취업준비게시판"
-          }else if(post.board.boardName == "book"){
-            post.board.boardName="리뷰게시판"
-          }else if(post.board.boardName == "worry"){
-            post.board.boardName="고민상담게시판"
+          if (post.board.boardName == "review") {
+            post.board.boardName = "리뷰게시판"
+          } else if (post.board.boardName == "career") {
+            post.board.boardName = "취업준비게시판"
+          } else if (post.board.boardName == "book") {
+            post.board.boardName = "리뷰게시판"
+          } else if (post.board.boardName == "worry") {
+            post.board.boardName = "고민상담게시판"
           }
-          
+
         }
-        
+
 
         //업데이트
         setPostInfo(response.data);
@@ -201,10 +201,6 @@ function MypageBoard(props) {
         />
       </div>
 
-      
-
-      {/* <img src={"http://localhost:8000/get/image/springboot-oauth.jpg"} width="100%" alt="이미지" /> */}
-      {/* ??????????????????????????????????????????????????????? */}
     </div>
   );
 }
