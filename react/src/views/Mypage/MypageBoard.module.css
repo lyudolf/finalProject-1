@@ -64,9 +64,11 @@
 .wNo {
   width: 10%;
 }
-
+.wBoardName{
+  width: 10%
+}
 .wTitle {
-  width: 40%;
+  width: 30%;
 }
 
 .wAuthor {
@@ -74,7 +76,7 @@
 }
 
 .wLike {
-  width: 10%;
+  width: 5%;
 }
 
 .wView {
