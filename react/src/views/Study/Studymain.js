@@ -8,7 +8,7 @@ function Study() {
 
     const [posts, setPosts] = useState([]);
     useEffect(() => {
-        axios.get("http://localhost:8000/study")
+        axios.get("/study")
             .then((response) => {
                 setPosts(response.data);
                 console.log(response.data)
