@@ -84,6 +84,7 @@ function ReviewComment() {
           //작성시간 변환
           const date = new Date(reply.replyRegdate);
           reply.replyRegdate = dateFormat(date);
+          console.log(date);
         }
         //업데이트
         setPostInfo(response.data);
@@ -147,10 +148,9 @@ function ReviewComment() {
         <thead>
           <tr>
             <th className={styles.wNo}>번호</th>
-            <th className={styles.wTitle}>제목</th>
-            <th className={styles.wAuthor}>작성자</th>
+            <th className={styles.wTitle}>작성글</th>
+            <th className={styles.wBoardName}>작성게시판</th>
             <th className={styles.wLike}>추천수</th>
-            <th className={styles.wView}>조회수</th>
             <th className={styles.wDate}>작성일</th>
           </tr>
         </thead>
@@ -158,16 +158,13 @@ function ReviewComment() {
           {posts.map((post) => (
             <tr>
               <td>{post.postNo}</td>
+              <td>{post.replyContent}</td>
               <td className={styles.tableTitle}>
-                <Link to={`${post.postNo}`} className={styles.postTableTitle}>
-                  {post.postTitle}
-                </Link>
+               {post.boardName}
                 {post.replyCount > 0 && <span>[{post.replyCount}]</span>}
               </td>
-              <td>{post.nickname}</td>
-              <td>{post.postLike}</td>
-              <td>{post.postViews}</td>
-              <td>{post.postRegdate}</td>
+              <td>{post.replyLike}</td>
+              <td>{post.replyRegdate}</td>
             </tr>
           ))}
         </tbody>

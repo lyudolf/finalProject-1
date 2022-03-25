@@ -22,7 +22,7 @@ function Faq(props) {
   const idx = location.pathname.indexOf("/", 1);
   // console.log(idx);
   const boardGroup = location.pathname.slice(1, idx);
-  const boardName = location.pathname.slice(idx + 1);
+  const boardName = location.pathname.slice(idx  + 1);
 
   let currentUrl = "";
 

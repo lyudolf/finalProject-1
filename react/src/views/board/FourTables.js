@@ -3,11 +3,8 @@ import { Link } from "react-router-dom";
 import styles from "./FourTables.module.css";
 
 const WorryPosts = lazy(() => import("../../component/fourTables/WorryPosts"));
-const CareerPosts = lazy(() =>
-  import("../../component/fourTables/CareerPosts")
-);
+const CareerPosts = lazy(() =>import("../../component/fourTables/CareerPosts"));
 const BookPosts = lazy(() => import("../../component/fourTables/BookPosts"));
-
 const TechPosts = lazy(() => import("../../component/fourTables/TechPosts"));
 
 function FourTables() {

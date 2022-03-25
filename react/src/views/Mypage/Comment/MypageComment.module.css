@@ -64,7 +64,9 @@
 .wNo {
   width: 10%;
 }
-
+.wBoardName{
+  width: 10%
+}
 .wTitle {
   width: 40%;
 }
