@@ -5,10 +5,18 @@ import "./ReviewComment.css";
 
 import moment from "moment"; //날짜 수정하기 위해 모멘트 설치
 import CommentList from "./CommentList"; //댓글 수정하면 나오는 입력창
-
+import useStore from "../../plugins/store";
 function ReviewComment(id) {
   const idindex = id;
-
+  const store = useStore();
+  const nickname =
+    useStore.getState().member !== null
+      ? useStore.getState().member.nickname
+      : null;
+  const loginId =
+    useStore.getState().member !== null
+      ? useStore.getState().member.loginId
+      : null;
   const [postObject, setPostObject] = useState(null);
   const [comments, setComments] = useState(null);
   const [newComment, setNewComment] = useState("");
@@ -63,7 +71,7 @@ function ReviewComment(id) {
     const formData = new FormData();
 
     formData.append("content", newComment);
-    formData.append("nickname", "닉네임51");
+    formData.append("nickname", nickname);
 
     await axios
       .post(`/review/reply/${idindex.id}`, formData, {
@@ -99,7 +107,7 @@ function ReviewComment(id) {
   const updateReplyInReview = async function (content, replyNo, idindex) {
     const formData = new FormData();
     formData.append("index", idindex);
-    formData.append("nickname", "닉네임51");
+    formData.append("nickname", nickname);
     formData.append("content", content);
     console.log(replyNo, idindex);
     await axios
@@ -114,7 +122,7 @@ function ReviewComment(id) {
       });
   };
 
-  const nickname = "닉네임51";
+
 
   return (
     <div className="postContainer1">
@@ -140,7 +148,7 @@ function ReviewComment(id) {
                       {moment(reply.replyRegdate).format("LLL")}
                     </span>
                     <span>
-                      {localStorage.getItem("user") === reply.nickname && (
+                      {localStorage.getItem("username") === reply.nickname && (
                         <div className="commentAddBtnWrapper1">
                           <button
                             className="commentAddBtn1"

@@ -32,5 +32,5 @@ public interface RecommendationRepo extends JpaRepository<Recommendation, Long> 
 	List<Recommendation> findAllRecommInPost(Long postNo);
 	
 	
-	
+  
 }

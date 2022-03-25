@@ -30,6 +30,8 @@ public class Recommendation {
 	@JoinColumn(name = "id")
 	private User user;//회원번호 외래키 다대일관계     
 	
+	private String application;
+	
 	
 	@ManyToOne
 	@JoinColumn(name = "reply_no")

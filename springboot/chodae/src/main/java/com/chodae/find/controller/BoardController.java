@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.chodae.find.domain.Post;
+import com.chodae.find.domain.User;
 import com.chodae.find.dto.PostDTO;
 import com.chodae.find.service.BoardService;
 import com.chodae.find.vo.PageVO;
@@ -297,7 +298,53 @@ public class BoardController {
 		
 		return new ResponseEntity<Long>(number,HttpStatus.OK); 
 	}
-	
+	//마이페이지 글
+	@Transactional
+	@PostMapping("/mypage/")
+	Page<User> getApplications (@RequestParam long postNo){
+		
 	 
+		
+		
+	Page<User> userResult= boardService.application(postNo);
+		return userResult;
+		
+		
+		
+	}
+	
+	// 신청
+	@Transactional
+	@PostMapping("/{boardName}/{targetNo}")
+	ResponseEntity<Long> applyStatus(@RequestParam String nickname, @PathVariable String boardName,
+			@PathVariable Long targetNo) {
+
+		User user = boardService.applyStudy(boardName, targetNo, nickname);
+
+		return new ResponseEntity<Long>(user.getId(), HttpStatus.OK);
+
+	}
+
+	// 마이페이지 수락
+	@Transactional
+	@GetMapping("/mypage/")
+	ResponseEntity<Long> accept(@RequestParam String nickname, @RequestParam Long postNo){
+	
+	User user = boardService.accept(nickname ,postNo);
+	
+	
+	
+	return null;
+	}
+
+	// 마이페이지 거부
+	@Transactional
+	@DeleteMapping("/mypage/")
+			ResponseEntity<Long> decline(@RequestParam String nickname, @RequestParam Long postNo){
+		
+		User user = boardService.decline(nickname, postNo);
+		return null;
+		}
+
 	
 }

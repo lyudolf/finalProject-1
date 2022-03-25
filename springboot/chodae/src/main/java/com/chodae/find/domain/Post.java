@@ -19,6 +19,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import com.chodae.image.Image;
+import com.chodae.image2.Image2;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -99,7 +100,7 @@ public class Post {
 	
 	@JsonManagedReference
 	@OneToMany(mappedBy ="post", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private List<Image> image = new ArrayList<Image>();
+	private List<Image2> image = new ArrayList<Image2>();
 
 	@Transient
 	private List finduser;
