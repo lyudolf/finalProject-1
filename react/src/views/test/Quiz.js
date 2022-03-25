@@ -2,62 +2,62 @@ import React from "react";
 import styled from "styled-components";
 import img from "./logo192.png";
 import TinderCard from "react-tinder-card";
-import {useNavigate} from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import Score from "./Score";
 
 const Quiz = (props) => {
-  console.log(props);
-  // state로 관리
-  const [num, setNum] = React.useState(0);
-  const navigate = useNavigate();
- 
-  const onSwipe = (direction) => {
-    console.log("You swiped: " + direction);
-    setNum(num + 1);
-  };
- 
-  if (num > 10) {
-    return navigate("/Score");
+    console.log(props);
+    // state로 관리
+    const [num, setNum] = React.useState(0);
+    const navigate = useNavigate();
 
-  }
- 
-  return (
-    <QuizContainer>
-      <p>
-        <span>{num + 1}번 문제</span>
-      </p>
-      {props.list.map((l, idx) => {
-        if (num === idx) {
-            // props의 list에 있는 question의 값들을 순서대로 불러온다.
-          return <Question key={idx}>{l.question}</Question>;
-        }
-      })}
- 
-      <AnswerZone>
-        <Answer>{"O "}</Answer>
-        <Answer>{" X"}</Answer>
-      </AnswerZone>
- 
-      {props.list.map((l, idx) => {
-        if (idx === num) {
-          return (
-            <DragItem key={idx}>
-              <TinderCard
-                onSwipe={onSwipe}
-                onCardLeftScreen={onSwipe}
-                onCardRightScreen={onSwipe}
-                preventSwipe={["up", "down"]}
-              >
-                <img src={img} />
-              </TinderCard>
-            </DragItem>
-          );
-        }
-      })}
-    </QuizContainer>
-  );
+    const onSwipe = (direction) => {
+        console.log("You swiped: " + direction);
+        setNum(num + 1);
+    };
+
+    if (num > 10) {
+        return navigate("/Score");
+
+    }
+
+    return (
+        <QuizContainer>
+            <p>
+                <span>{num + 1}번 문제</span>
+            </p>
+            {props.list.map((l, idx) => {
+                if (num === idx) {
+                    // props의 list에 있는 question의 값들을 순서대로 불러온다.
+                    return <Question key={idx}>{l.question}</Question>;
+                }
+            })}
+
+            <AnswerZone>
+                <Answer>{"O "}</Answer>
+                <Answer>{" X"}</Answer>
+            </AnswerZone>
+
+            {props.list.map((l, idx) => {
+                if (idx === num) {
+                    return (
+                        <DragItem key={idx}>
+                            <TinderCard
+                                onSwipe={onSwipe}
+                                onCardLeftScreen={onSwipe}
+                                onCardRightScreen={onSwipe}
+                                preventSwipe={["up", "down"]}
+                            >
+                                <img src={img} />
+                            </TinderCard>
+                        </DragItem>
+                    );
+                }
+            })}
+        </QuizContainer>
+    );
 };
-  
+
 const QuizContainer = styled.div`
 & > p > span {
   padding: 8px 16px;

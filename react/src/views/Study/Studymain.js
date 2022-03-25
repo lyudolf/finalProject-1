@@ -10,7 +10,8 @@ function Study() {
     const baseUrl = useStore((state) => state.url);
 
     useEffect(() => {
-        axios.get(`${baseUrl}/study`)
+
+        axios.get("/study")
             .then((response) => {
                 setPosts(response.data);
                 console.log(response.data)
