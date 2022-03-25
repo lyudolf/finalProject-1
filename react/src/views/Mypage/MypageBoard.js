@@ -84,19 +84,30 @@ function MypageBoard(props) {
           //작성시간 변환
           const date = new Date(post.postRegdate);
           post.postRegdate = dateFormat(date);
+ 
+          if (post.board.boardName === "study") {
+            post.Grouping = "together"
+          } else if (post.board.boardName === "career") {
+            post.Grouping = "mainboard"
+          }else if (post.board.boardName === "book") {
+            post.Grouping = "mainboard"
+          }else if (post.board.boardName === "worry") {
+            post.Grouping = "mainboard"
+          }
 
           if(post.board.boardName == "review"){
-            post.board.boardName="리뷰게시판"
+            post.boardkoreanname1="리뷰게시판"
           }else if(post.board.boardName == "career"){
-            post.board.boardName="취업준비게시판"
+            post.boardkoreanname1="취업준비게시판"
           }else if(post.board.boardName == "book"){
-            post.board.boardName="리뷰게시판"
+            post.boardkoreanname1="리뷰게시판"
           }else if(post.board.boardName == "worry"){
-            post.board.boardName="고민상담게시판"
-          }
-          
+            post.boardkoreanname1="고민상담게시판"
+          }else if(post.board.boardName == "study"){
+            post.boardkoreanname1="스터디모집게시판"
         }
-        
+       
+      }
 
         //업데이트
         setPostInfo(response.data);
@@ -170,9 +181,9 @@ function MypageBoard(props) {
           {posts.map((post) => (
             <tr>
               <td>{post.postNo}</td>
-              <td>{post.board.boardName}</td>
+              <td>{post.boardkoreanname1}</td>
               <td className={styles.tableTitle}>
-                <Link to={`/mainboard/${post.board.boardName}/${post.postNo}`} className={styles.postTableTitle}>
+                <Link to={`/${post.Grouping}/${post.board.boardName}/${post.postNo}`} className={styles.postTableTitle}>
                   {post.postTitle}
                 </Link>
                 {post.replyCount > 0 && <span>[{post.replyCount}]</span>}

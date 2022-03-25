@@ -73,6 +73,9 @@ import JobFair from "./views/event/Event"; //이벤트
 function App() {
   let [shoes, shoes1] = useState(data);
 
+  
+  
+  
 
   const REST_API_KEY = "e9fdc52e3d35e33eb4ba5a732d2942ed";
   const REDIRECT_URI = "http://localhost:3000/oauth/kakao/callback";
@@ -99,8 +102,7 @@ function App() {
         <Route path="/Score" element={<Score />} />
         <Route path="/Quiz" element={<Quiz />} />
 
-        {/*Faq 메인화면 */}
-        <Route path="/FAQ" element={<FAQ />} />
+        
 
         {/* mypage 메인화면
         <Route path="/mypage" element={<Mypage/>}/> */}
@@ -145,10 +147,11 @@ function App() {
           <Route path="notice/create" element={<CreatePost />} />
           <Route path="notice/:postno/update" element={<UpdatePost />} />
 
-          <Route path="faq" element={<CustomerFaq title="자주 묻는 질문" />} />
-          <Route path="faq/:postno" element={<FaqPost />} />
-          <Route path="faq/create" element={<CreatePost />} />
-          <Route path="faq/:postno/update" element={<UpdatePost />} />
+       
+          
+          
+       {/*Faq 메인화면 */}
+        <Route path="/customer/FAQ" element={<FAQ />} />
         </Route>
 
         {/* 국비교육 */}
@@ -173,8 +176,8 @@ function App() {
           {/* 마이페이지 */}
       <Route path="/mypage" element={<Mypage title="마이페이지" />}>
       <Route path="/mypage/Mypagepost" element={<MypageBoard title="마이페이지" />}></Route>
-      <Route path="/mypage/:postno" element={<Mypagepost />} />
-      <Route path="/mypage/create" element={<CreatePost />} />   
+      <Route path= "/mypage/:postno" element={<Mypagepost />} />
+        
       <Route path="/mypage/MypageComment" element={<MypageComment />} />   
           <Route path="/mypage/:postno/update" element={<UpdatePost />} />
           </Route>
