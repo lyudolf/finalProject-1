@@ -112,8 +112,7 @@ function FaqPost() {
         },
       })
       .then((response) => {
-        // console.log(response.data);
-        // window.location.reload();
+        window.location.reload();
       })
       .catch((error) => {
         console.log(error);
