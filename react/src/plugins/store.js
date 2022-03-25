@@ -4,8 +4,6 @@ import jwt_decode from 'jwt-decode'
 import { Link, useNavigate } from "react-router-dom";
 import { persist } from "zustand/middleware"
 
-const baseURL = 'http://localhost:8000';
-
 //로컬스토리지 저장. 리프레쉬토큰 , 액세스 토큰
 const useStore = create(persist(
     (set, get) => ({
@@ -22,7 +20,7 @@ const useStore = create(persist(
                 formData.append("nickname", nickname);
                 formData.append("refreshToken", refreshToken);
 
-                const response = await axios.post(`${baseURL}/api/refresh`, formData);
+                const response = await axios.post(`/api/refresh`, formData);
 
                 localStorage.setItem("accessToken", response.data);
 
@@ -62,7 +60,7 @@ const useStore = create(persist(
         },
     }),
     {
-        name: "food-storage", // unique name
+        name: "info-storage", // unique name
         getStorage: () => sessionStorage, // (optional) by default, 'localStorage' is used
     }
 ))
