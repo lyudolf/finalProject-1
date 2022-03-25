@@ -6,7 +6,6 @@ import java.time.LocalDateTime;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 import javax.transaction.Transactional;
 
@@ -14,8 +13,11 @@ import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.chodae.find.category.BoardGroup;
 import com.chodae.find.domain.Board;
@@ -30,9 +32,8 @@ import com.chodae.find5.repository.PostRepo;
 import com.chodae.find5.repository.RecommendationRepo;
 import com.chodae.find5.repository.ReplyRepo;
 import com.chodae.find5.repository.UserRepo;
-import com.chodae.image.Image;
-import com.chodae.image.ImageRepository;
-import com.chodae.image.ImageUtility;
+import com.chodae.image2.Image2;
+import com.chodae.image2.ImageRepository;
 
 import lombok.extern.java.Log;
 
@@ -51,6 +52,7 @@ public class BoardServiceImpl implements BoardService {
 	@Autowired
 	public BoardServiceImpl(PostRepo postRepo, ReplyRepo replyRepo, RecommendationRepo recommRepo,
 			CategoryRepo categoryRepo, UserRepo userRepo,ImageRepository imageRepo) {
+		
 		this.postRepo = postRepo;
 		this.replyRepo = replyRepo;
 		this.recommRepo = recommRepo;
@@ -63,62 +65,61 @@ public class BoardServiceImpl implements BoardService {
 	public long saveImg(MultipartFile file, Post post) {
 		//새로운 이미지 저장
 		System.out.println(file);
-		try {
-	    	
-			
-		    String fileName = file.getOriginalFilename();
-		    String saveFileName= uuidFileName(fileName);
-		    System.out.println(saveFileName);
-		   
-	    	
-			
-			
-			
-			imageRepo.save(Image.builder()
-			        .name(saveFileName)
-			        .type(file.getContentType())
-			        .post(post)
-			        .image(ImageUtility.compressImage(file.getBytes())).build());
-		} catch (IOException e1) {
 		
-			e1.printStackTrace();
-		}
-        
-		File newFileName = new File("C:\\chodae\\"+post.getId()+"-"+post.getPostNo()+"-"+file.getOriginalFilename());
-		
-		if(!newFileName.exists()) { //파일 경로 없으면 생성.
-			if(newFileName.getParentFile().mkdirs()) {
-				try {
-					newFileName.createNewFile();
-				} catch (IOException e) {
-					e.printStackTrace();
+			String fileName = file.getOriginalFilename();
+			String saveFileName= post.getId()+"-"+post.getPostNo()+"-"+fileName;
+			String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
+					.path("/files/")
+					.path(saveFileName)
+					.toUriString();
+			
+			imageRepo.save(Image2.builder()
+					.filename(saveFileName)
+					.fileDownloadUri(fileDownloadUri)
+					.fileType(file.getContentType())
+					.post(post)
+					.size(file.getSize())
+					.build());
+			
+			
+			File newFileName = new File("C:\\chodae\\"+post.getId()+"-"+post.getPostNo()+"-"+fileName);
+			
+			
+			if(!newFileName.exists()) { //파일 경로 없으면 생성.
+				if(newFileName.getParentFile().mkdirs()) {
+					try {
+						newFileName.createNewFile();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
 				}
 			}
-		}
-        
-        
-        try{
-        	file.transferTo(newFileName);
-            
-        }catch (IllegalStateException | IOException e){
-            e.printStackTrace();
-        }
-        
-        
-        
-		return post.getPostNo();
-	}
-	   private String uuidFileName(String originalFileName) {
-		    UUID uuid = UUID.randomUUID();
-		    return uuid.toString()+"_"+ originalFileName;
-		    }   
+	        
+	        
+	        try{
+	        	file.transferTo(newFileName);
+	            
+	        }catch (IllegalStateException | IOException e){
+	            e.printStackTrace();
+	        }
+	        
+	        		
+					
+			
+		//	Image2 fileResponse = new Image2( fileName, fileDownloadUri, file.getContentType(), file.getSize(), post);
+			return post.getPostNo();
+			}
+		
+		
+			
+ 
 	
 	@Override
 	public long deleteImg(Long postNo) {
 		
-		List<Image> list = imageRepo.findByPostNo(postNo);
+		List<Image2> list = imageRepo.findByPostNo(postNo);
 		
-		for(Image img : list) {
+		for(Image2 img : list) {
 			imageRepo.deleteById(img.getId());;
 		}
 		
@@ -631,8 +632,51 @@ public class BoardServiceImpl implements BoardService {
 		return null;
 	}
 
+	@Override
+	public Page<User> application(long postNo) {
+	
+	//	User user = recommRepo.
+		
+		return null;
+	}
 
+	@Override
+	public User applyStudy(String boardName, Long targetNo, String nickname) {
+		
+		int boardNo = BoardGroup.valueOf(boardName).getValue();//게시판 번호(공통)
+		Post post = postRepo.findById(targetNo).get();
+		User user =	userRepo.findUserByNickname(nickname);
+			
+		Recommendation reco = new Recommendation();
+		reco.setBoardNo(boardNo);
+		reco.setPost(post);
+		reco.setUser(user);
+		reco.setApplication("T");
+		recommRepo.save(reco);
+		
+		
+		return user;
+	}
+
+	@Override
+	public User accept(String nickname, Long postNo) {
+		
+		
+	//	User count = recommRepo.countByAccept(String application);
+		
+		return null;
+	}
+
+	@Override
+	public User decline(String nickname, Long postNo) {
+
+		
+		
+		return null;
+	}
 
 	
+
+
 
 }

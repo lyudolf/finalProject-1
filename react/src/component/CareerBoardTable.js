@@ -10,7 +10,7 @@ function CareerBoardTable({ tableData, moment }) {
     postContent,
     postTitle,
     category,
-    name,
+    filename,
   } = tableData;
 
   return (
@@ -48,12 +48,12 @@ function CareerBoardTable({ tableData, moment }) {
         </thead>
         <tbody>
           <tr>
-            {name !== null &&
-              name.map((name, i) => (
+            {filename !== null &&
+              filename.map((name, i) => (
                 <td key={i}>
                   <img
                     className={styles.miss}
-                    src={`http://localhost:8000/get/image/${name.name}`}
+                    src={`http://localhost:8000/get/image/${name.filename}`}
                     width="200%"
                     alt="이미지"
                   />

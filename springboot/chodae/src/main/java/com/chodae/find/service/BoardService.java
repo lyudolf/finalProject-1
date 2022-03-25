@@ -2,12 +2,17 @@ package com.chodae.find.service;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.chodae.find.domain.Post;
+import com.chodae.find.domain.User;
 import com.chodae.find.domain.Reply;
+
 import com.chodae.find.dto.PostDTO;
 import com.chodae.find.dto.ReplyDTO;
+
+import com.chodae.image2.Image2;
 
 public interface BoardService {
 //	
@@ -84,7 +89,7 @@ public interface BoardService {
 				.postNotice(entity.getPostNotice())
 				.postComment(entity.getPostComment())
 				.postDisplay(entity.getPostDisplay())
-				.name(entity.getImage())
+				.filename(entity.getImage())
 				.build();
 		
 		return dto;
@@ -111,7 +116,13 @@ public interface BoardService {
 
 
 
+	User applyStudy(String boardName, Long targetNo, String nickname);
 
+	User accept(String nickname, Long postNo);
+
+	User decline(String nickname, Long postNo);
+
+	Page<User> application(long postNo);
 	
 
 	

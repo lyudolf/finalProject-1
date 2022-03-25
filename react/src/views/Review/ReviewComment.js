@@ -5,6 +5,7 @@ import axios from "../../plugins/axios";
 import useStore from "../../plugins/store";
 import moment from "moment"; //날짜 수정하기 위해 모멘트 설치
 import CommentList from "./CommentList"; //댓글 수정하면 나오는 입력창
+
 import styles from "./ReviewComment.module.css";
 
 function ReviewComment(id) {
@@ -13,6 +14,7 @@ function ReviewComment(id) {
   useStore.getState().member !== null
     ? useStore.getState().member.nickname
     : null;
+
 
   const [postObject, setPostObject] = useState(null);
   const [comments, setComments] = useState(null);
@@ -118,9 +120,7 @@ function ReviewComment(id) {
         window.location.reload();
       });
   };
-
- 
-
+  
   return (
     <div className={styles.postContainer1}>
       {postObject && (
@@ -145,8 +145,10 @@ function ReviewComment(id) {
                       {moment(reply.replyRegdate).format("LLL")}
                     </span>
                     <span>
+
                       {nickname === reply.nickname && (
                         <div className={styles.commentAddBtnWrapper1}>
+
                           <button
                             className={styles.commentAddBtn1}
                             onClick={() => {

@@ -155,7 +155,7 @@ function Study(props) {
                                 <Link to={`${post.postNo}`} className={styles.postTableTitle}>
                                     {post.image.map((image, i) =>
                                         <div key={i}>
-                                            <img className={styles.miss} src={`http://localhost:8000/get/image/${image.name}`} width="20%" alt="이미지" />
+                                            <img className={styles.miss} src={`http://localhost:8000/get/image/${image.filename}`} width="20%" alt="이미지" />
                                             <div className={styles.bottom22}>
                                                 <div className={styles.postTitle2}>{post.postTitle}</div>
                                                 {post.category.map((category, i) => (

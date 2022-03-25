@@ -206,20 +206,24 @@ function StudyPost() {
             });
     };
 
+    const apply = async (targetNo) => {
+        const formData = new FormData();
+        formData.append("nickname", nickname);
+        axios.post(`/${boardName}/${targetNo}`, formData).then((response) => {
+            console.log(response.data)
+        })
+
+    }
+
     //추천 추가 ---- 추천 취소 토글 버튼
     const props = {
         nickname: nickname,
         addLike: addLike,
         deleteLike: deleteLike,
     };
-    const apply = async (targetNo) => {
-        const formData = new FormData();
-        formData.append("nickname", nickname);
-        axios.post(`/${boardName}/${targetNo}`)
 
-    }
     return (
-        <div className={styles.postContainer}>
+        < div className={styles.postContainer} >
             {postObject && (
                 <div className={styles.postSection}>
 
@@ -375,8 +379,9 @@ function StudyPost() {
                         </div>
                     ) : null}
                 </div>
-            )}
-        </div>
+            )
+            }
+        </div >
     );
 }
 
