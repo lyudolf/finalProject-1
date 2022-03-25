@@ -87,7 +87,7 @@ function MenuBar() {
               </Link>
             </li>
             <li>
-              <Link className={styles.menuLink} to="/FAQ">
+              <Link className={styles.menuLink} to="customer/FAQ">
                 자주하는 질문
               </Link>
             </li>
