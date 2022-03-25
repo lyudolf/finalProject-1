@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./CareerBoardTable.module.css";
 
-function CareerBoardTable({ tableData, moment }) {
+function CareerBoardTable({ tableData }) {
   const {
     nickname,
     postLike,
@@ -42,7 +42,7 @@ function CareerBoardTable({ tableData, moment }) {
             <td className={styles.wView}>조회수: {postViews}</td>
             <td className={styles.wLike}>추천수: {postLike}</td>
             <td className={styles.wDate}>
-              작성일: {moment(postRegdate).format("l")}
+              작성일: {postRegdate}
             </td>
           </tr>
         </thead>
