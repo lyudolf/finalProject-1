@@ -12,11 +12,6 @@ import Login from "./views/login/Login"; //로그인
 import Auth from "./views/login/Auth";
 import Profile from "./views/login/Profile";
 
-//간이테스트 라우터 연결------------------------------------------
-import Test from "./views/test/Test";
-import Start from "./views/test/Start";
-import Score from "./views/test/Score";
-import Quiz from "./views/test/Quiz";
 
 //faq 라우터 연결------------------------------------------------
 import FAQ from "./views/faq/FAQ";
@@ -67,15 +62,12 @@ import StudyPost from "./views/Study/StudyPost";
 
 //----------------------------------------------------------------------------
 import JobFair from "./views/event/Event"; //이벤트
+import TestMainPage from "./views/quiz/TestMainPage";
 
 //----------------------------------------------------------------------------
 
 function App() {
   let [shoes, shoes1] = useState(data);
-
-  
-  
-  
 
   const REST_API_KEY = "e9fdc52e3d35e33eb4ba5a732d2942ed";
   const REDIRECT_URI = "http://localhost:3000/oauth/kakao/callback";
@@ -96,13 +88,6 @@ function App() {
         <Route path="/oauth/kakao/callback" exact element={<Auth />}></Route>
         <Route path="/profile" exact element={<Profile />}></Route>
 
-        {/*심리테스트 메인화면*/}
-        <Route path="/Test" element={<Test />} />
-        <Route path="/Start" element={<Start />} />
-        <Route path="/Score" element={<Score />} />
-        <Route path="/Quiz" element={<Quiz />} />
-
-        
 
         {/* mypage 메인화면
         <Route path="/mypage" element={<Mypage/>}/> */}
@@ -147,11 +132,8 @@ function App() {
           <Route path="notice/create" element={<CreatePost />} />
           <Route path="notice/:postno/update" element={<UpdatePost />} />
 
-       
-          
-          
-       {/*Faq 메인화면 */}
-        <Route path="/customer/FAQ" element={<FAQ />} />
+          {/*Faq 메인화면 */}
+          <Route path="/customer/FAQ" element={<FAQ />} />
         </Route>
 
         {/* 국비교육 */}
@@ -170,17 +152,21 @@ function App() {
 
         {/* 이벤트 */}
         <Route path="/jobfair" element={<JobFair />} />
+        <Route path="/testmainpage" element={<TestMainPage />} />
 
         {/* 404 페이지 */}
         <Route path="*" element={<NotFound />} />
-          {/* 마이페이지 */}
-      <Route path="/mypage" element={<Mypage title="마이페이지" />}>
-      <Route path="/mypage/Mypagepost" element={<MypageBoard title="마이페이지" />}></Route>
-      <Route path= "/mypage/:postno" element={<Mypagepost />} />
-        
-      <Route path="/mypage/MypageComment" element={<MypageComment />} />   
+        {/* 마이페이지 */}
+        <Route path="/mypage" element={<Mypage title="마이페이지" />}>
+          <Route
+            path="/mypage/Mypagepost"
+            element={<MypageBoard title="마이페이지" />}
+          ></Route>
+          <Route path="/mypage/:postno" element={<Mypagepost />} />
+
+          <Route path="/mypage/MypageComment" element={<MypageComment />} />
           <Route path="/mypage/:postno/update" element={<UpdatePost />} />
-          </Route>
+        </Route>
       </Routes>
 
       <Footer />
