@@ -64,7 +64,7 @@ import MypageComment from "./views/Mypage/Comment/MypageComment";
 import NotFound from "./views/NotFound"; //404 page
 import CreatePostCust from "./views/Study/CreatePostCust";
 import StudyPost from "./views/Study/StudyPost";
-
+import UpdateCusPost from "./views/Study/UpdateCusPost";
 //----------------------------------------------------------------------------
 import JobFair from "./views/event/Event"; //이벤트
 
@@ -161,6 +161,7 @@ function App() {
         <Route path="/together/study" element={<Study />} />
         <Route path="/together/study/create" element={<CreatePostCust />} />
         <Route path="/together/study/:postno" element={<StudyPost />} />
+        <Route path="together/study/:postno/update" element={<UpdateCusPost />} />
         {/* 푸터 */}
         <Route path="/Company" element={<Company />} />
         <Route path="/tos" element={<Tos />} />
@@ -170,14 +171,14 @@ function App() {
 
         {/* 404 페이지 */}
         <Route path="*" element={<NotFound />} />
-          {/* 마이페이지 */}
-      <Route path="/mypage" element={<Mypage title="마이페이지" />}>
-      <Route path="/mypage/Mypagepost" element={<MypageBoard title="마이페이지" />}></Route>
-      <Route path="/mypage/:postno" element={<Mypagepost />} />
-      <Route path="/mypage/create" element={<CreatePost />} />   
-      <Route path="/mypage/MypageComment" element={<MypageComment />} />   
+        {/* 마이페이지 */}
+        <Route path="/mypage" element={<Mypage title="마이페이지" />}>
+          <Route path="/mypage/Mypagepost" element={<MypageBoard title="마이페이지" />}></Route>
+          <Route path="/mypage/:postno" element={<Mypagepost />} />
+          <Route path="/mypage/create" element={<CreatePost />} />
+          <Route path="/mypage/MypageComment" element={<MypageComment />} />
           <Route path="/mypage/:postno/update" element={<UpdatePost />} />
-          </Route>
+        </Route>
       </Routes>
 
       <Footer />
