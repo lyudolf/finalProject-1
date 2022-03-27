@@ -59,7 +59,7 @@ import MypageComment from "./views/Mypage/Comment/MypageComment";
 import NotFound from "./views/NotFound"; //404 page
 import CreatePostCust from "./views/Study/CreatePostCust";
 import StudyPost from "./views/Study/StudyPost";
-
+import UpdateCusPost from "./views/Study/UpdateCusPost";
 //----------------------------------------------------------------------------
 import JobFair from "./views/event/Event"; //이벤트
 import TestMainPage from "./views/quiz/TestMainPage";
@@ -146,6 +146,7 @@ function App() {
         <Route path="/together/study" element={<Study />} />
         <Route path="/together/study/create" element={<CreatePostCust />} />
         <Route path="/together/study/:postno" element={<StudyPost />} />
+        <Route path="together/study/:postno/update" element={<UpdateCusPost />} />
         {/* 푸터 */}
         <Route path="/Company" element={<Company />} />
         <Route path="/tos" element={<Tos />} />
@@ -158,6 +159,7 @@ function App() {
         <Route path="*" element={<NotFound />} />
         {/* 마이페이지 */}
         <Route path="/mypage" element={<Mypage title="마이페이지" />}>
+
           <Route
             path="/mypage/Mypagepost"
             element={<MypageBoard title="마이페이지" />}
