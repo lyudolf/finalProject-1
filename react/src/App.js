@@ -21,6 +21,11 @@ import Quiz from "./views/test/Quiz";
 //faq 라우터 연결------------------------------------------------
 import FAQ from "./views/faq/FAQ";
 
+//회원정보 관리 라우터 연결---------------------------------------
+import UserListComponent from "./views/Mypage/UserListComponent";
+import AddUserComponent from "./views/Mypage/AddUserComponent";
+import EditUserComponent from "./views/Mypage/EditUserComponent";
+
 //아이디 및 비밀번호 찾기 라우터 연결------------------------------
 import ForgetId from "./views/forget/ForgetId"; //아이디 찾기 처음화면
 import ResultId from "./views/forget/ResultId"; //아이디찾기 결과
@@ -60,6 +65,7 @@ import Mypage from "./views/Mypage/Mypage"; //마이페이지
 import Mypagepost from "./views/Mypage/Mypagepost"; //faqpost변형
 import MypageBoard from "./views/Mypage/MypageBoard"; //faq변형
 import MypageComment from "./views/Mypage/Comment/MypageComment";
+
 //-----------------------------------------------
 import NotFound from "./views/NotFound"; //404 page
 import CreatePostCust from "./views/Study/CreatePostCust";
@@ -104,8 +110,11 @@ function App() {
 
         
 
-        {/* mypage 메인화면
-        <Route path="/mypage" element={<Mypage/>}/> */}
+        {/* mypage 메인화면*/}
+        <Route path="/api/users" element={<UserListComponent/>}/> 
+        <Route path="/api/users/1" element={<EditUserComponent/>}/> 
+        <Route path="/api/users/2" element={<AddUserComponent/>}/> 
+        
 
         {/* 아이디찾기 메인화면 */}
         <Route path="/find" element={<Find />}>
