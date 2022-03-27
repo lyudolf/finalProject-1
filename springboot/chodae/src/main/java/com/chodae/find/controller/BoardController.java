@@ -121,7 +121,17 @@ public class BoardController {
 		
 		return new ResponseEntity<Long>(post.getPostNo(), HttpStatus.OK);	
 	}
-	
+//	@Transactional
+//	@PostMapping("/{boardName}/{postNo}")
+//	ResponseEntity<Long> updateImg(
+//			@RequestParam(required = false) MultipartFile file,@PathVariable Long postNo){
+//			if(file != null) {
+//				
+//				//기존 이미지 삭제
+//				boardService.deleteImg(postNo);
+//			}
+//			return null;		
+//				}
 	//게시글 업데이트
 	@Transactional
 	@PutMapping("/{boardName}/{postNo}")
@@ -146,11 +156,11 @@ public class BoardController {
 		if(file != null) {
 			
 			//기존 이미지 삭제
-			boardService.deleteImg(post.getPostNo());
+			boardService.updateImg(post, file);
 			
 		
 			//새로운 이미지 저장
-			boardService.saveImg(file, post);
+			
 		}
 		
 		return new ResponseEntity<Long>(post.getPostNo(), HttpStatus.OK);	
@@ -301,7 +311,7 @@ public class BoardController {
 	}
 	//마이페이지 글
 	@Transactional
-	@PostMapping("/mypage/")
+	@PostMapping("/{boardName}/{nickname}")
 	Page<User> getApplications (@RequestParam long postNo){
 		
 	 
@@ -316,7 +326,7 @@ public class BoardController {
 	
 	// 신청
 	@Transactional
-	@PostMapping("/{boardName}/{targetNo}")
+	@PostMapping("/{boardName}/application/{targetNo}")
 	ResponseEntity<Long> applyStatus(@RequestParam String nickname, @PathVariable String boardName,
 			@PathVariable Long targetNo) {
 

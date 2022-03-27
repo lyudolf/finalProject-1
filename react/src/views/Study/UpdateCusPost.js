@@ -2,11 +2,11 @@ import React, { useEffect, useRef, useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import axios from "../../plugins/axios";
 import * as Yup from "yup";
-import styles from "./UpdatePost.module.css";
+import styles from "./UpdatePostCus.module.css";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
-import Preview from "./Preview";
+import Preview from "../board/Preview";
 
-function UpdatePost() {
+function UpdateCusPost(tableData) {
   const params = useParams();
   const postNo = params.postno;
   const location = useLocation();
@@ -16,7 +16,7 @@ function UpdatePost() {
   const [title, setTitle] = useState("");
   const [content, setContet] = useState("");
   const [nickname, setNickname] = useState("");
-
+  const [image, setImage] = useState("");
   const [locationCate, setLocationCate] = useState("");
   const [interestCate, setInterestCate] = useState("");
   const [levelCate, setLevelCate] = useState("");
@@ -35,10 +35,18 @@ function UpdatePost() {
     location: undefined,
     interest: undefined,
     level: undefined,
-
+    image: "",
     file: null,
   };
+  const validationSchema = Yup.object().shape({
+    title: Yup.string().required("글 제목을 입력해주세요!"),
+    content: Yup.string().required("본문 내용을 입력해주세요!"),
+    location: Yup.string().required("필수선택"),
+    interest: Yup.string().required("필수선택"),
+    level: Yup.string().required("필수선택"),
+    image: Yup.string().required("필수선택")
 
+  });
   useEffect(() => {
     const idx = location.pathname.indexOf("/", 1);
     const idx2 = location.pathname.indexOf("/", idx + 1);
@@ -70,6 +78,9 @@ function UpdatePost() {
         setTitle(post.postTitle);
         setContet(post.postContent.content);
         setNickname(post.nickname);
+        setImage(post.filename[0].filename)
+
+        console.log(post.filename[0].filename)
       })
       .catch((error) => {
         console.log(error);
@@ -91,10 +102,7 @@ function UpdatePost() {
     return `${date.getFullYear()}-${month}-${day} ${hour}:${minute}:${second}`;
   }
 
-  const validationSchema = Yup.object().shape({
-    title: Yup.string().required("글 제목을 입력해주세요!"),
-    content: Yup.string().required("본문 내용을 입력해주세요!"),
-  });
+
 
   const submitPost = async function (values) {
     const { boardName, location, interest, level, title, content, image } =
@@ -131,7 +139,7 @@ function UpdatePost() {
       })
       .then((response) => {
         console.log(response.data);
-        navigate(-2);
+        navigate(-2)
       })
       .catch((error) => {
         console.log(error);
@@ -139,7 +147,9 @@ function UpdatePost() {
   };
 
   const fileRef = useRef(null);
-
+  const {
+    category
+  } = tableData;
   return (
     //글 등록 게시판 카테고리 드롭박스
     // 게시글 카테고리 드롭박스
@@ -159,12 +169,7 @@ function UpdatePost() {
               className={styles.boardNameField}
             >
               <option value="study">스터디모집</option>
-              <option value="edu">국비교육</option>
-              <option value="review">리뷰게시판</option>
-              <option value="worry">고민상담</option>
-              <option value="career">취업준비</option>
-              <option value="news">IT뉴스</option>
-              <option value="event">이벤트</option>
+
             </Field>
             <div>
               <label>카테고리</label>
@@ -235,34 +240,37 @@ function UpdatePost() {
                   <option value="중수">중수</option>
                   <option value="고수">고수</option>
                 </Field>
-                {/* <Field as="select" name="language" className="categoryField">
-                  <option value="" disabled selected>사용하는 언어</option>
-                  <option value="C">C</option>
-                  <option value="C#">C#</option>
-                  <option value="C++">C++</option>
-                  <option value="Java">Java</option>
-                  <option value="JavaScript">JavaScript</option>
-                  <option value="Python">Python</option>
-                  <option value="Ruby">Ruby</option>
-                  <option value="Kotlin">Kotlin</option>
-                  <option value="Swift">Swift</option>
-                  <option value="Go">Go</option>
-                  <option value="Rust">Rust</option>
-                </Field> */}
+
+              </div>
+              <div className="createPostErr2">
+                <ErrorMessage
+                  name="location"
+                  component="div"
+                  className={styles.createPostErr3}
+                />
+
+
+                <ErrorMessage
+                  name="interest"
+                  component="div"
+                  className={styles.createPostErr4}
+                />
+
+                <ErrorMessage
+                  name="level"
+                  component="div"
+                  className={styles.createPostErr5}
+                />
               </div>
             </div>
-
+            <div>&nbsp;</div>
             <label>글 제목: </label>
             <ErrorMessage
               name="title"
               component="span"
               className={styles.createPostErr}
             />
-            <Field
-              autocomplete="off"
-              className={styles.titleField}
-              name="title"
-            />
+            <Field autocomplete="off" className={styles.titleField} name="title" />
             <label>본문: </label>
             <ErrorMessage
               name="content"
@@ -279,7 +287,7 @@ function UpdatePost() {
 
             <input
               ref={fileRef}
-              hidden
+
               id="image"
               name="image"
               type="file"
@@ -289,18 +297,33 @@ function UpdatePost() {
               className={styles.formControl}
             />
 
-            <div className="previewImg">
+            <div className={styles.previewImg}>
               {values.image && <Preview image={values.image} />}
             </div>
-            <input
-              className={styles.previewButton}
-              type="button"
-              onClick={() => {
-                fileRef.current.click();
-              }}
-              value="사진"
-            />
+            <div className={styles.ImageButtons}>
+              <input
+                className={styles.previewButton}
+                type="button"
+                onClick={() => {
+                  fileRef.current.click();
+                }}
+                value="사진"
+              />
+              <button className={styles.resetButton}
+                type="button"
+                onClick={() => {
+                  setFieldValue("image", "", false);
 
+                }}
+              >
+                초기화
+              </button>
+            </div>
+            <ErrorMessage
+              name="image"
+              component="span"
+              className={styles.createPostErr}
+            />
             <div className={styles.postBtnWrapper}>
               <button
                 className={styles.postBtn}
@@ -319,8 +342,8 @@ function UpdatePost() {
           </Form>
         )}
       </Formik>
-    </div>
+    </div >
   );
 }
 
-export default UpdatePost;
+export default UpdateCusPost;
